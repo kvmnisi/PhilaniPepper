@@ -46,7 +46,10 @@ def transcribe_audio(engines, audio):
         transcript = engines.asr.transcribe(samples)
     except ASRUnavailable as error:
         raise TrialError("asr_unavailable", str(error), "transcribing", status=503)
-    return transcript, {"engine": engines.asr.name, "latency_ms": _ms(start), "duration_s": round(duration, 2)}
+    engine = engines.asr.name
+    if hasattr(engines.asr, "decoding"):
+        engine += "-" + engines.asr.decoding()   # e.g. "whisper-beam5", logged with every trial
+    return transcript, {"engine": engine, "latency_ms": _ms(start), "duration_s": round(duration, 2)}
 
 
 def run_trial(engines, research_log, recordings_dir, *, audio=None, text=None, branch="A", primary=None,

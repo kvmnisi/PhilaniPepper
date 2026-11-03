@@ -59,16 +59,26 @@ class WhisperASR:
         self.load()
         features = self.processor(samples, sampling_rate=TARGET_RATE, return_tensors="pt").input_features
         features = features.to(self.device, dtype=self.dtype)
-        kwargs = {
-            "max_new_tokens": self.settings.whisper_max_new_tokens,
-            "no_repeat_ngram_size": self.settings.whisper_no_repeat_ngram,
-            "repetition_penalty": self.settings.whisper_repetition_penalty,
-        }
-        if self.settings.whisper_language:
-            kwargs.update(language=self.settings.whisper_language, task="transcribe")
         with self._torch.inference_mode():
-            ids = self.model.generate(features, **kwargs)
+            ids = self.model.generate(features, **self.generation_kwargs())
         return self.processor.batch_decode(ids, skip_special_tokens=True)[0].strip()
 
+    def generation_kwargs(self):
+        """Decoding settings passed to generate(); only non-default extras are sent."""
+        s = self.settings
+        kwargs = {"max_new_tokens": s.whisper_max_new_tokens, "num_beams": max(1, s.whisper_num_beams)}
+        if s.whisper_no_repeat_ngram > 0:
+            kwargs["no_repeat_ngram_size"] = s.whisper_no_repeat_ngram
+        if s.whisper_repetition_penalty != 1.0:
+            kwargs["repetition_penalty"] = s.whisper_repetition_penalty
+        if s.whisper_language:
+            kwargs.update(language=s.whisper_language, task="transcribe")
+        return kwargs
+
+    def decoding(self):
+        beams = max(1, self.settings.whisper_num_beams)
+        return "greedy" if beams == 1 else "beam%d" % beams
+
     def describe(self):
-        return {"engine": self.name, "model": self.model_id, "loaded": self.loaded, "device": self.device}
+        return {"engine": self.name, "model": self.model_id, "loaded": self.loaded, "device": self.device,
+                "decoding": self.decoding()}

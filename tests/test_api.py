@@ -109,3 +109,16 @@ def test_wav_decoding_resamples_to_16k():
     samples, duration = decode_audio(make_wav(seconds=0.5, rate=8000))
     assert duration == pytest.approx(0.5, abs=0.01)
     assert samples.dtype == np.float32 and abs(samples.size - 8000) <= 1
+
+
+def test_whisper_decoding_defaults_to_beam_search():
+    from backend.asr.whisper_asr import WhisperASR
+    from backend.config import Settings
+
+    asr = WhisperASR(Settings())
+    assert asr.generation_kwargs() == {"max_new_tokens": 128, "num_beams": 5}
+    assert asr.decoding() == "beam5" and asr.describe()["decoding"] == "beam5"
+    greedy = Settings()
+    greedy.whisper_num_beams = 1
+    greedy.whisper_repetition_penalty = 1.2
+    assert WhisperASR(greedy).generation_kwargs() == {"max_new_tokens": 128, "num_beams": 1, "repetition_penalty": 1.2}

@@ -58,9 +58,13 @@ class Settings:
     # fine-tuning notebook detected if decoding drifts.
     whisper_language: str = field(default_factory=lambda: _env("WHISPER_LANGUAGE"))
     whisper_max_new_tokens: int = field(default_factory=lambda: _env_int("WHISPER_MAX_NEW_TOKENS", 128))
-    whisper_no_repeat_ngram: int = field(default_factory=lambda: _env_int("WHISPER_NO_REPEAT_NGRAM", 3))
+    # Decoding. Beam size 5 matches the best reported evaluation (16.25% WER on
+    # AST, checkpoint-2656). The repetition controls default to off, matching
+    # the generation_config.json saved with the fine-tuned model.
+    whisper_num_beams: int = field(default_factory=lambda: _env_int("WHISPER_NUM_BEAMS", 5))
+    whisper_no_repeat_ngram: int = field(default_factory=lambda: _env_int("WHISPER_NO_REPEAT_NGRAM", 0))
     whisper_repetition_penalty: float = field(
-        default_factory=lambda: _env_float("WHISPER_REPETITION_PENALTY", 1.2)
+        default_factory=lambda: _env_float("WHISPER_REPETITION_PENALTY", 1.0)
     )
 
     # --- Branch A: isiZulu -> English -> English intent classifier -------
