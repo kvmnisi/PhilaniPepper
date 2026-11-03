@@ -403,6 +403,61 @@ body[data-state="error"] .speaker-dot { background: #b42318; }
 .course-list li:last-child { border-bottom: 0; }
 .link-card p { margin: 10px 0 0; color: #4a5568; font-size: 15px; }
 
+.kind-note { color: #4a5568; font-size: 14px; }
+.exam { margin-top: 12px; padding: 12px 14px; border-left: 5px solid #ffb91c; border-radius: 8px; background: #fff4d6; }
+.exam p { margin: 0; }
+.exam-kind { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #8a5a00; }
+.exam-when { margin-top: 2px !important; font-size: 18px; }
+.exam-where { margin-top: 2px !important; color: #4a5568; }
+
+.contact + .contact { margin-top: 14px; padding-top: 14px; border-top: 1px solid #dbe2ec; }
+.contact-role { margin: 0 0 2px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #8a5a00; }
+.contact-lines { list-style: none; margin: 6px 0 0; padding: 0; font-size: 16px; }
+.contact-lines li { padding: 2px 0; }
+
+.campus-map { margin: 14px 0 0; }
+.map-scroll {
+  position: relative;
+  height: 340px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid #dbe2ec;
+  border-radius: 10px;
+  background: #e9edf2;
+}
+.map-frame { position: relative; width: 1500px; }
+.map-frame img { display: block; width: 100%; height: auto; }
+.map-scroll.is-full { height: auto; overflow: hidden; }
+.map-scroll.is-full .map-frame { width: 100%; }
+.pin { position: absolute; width: 0; height: 0; }
+.pin-dot {
+  position: absolute;
+  left: -11px; top: -11px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 4px solid #ffffff;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.25), 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+.pin-target .pin-dot { background: #b42318; animation: glow 1.2s ease-in-out infinite; }
+.pin-here .pin-dot { background: #002d72; }
+.pin-label {
+  position: absolute;
+  left: 16px; top: -12px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #111111;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+.campus-map figcaption { display: flex; flex-wrap: wrap; align-items: center; margin-top: 8px; font-size: 14px; color: #4a5568; }
+.campus-map figcaption > * { margin: 4px 14px 4px 0; }
+.legend::before { content: ""; display: inline-block; width: 12px; height: 12px; margin-right: 6px; border-radius: 50%; vertical-align: -1px; }
+.legend-here::before { background: #002d72; }
+.legend-target::before { background: #b42318; }
+
 /* ---------- Research panel ---------- */
 .research {
   margin: 0 28px 24px;

@@ -72,14 +72,9 @@ def extract_course(text, timetable=None):
         if len(hits) == 1:
             return hits[0]
 
-    aliases = []
-    for course in timetable.courses:
-        for alias in [course["name"]] + course.get("aliases", []):
-            aliases.append((normalise_text(alias), course["code"]))
-    for alias, code in sorted(aliases, key=lambda item: -len(item[0])):
-        if alias and _contains_word(norm, alias):
-            return code
-    return None
+    aliases = [(normalise_text(alias), course["code"])
+               for course in timetable.courses for alias in [course["name"]] + course.get("aliases", [])]
+    return _match_alias(norm, aliases)
 
 
 def extract_weekday(text):
@@ -96,17 +91,39 @@ def extract_weekday(text):
     return None
 
 
-def extract_location(text, timetable=None):
-    timetable = timetable or get_timetable()
-    norm = normalise_text(text).replace(" ", "")
-    for location in timetable.locations:
-        if normalise_text(location).replace(" ", "") in norm:
-            return location
+_ROOM = re.compile(r"(?<![a-z])m\s*s\s*l\s*-?\s*(\d{3})(?!\d)")
+
+
+def _match_alias(norm, entries):
+    """entries: [(alias, value)]. Longest alias wins."""
+    for alias, value in sorted(entries, key=lambda item: -len(item[0])):
+        if alias and _contains_word(norm, alias):
+            return value
     return None
 
 
+def extract_location(text, timetable=None):
+    """A room such as "MSL005", or a location id from data/locations.json."""
+    timetable = timetable or get_timetable()
+    norm = normalise_text(text)
+    room = _ROOM.search(norm)
+    if room:
+        return "MSL" + room.group(1)
+    entries = [(normalise_text(alias), loc["id"])
+               for loc in timetable.locations for alias in [loc["name"]] + loc.get("aliases", [])]
+    return _match_alias(norm, entries)
+
+
+def extract_contact(text, timetable=None):
+    timetable = timetable or get_timetable()
+    norm = normalise_text(text)
+    entries = [(normalise_text(alias), contact["id"])
+               for contact in timetable.contacts for alias in contact.get("aliases", [])]
+    return _match_alias(norm, entries)
+
+
 def extract_slots(*texts, timetable=None):
-    """Return {course, weekday, location} found in the first text that has each."""
+    """Return {course, weekday, location, contact} found in the first text that has each."""
     slots = {}
     for text in texts:
         if not text:
@@ -123,4 +140,8 @@ def extract_slots(*texts, timetable=None):
             location = extract_location(text, timetable)
             if location:
                 slots["location"] = location
+        if "contact" not in slots:
+            contact = extract_contact(text, timetable)
+            if contact:
+                slots["contact"] = contact
     return slots

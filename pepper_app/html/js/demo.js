@@ -28,12 +28,13 @@
       translation: null,
       status: "ok",
       response: "I am in demo mode, so I cannot understand speech yet. When the assistant service is connected, " +
-        "I can tell you the time, your classes, who teaches a course, where it meets, and open Student Self-Service.",
+        "I can tell you about Honours exams, the academic calendar, School contacts and how to find places on campus.",
       action: { type: "say" },
       display: {
         kind: "help",
-        items: ["the time", "the current or next class", "who teaches a course", "when and where a course meets",
-          "a day's timetable", "the list of courses", "the current semester", "opening Student Self-Service"]
+        items: ["the time", "the current or next exam", "when and where a course's exam is", "what is on a particular day",
+          "the list of Honours courses", "where we are in the academic year", "who to contact in the School",
+          "how to find a building or room", "opening Student Self-Service"]
       },
       branches: {},
       agreement: null,

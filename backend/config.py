@@ -85,6 +85,15 @@ class Settings:
     courses_file: Path = field(
         default_factory=lambda: Path(_env("COURSES_FILE", str(DATA_DIR / "courses.json")))
     )
+    calendar_file: Path = field(
+        default_factory=lambda: Path(_env("CALENDAR_FILE", str(DATA_DIR / "calendar.json")))
+    )
+    contacts_file: Path = field(
+        default_factory=lambda: Path(_env("CONTACTS_FILE", str(DATA_DIR / "contacts.json")))
+    )
+    locations_file: Path = field(
+        default_factory=lambda: Path(_env("LOCATIONS_FILE", str(DATA_DIR / "locations.json")))
+    )
     intents_file: Path = field(
         default_factory=lambda: Path(_env("INTENTS_FILE", str(DATA_DIR / "intents.json")))
     )

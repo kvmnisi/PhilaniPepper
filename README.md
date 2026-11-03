@@ -75,7 +75,7 @@ Each branch receives the **same transcript** and returns a **canonical intent
 plus slots**:
 
 ```json
-{ "intent": "ask_course_venue", "slots": { "course": "COMS9001" } }
+{ "intent": "ask_course_venue", "slots": { "course": "COMS4054A" } }
 ```
 
 Slots are filled by one shared keyword extractor, so the A/B comparison
@@ -88,9 +88,19 @@ later the physical robot.
 
 `greeting`, `help`, `ask_time`, `ask_current_class`, `ask_next_class`,
 `ask_lecturer`, `ask_course_time`, `ask_course_venue`, `ask_day_schedule`,
-`list_courses`, `ask_current_semester`, `open_self_service`, `OOS`.
-Slots: `course`, `weekday` (including `today`/`tomorrow`), `location`.
+`list_courses`, `ask_current_semester`, `open_self_service`, `ask_contact`,
+`ask_directions`, `OOS`. Slots: `course`, `weekday` (including
+`today`/`tomorrow`), `location` (a campus place or an `MSL` room), and `contact`.
 Defined once in [`data/intents.json`](data/intents.json).
+
+### What it knows
+
+Pepper stands in the **TW Kambule Mathematical Sciences Building**. It answers
+from public Wits information in [`data/`](data/README.md): the 11 Honours
+Computer Science courses and their November 2026 exams, the 2026 academic
+calendar, School contacts, and campus locations. Directions give the campus
+side and grid square from the official campus map, and the tablet shows the
+map with "you are here" and destination pins.
 
 ## Repository layout
 
@@ -108,7 +118,7 @@ backend/
   nlu/               canonical intents, slot extraction, dev-rules stand-in
   dispatcher/        execute_intent, timetable, Pepper adapter
   evaluation/        metrics, research log, report, batch evaluator
-data/                intents, sample timetable, dataset template (see data/README.md)
+data/                courses & exams, calendar, contacts, locations, intents (see data/README.md)
 scripts/             sync_pepper_html.py
 tests/               pytest suite
 ```
@@ -208,7 +218,7 @@ microphone also needs HTTPS or localhost.
 | `POST /api/transcribe` | ASR only |
 | `POST /api/classify/a`, `POST /api/classify/b` | `{"text": …}` → intent, slots, confidence, latency |
 | `POST /api/execute` | `{"intent", "slots"}` → dispatcher result |
-| `GET /api/courses`, `GET /api/schedule?weekday=` | Timetable |
+| `GET /api/courses`, `GET /api/schedule?weekday=` | Courses, exams and calendar; what is on a day |
 | `GET /api/intents` | Canonical labels |
 | `POST /api/evaluate/asr` | `{"reference", "hypothesis"}` → WER and CER with S/D/I counts |
 | `GET /api/research/summary`, `GET /api/research/export` | Report JSON, raw CSV |
@@ -217,14 +227,14 @@ Example `/api/process` result (abridged):
 
 ```json
 {
-  "transcript": "i-robotics ikuphi?",
+  "transcript": "i-nlp ikuphi?",
   "branch": "B",
   "intent": "ask_course_venue",
-  "slots": { "course": "COMS9001" },
+  "slots": { "course": "COMS4054A" },
   "confidence": null,
-  "response": "COMS9001 Robotics is held in MSL004.",
+  "response": "The COMS4054A Natural Language Processing lab exam is on Tuesday 10 November from 14:00 to 17:00, in MSL005 and MSL006, in this building.",
   "action": { "type": "show", "text": "…" },
-  "display": { "kind": "course", "code": "COMS9001", "sessions": [ … ] },
+  "display": { "kind": "course", "code": "COMS4054A", "exams": [ … ] },
   "branches": { "B": { "engine": "dev-rules", "intent": "ask_course_venue", … } },
   "latency": { "asr_ms": null, "translation_ms": null, "classification_ms": 5.1, "execution_ms": 0.1, "total_ms": 22.0 }
 }
@@ -299,7 +309,8 @@ Pepper package validity, and that `pepper_app/html` is in sync with `frontend/`.
 
 ## Known limitations
 
-- `data/courses.json` is **sample data**. Replace it with the confirmed Honours timetable.
+- Weekly lecture times and per-course lecturers are not in the data yet (see `data/README.md`).
+- Map grid squares and marker positions were read off the campus map image; check them on site.
 - The isiZulu in `data/dev_keywords.json` and the slot-extraction prefixes is
   AI-drafted and **unverified**. A native speaker must check it.
 - Pepper's responses are in English, through the robot's English TTS.

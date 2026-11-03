@@ -42,10 +42,10 @@ def test_health_reports_development_engines(client):
 
 
 def test_process_text_both_branches(client):
-    body = client.post("/api/process", data={"text": "i-robotics ikuphi?", "branch": "both", "primary": "B"}).json()
+    body = client.post("/api/process", data={"text": "i-nlp ikuphi?", "branch": "both", "primary": "B"}).json()
     assert body["primary"] == "B"
     assert body["branches"]["B"]["intent"] == "ask_course_venue"
-    assert body["slots"] == {"course": "COMS9001"}
+    assert body["slots"] == {"course": "COMS4054A"}
     assert body["agreement"] in (True, False)
     for key in ("asr_ms", "classification_ms", "execution_ms", "total_ms"):
         assert key in body["latency"]
@@ -80,8 +80,8 @@ def test_logging_is_opt_in_and_reports_exclude_dev_rows(client):
     assert not client.log_path.exists()
 
     client.post("/api/process", data={
-        "text": "where is robotics", "branch": "both", "log": "true",
-        "session_id": "S1", "trial_id": "t1", "true_intent": "ask_course_venue", "true_course": "COMS9001",
+        "text": "where is the nlp exam", "branch": "both", "log": "true",
+        "session_id": "S1", "trial_id": "t1", "true_intent": "ask_course_venue", "true_course": "COMS4054A",
     })
     rows = read_rows(client.log_path)
     assert [row["branch"] for row in rows] == ["A", "B"]
@@ -91,15 +91,15 @@ def test_logging_is_opt_in_and_reports_exclude_dev_rows(client):
 
 
 def test_classify_and_execute_endpoints(client):
-    a = client.post("/api/classify/a", json={"text": "who teaches computer vision"}).json()
-    assert a["intent"] == "ask_lecturer" and a["slots"]["course"] == "COMS9003"
+    a = client.post("/api/classify/a", json={"text": "how do I get to Solomon Mahlangu House"}).json()
+    assert a["intent"] == "ask_directions" and a["slots"]["location"] == "solomon_mahlangu"
     executed = client.post("/api/execute", json={"intent": a["intent"], "slots": a["slots"]}).json()
-    assert "Dr C. Sample" in executed["response"]
+    assert "East Campus" in executed["response"]
 
 
 def test_courses_schedule_and_asr_eval(client):
-    assert len(client.get("/api/courses").json()["courses"]) == 6
-    assert client.get("/api/schedule", params={"weekday": "monday"}).json()["display"]["weekday"] == "monday"
+    assert len(client.get("/api/courses").json()["courses"]) == 11
+    assert client.get("/api/schedule", params={"weekday": "monday"}).json()["display"]["title"].startswith("Monday")
     assert client.get("/api/schedule", params={"weekday": "funday"}).status_code == 422
     scores = client.post("/api/evaluate/asr", json={"reference": "a b c", "hypothesis": "a b"}).json()
     assert scores["wer"]["rate"] == pytest.approx(1 / 3)

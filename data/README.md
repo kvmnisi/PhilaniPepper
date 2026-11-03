@@ -1,13 +1,38 @@
 # Data
 
-| File | What it is | Status |
+Everything the dispatcher says comes from these files. All of it is public
+Wits information supplied by the project owner.
+
+| File | What it is | Source |
 | --- | --- | --- |
-| `intents.json` | The 13 canonical intent labels and their slots. Shared by both branches, the dispatcher and the evaluation tools. | Matches the reduced ~12-intent design in the status report (pending supervisor sign-off). |
-| `courses.json` | Timetable used by the dispatcher. | **Sample data.** Codes `COMS90xx`, lecturers, venues and semester dates are placeholders. Replace before any session. |
-| `dev_keywords.json` | Keyword lists for the `dev-rules` stand-in classifiers. | **Development only, never a result.** The isiZulu entries are AI-drafted and unverified. |
-| `intent_dataset_template.csv` | Column layout for the labelled isiZulu command set used by `backend.evaluation.batch`. | Template. Only rows with `verified=yes` are evaluated. |
+| `courses.json` | The 11 Honours Computer Science courses (COMS4xxx) and their November 2026 exams: date, time, type and venues. `here` names the building Pepper stands in. | Final November 2026 Assessment Timetable |
+| `calendar.json` | 2026 academic periods (teaching blocks, breaks, exam periods) and key dates. | Wits 2026 academic calendar |
+| `contacts.json` | School of Computer Science and Applied Mathematics contacts. `default` lists who is suggested when no one specific is asked for. | CSAM contact page |
+| `locations.json` | Campus places with campus side, map grid square and map marker position. Rooms matching `MSL###` are in this building. | Braamfontein campus map 2025 |
+| `intents.json` | The 15 canonical intent labels and their slots. | Project design |
+| `dev_keywords.json` | Keyword lists for the stand-in classifiers. **Development only**; the isiZulu is AI-drafted and unverified. | Project design |
+| `intent_dataset_template.csv` | Column layout for the labelled isiZulu command set. | Template |
+
+## Not in the data yet
+
+- **Weekly lecture times.** Add them per course under `sessions`, e.g.
+  `{ "day": "monday", "start": "10:15", "end": "12:00", "venue": "MSL004" }`.
+  They are only used during teaching blocks from `calendar.json`.
+- **Lecturers.** Set `lecturer` per course. Until then, "who teaches X"
+  points students to the Honours coordinator.
+- **The FNB Building** is an exam venue (COMS4050A) but is not labelled on the
+  campus map, so it has no grid square or marker.
+- **Marker positions and grid squares** were read off the campus map image.
+  Check them on site.
+
+## Updating for a new period
+
+When the 2027 timetables are published, replace the `exams` (and add
+`sessions`) in `courses.json` and the periods in `calendar.json`, then run
+`python -m pytest`. `tests/test_slots_and_dispatcher.py` checks that every
+venue points to a known location and that the files are consistent.
 
 Generated at runtime and ignored by git:
 
-- `logs/research_log.csv`: one row per trial and branch, written only when research mode has "Log trials" ticked.
-- `recordings/<session>/<trial>.wav`: written only when "Save audio" is also ticked. Participant audio must stay off GitHub and must be handled according to the ethics approval.
+- `logs/research_log.csv`: one row per trial and branch, only when research mode has "Log trials" ticked.
+- `recordings/<session>/<trial>.wav`: only when "Save audio" is also ticked. Participant audio stays off GitHub and must be handled according to the ethics approval.

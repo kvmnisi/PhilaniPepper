@@ -1,0 +1,177 @@
+{
+  "source": "Wits Braamfontein Campus map 2025 (public). Grid squares and marker positions were read off the map; verify on site before relying on them.",
+  "map_image": "assets/campus-map.jpg",
+  "here": "msb",
+  "rooms": [
+    {
+      "pattern": "^MSL\\s*-?\\s*\\d{3}$",
+      "location": "msb"
+    }
+  ],
+  "east_west_note": "Yale Road separates West Campus from East Campus; the Wits Sibanye-Stillwater Innovation Bridge links the two.",
+  "locations": [
+    {
+      "id": "msb",
+      "name": "TW Kambule Mathematical Sciences Building",
+      "campus": "West",
+      "grid": "C3",
+      "marker": {
+        "x": 0.4403,
+        "y": 0.561
+      },
+      "aliases": [
+        "tw kambule mathematical sciences building",
+        "tw kambule",
+        "kambule",
+        "mathematical sciences building",
+        "math science building",
+        "maths science building",
+        "maths building",
+        "msb",
+        "this building"
+      ],
+      "note": "The School of Computer Science and Applied Mathematics is on the Upper Ground and 1st Floor. MSL rooms (MSL004, MSL005, ...) are in this building."
+    },
+    {
+      "id": "science_stadium",
+      "name": "Science Stadium",
+      "campus": "West",
+      "grid": "C3",
+      "marker": {
+        "x": 0.3604,
+        "y": 0.5594
+      },
+      "aliases": [
+        "science stadium"
+      ]
+    },
+    {
+      "id": "flower_hall",
+      "name": "Flower Hall",
+      "campus": "West",
+      "grid": "D3",
+      "marker": {
+        "x": 0.3953,
+        "y": 0.6605
+      },
+      "aliases": [
+        "flower hall"
+      ]
+    },
+    {
+      "id": "hall_29",
+      "name": "Hall 29",
+      "campus": "West",
+      "grid": "A3",
+      "marker": {
+        "x": 0.4364,
+        "y": 0.2246
+      },
+      "aliases": [
+        "hall 29",
+        "hall twenty nine",
+        "hall twenty-nine"
+      ]
+    },
+    {
+      "id": "solomon_mahlangu",
+      "name": "Solomon Mahlangu House",
+      "campus": "East",
+      "grid": "D4",
+      "marker": {
+        "x": 0.6177,
+        "y": 0.8003
+      },
+      "aliases": [
+        "solomon mahlangu house",
+        "solomon mahlangu",
+        "senate house"
+      ]
+    },
+    {
+      "id": "robert_sobukwe",
+      "name": "Robert Sobukwe Block",
+      "campus": "East",
+      "grid": "D4",
+      "marker": {
+        "x": 0.6278,
+        "y": 0.7498
+      },
+      "aliases": [
+        "robert sobukwe block",
+        "robert sobukwe",
+        "central block"
+      ]
+    },
+    {
+      "id": "great_hall",
+      "name": "Great Hall",
+      "campus": "East",
+      "grid": "D4",
+      "marker": {
+        "x": 0.6278,
+        "y": 0.7242
+      },
+      "aliases": [
+        "great hall"
+      ]
+    },
+    {
+      "id": "cullen_library",
+      "name": "William Cullen Library",
+      "campus": "East",
+      "grid": "C4",
+      "marker": {
+        "x": 0.5828,
+        "y": 0.6022
+      },
+      "aliases": [
+        "william cullen library",
+        "cullen library",
+        "cullen"
+      ]
+    },
+    {
+      "id": "old_mutual_sports_hall",
+      "name": "Old Mutual Sports Hall",
+      "campus": "East",
+      "grid": "C4",
+      "marker": {
+        "x": 0.5873,
+        "y": 0.5066
+      },
+      "aliases": [
+        "old mutual sports hall",
+        "old mutual multipurpose sports hall",
+        "old mutual"
+      ]
+    },
+    {
+      "id": "matrix",
+      "name": "The Matrix",
+      "campus": "East",
+      "grid": "C5",
+      "marker": {
+        "x": 0.6684,
+        "y": 0.5152
+      },
+      "aliases": [
+        "the matrix",
+        "matrix"
+      ]
+    },
+    {
+      "id": "fnb",
+      "name": "FNB Building",
+      "campus": null,
+      "grid": null,
+      "marker": null,
+      "aliases": [
+        "fnb building",
+        "fnb basement annex",
+        "fnb"
+      ],
+      "note": "Check the exam venue notice, or ask at General Enquiries (UG 01) in this building."
+    }
+  ]
+}

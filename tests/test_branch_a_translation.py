@@ -19,19 +19,19 @@ class FakeTranslator:
 
 
 def test_dev_rules_cannot_read_isizulu():
-    result = BranchA(Settings(), "dev-rules").classify("ngubani ofundisa i-machine learning")
+    result = BranchA(Settings(), "dev-rules").classify("ngubani ofundisa i-computer vision")
     assert result["intent"] == "OOS"
     assert "untranslated" in result["translation_note"]
 
 
 def test_nllb_rules_classifies_the_english_translation():
     branch = BranchA(Settings(), "nllb-rules")
-    branch.translator = FakeTranslator({"ngubani ofundisa i-machine learning": "Who teaches machine learning?"})
-    result = branch.classify("ngubani ofundisa i-machine learning")
+    branch.translator = FakeTranslator({"ngubani ofundisa i-computer vision": "Who teaches computer vision?"})
+    result = branch.classify("ngubani ofundisa i-computer vision")
     assert result["engine"] == "nllb-rules"
-    assert result["translation"] == "Who teaches machine learning?"
+    assert result["translation"] == "Who teaches computer vision?"
     assert result["intent"] == "ask_lecturer"
-    assert result["slots"] == {"course": "COMS9002"}
+    assert result["slots"] == {"course": "COMS4036A"}
     assert branch.loaded
 
 

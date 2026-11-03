@@ -1,72 +1,131 @@
 {
-  "is_sample": true,
-  "notice": "SAMPLE DATA. Course codes (COMS90xx), lecturers and the venue/time assignments are placeholders for development only. Replace this file with the confirmed Honours timetable before any research session.",
+  "is_sample": false,
+  "source": "Wits Final November 2026 Assessment Timetable (public). Honours Computer Science courses (COMS4xxx) only.",
+  "notice": "Weekly lecture times and per-course lecturers are not included yet. Add weekly lectures under each course's 'sessions' (day, start, end, venue) and set 'lecturer' when known.",
   "timezone": "Africa/Johannesburg",
   "self_service_url": "https://self-service.wits.ac.za/",
-  "semesters": [
-    { "name": "Semester 1, 2026 (sample dates)", "start": "2026-02-09", "end": "2026-06-12" },
-    { "name": "Semester 2, 2026 (sample dates)", "start": "2026-07-20", "end": "2026-11-20" }
-  ],
+  "here": "msb",
   "courses": [
     {
-      "code": "COMS9001",
-      "name": "Robotics",
-      "aliases": ["robotics", "robot"],
-      "lecturer": "Dr A. Sample",
-      "sessions": [
-        { "day": "monday", "start": "10:15", "end": "12:00", "venue": "MSL004" },
-        { "day": "wednesday", "start": "14:15", "end": "16:00", "venue": "MSL004" }
+      "code": "COMS4032A",
+      "name": "Applications of Algorithms (Theory)",
+      "aliases": ["applications of algorithms", "application of algorithms", "algorithms"],
+      "lecturer": null,
+      "sessions": [],
+      "exams": [
+        { "code": "COMS4032A/1", "type": "written", "date": "2026-11-23", "start": "09:00", "end": "11:00",
+          "venues": [{ "room": "Basement 1A", "location": "solomon_mahlangu" }] }
       ]
     },
     {
-      "code": "COMS9002",
-      "name": "Machine Learning",
-      "aliases": ["machine learning", "ml"],
-      "lecturer": "Prof B. Sample",
-      "sessions": [
-        { "day": "tuesday", "start": "08:00", "end": "09:45", "venue": "MSL005" },
-        { "day": "thursday", "start": "08:00", "end": "09:45", "venue": "MSL005" }
-      ]
-    },
-    {
-      "code": "COMS9003",
+      "code": "COMS4036A",
       "name": "Computer Vision",
       "aliases": ["computer vision", "vision"],
-      "lecturer": "Dr C. Sample",
-      "sessions": [
-        { "day": "monday", "start": "14:15", "end": "16:00", "venue": "MSL006" },
-        { "day": "thursday", "start": "10:15", "end": "12:00", "venue": "MSL006" }
+      "lecturer": null,
+      "sessions": [],
+      "exams": [
+        { "code": "COMS4036A/1", "type": "lab exam", "date": "2026-11-18", "start": "14:00", "end": "17:00",
+          "venues": [{ "room": "MSL006", "location": "msb" }] }
       ]
     },
     {
-      "code": "COMS9004",
+      "code": "COMS4041A",
+      "name": "Human Computer Interaction",
+      "aliases": ["human computer interaction", "human-computer interaction", "hci"],
+      "lecturer": null,
+      "sessions": [],
+      "exams": [
+        { "code": "COMS4041A/1", "type": "lab exam", "date": "2026-11-20", "start": "09:00", "end": "12:00",
+          "venues": [{ "room": "MSL004", "location": "msb" }] }
+      ]
+    },
+    {
+      "code": "COMS4050A",
+      "name": "Discrete Optimisation (Theory)",
+      "aliases": ["discrete optimisation", "discrete optimization", "optimisation", "optimization"],
+      "lecturer": null,
+      "sessions": [],
+      "exams": [
+        { "code": "COMS4050A/1", "type": "written", "date": "2026-11-06", "start": "14:00", "end": "17:00",
+          "venues": [{ "room": "Basement Annex", "location": "fnb" }] }
+      ]
+    },
+    {
+      "code": "COMS4054A",
       "name": "Natural Language Processing",
-      "aliases": ["natural language processing", "nlp", "language processing"],
-      "lecturer": "Dr D. Sample",
-      "sessions": [
-        { "day": "tuesday", "start": "10:15", "end": "12:00", "venue": "MSL009" },
-        { "day": "friday", "start": "08:00", "end": "09:45", "venue": "MSL009" }
+      "aliases": ["natural language processing", "language processing", "nlp"],
+      "lecturer": null,
+      "sessions": [],
+      "exams": [
+        { "code": "COMS4054A/1", "type": "lab exam", "date": "2026-11-10", "start": "14:00", "end": "17:00",
+          "venues": [{ "room": "MSL005", "location": "msb" }, { "room": "MSL006", "location": "msb" }] }
       ]
     },
     {
-      "code": "COMS9005",
-      "name": "Computer Security",
-      "aliases": ["computer security", "security"],
-      "lecturer": "Prof E. Sample",
-      "sessions": [
-        { "day": "wednesday", "start": "08:00", "end": "09:45", "venue": "MSL005" },
-        { "day": "friday", "start": "10:15", "end": "12:00", "venue": "MSL005" }
+      "code": "COMS4060A",
+      "name": "Data Visualisation and Exploration",
+      "aliases": ["data visualisation and exploration", "data visualisation", "data visualization", "visualisation", "visualization"],
+      "lecturer": null,
+      "sessions": [],
+      "exams": [
+        { "code": "COMS4060A/1", "type": "lab exam", "date": "2026-11-02", "start": "09:00", "end": "12:00",
+          "venues": [{ "room": "MSL004", "location": "msb" }, { "room": "MSL109", "location": "msb" }, { "room": "MSL110", "location": "msb" }] }
       ]
     },
     {
-      "code": "COMS9006",
-      "name": "Research Methods",
-      "aliases": ["research methods", "research"],
-      "lecturer": "Dr F. Sample",
-      "sessions": [
-        { "day": "thursday", "start": "14:15", "end": "16:00", "venue": "MSL004" }
+      "code": "COMS4061A",
+      "name": "Reinforcement Learning",
+      "aliases": ["reinforcement learning", "rl"],
+      "lecturer": null,
+      "sessions": [],
+      "exams": [
+        { "code": "COMS4061A/1", "type": "lab exam", "date": "2026-11-13", "start": "09:00", "end": "12:00",
+          "venues": [{ "room": "MSL006", "location": "msb" }] }
+      ]
+    },
+    {
+      "code": "COMS4066A",
+      "name": "Secure Systems Design and Analysis",
+      "aliases": ["secure systems design and analysis", "secure systems design", "secure systems"],
+      "lecturer": null,
+      "sessions": [],
+      "exams": [
+        { "code": "COMS4066A/1", "type": "lab exam", "date": "2026-11-10", "start": "14:00", "end": "17:00",
+          "venues": [{ "room": "MSL005", "location": "msb" }] }
+      ]
+    },
+    {
+      "code": "COMS4067A",
+      "name": "Offensive Security and Ethical Hacking",
+      "aliases": ["offensive security and ethical hacking", "offensive security", "ethical hacking", "hacking"],
+      "lecturer": null,
+      "sessions": [],
+      "exams": [
+        { "code": "COMS4067A/1", "type": "lab exam", "date": "2026-11-20", "start": "09:00", "end": "13:00",
+          "venues": [{ "room": "MSL006", "location": "msb" }] }
+      ]
+    },
+    {
+      "code": "COMS4068A",
+      "name": "Data Privacy and Ethics",
+      "aliases": ["data privacy and ethics", "data privacy", "privacy"],
+      "lecturer": null,
+      "sessions": [],
+      "exams": [
+        { "code": "COMS4068A/1", "type": "lab exam", "date": "2026-11-16", "start": "09:00", "end": "12:00",
+          "venues": [{ "room": "MSL006", "location": "msb" }, { "room": "MSL110", "location": "msb" }, { "room": "MSL111", "location": "msb" }] }
+      ]
+    },
+    {
+      "code": "COMS4070A",
+      "name": "Computational Neuroscience",
+      "aliases": ["computational neuroscience", "neuroscience"],
+      "lecturer": null,
+      "sessions": [],
+      "exams": [
+        { "code": "COMS4070A/1", "type": "lab exam", "date": "2026-11-05", "start": "09:00", "end": "12:00",
+          "venues": [{ "room": "MSL110", "location": "msb" }] }
       ]
     }
-  ],
-  "locations": ["MSL004", "MSL005", "MSL006", "MSL009"]
+  ]
 }

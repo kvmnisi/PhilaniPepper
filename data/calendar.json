@@ -1,0 +1,26 @@
+{
+  "year": 2026,
+  "source": "Wits 2026 academic calendar (public), as supplied by the project owner.",
+  "periods": [
+    { "name": "Returning Students Registration (PG and UG)", "kind": "registration", "start": "2026-01-02", "end": "2026-02-02" },
+    { "name": "Gateway to Success and Postgraduate Orientation", "kind": "orientation", "start": "2026-01-20", "end": "2026-02-02" },
+    { "name": "First Teaching Block", "kind": "teaching", "start": "2026-02-03", "end": "2026-03-18" },
+    { "name": "Mid-term Vacation / Study / Research Break", "kind": "break", "start": "2026-03-19", "end": "2026-03-29" },
+    { "name": "Second Teaching Block", "kind": "teaching", "start": "2026-03-30", "end": "2026-05-19" },
+    { "name": "Study Break", "kind": "break", "start": "2026-05-20", "end": "2026-05-24" },
+    { "name": "June Examination / Assessment Period", "kind": "exams", "start": "2026-05-25", "end": "2026-06-22" },
+    { "name": "Winter Vacation / Study / Research Break", "kind": "break", "start": "2026-06-23", "end": "2026-07-19" },
+    { "name": "Third Teaching Block", "kind": "teaching", "start": "2026-07-20", "end": "2026-09-04" },
+    { "name": "Mid-term Vacation / Study / Research Break", "kind": "break", "start": "2026-09-07", "end": "2026-09-13" },
+    { "name": "Fourth Teaching Block", "kind": "teaching", "start": "2026-09-14", "end": "2026-10-27" },
+    { "name": "Study Break", "kind": "break", "start": "2026-10-28", "end": "2026-11-01" },
+    { "name": "November Examination / Assessment Period", "kind": "exams", "start": "2026-11-02", "end": "2026-11-27" },
+    { "name": "Summer Vacation / Study / Research Break", "kind": "break", "start": "2026-11-28", "end": null }
+  ],
+  "events": [
+    { "name": "Publication of Matric Results", "date": "2026-01-12" },
+    { "name": "Welcome Day", "date": "2026-01-18" },
+    { "name": "Start of Term", "date": "2026-02-03" },
+    { "name": "Last Day of Term", "date": "2026-11-27" }
+  ]
+}

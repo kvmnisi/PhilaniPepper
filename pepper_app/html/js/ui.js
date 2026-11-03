@@ -141,18 +141,99 @@
 
   /* ---------- Result card ---------- */
 
-  function sessionsTable(sessions, highlight) {
-    var body = el("tbody", null, sessions.map(function (s) {
-      var isHighlight = highlight && highlight.day === s.day && highlight.start === s.start;
-      return el("tr", { className: isHighlight ? "is-highlight" : null }, [
-        el("td", { text: capitalise(s.day) }),
-        el("td", { className: "mono", text: s.start + "–" + s.end }),
-        el("td", { text: s.venue || "To be confirmed" })
-      ]);
-    }));
+  var DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  var MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
+    "October", "November", "December"];
+
+  /* "2026-11-10" -> "Tuesday 10 November 2026" (parsed as a local date, no time zone shift). */
+  function longDate(iso) {
+    if (!iso) { return ""; }
+    var p = iso.split("-");
+    var d = new Date(+p[0], +p[1] - 1, +p[2]);
+    return DAY_NAMES[d.getDay()] + " " + d.getDate() + " " + MONTH_NAMES[d.getMonth()] + " " + d.getFullYear();
+  }
+
+  function sessionsTable(sessions) {
     return el("table", { className: "table" }, [
       el("thead", null, [el("tr", null, [el("th", { text: "Day" }), el("th", { text: "Time" }), el("th", { text: "Venue" })])]),
-      body
+      el("tbody", null, sessions.map(function (s) {
+        return el("tr", null, [
+          el("td", { text: capitalise(s.day) }),
+          el("td", { className: "mono", text: s.start + "–" + s.end }),
+          el("td", { text: s.venue || "To be confirmed" })
+        ]);
+      }))
+    ]);
+  }
+
+  function pin(point, className) {
+    return el("span", { className: className, style: "left:" + (point.x * 100) + "%;top:" + (point.y * 100) + "%" }, [
+      el("span", { className: "pin-dot" }),
+      el("span", { className: "pin-label", text: point.label })
+    ]);
+  }
+
+  /* Campus map with "You are here" and destination pins; scrolls to the destination. */
+  function campusMap(map) {
+    if (!map || !map.markers || !map.markers.length) { return null; }
+    var pins = [];
+    if (map.here) { pins.push(pin(map.here, "pin pin-here")); }
+    map.markers.forEach(function (m) { pins.push(pin(m, "pin pin-target")); });
+    var frame = el("div", { className: "map-frame" }, [el("img", { src: map.image, alt: "Wits Braamfontein campus map" })].concat(pins));
+    // Centre between "you are here" and the destination so the route is in view.
+    var target = map.markers[0];
+    var focusX = map.here ? (map.here.x + target.x) / 2 : target.x;
+    var focusY = map.here ? (map.here.y + target.y) / 2 : target.y;
+    var scroller = el("div", { className: "map-scroll", "data-focus-x": focusX, "data-focus-y": focusY }, [frame]);
+    var toggle = el("button", { className: "btn btn-outline btn-small", type: "button", text: "Show whole map" });
+    toggle.addEventListener("click", function () {
+      var full = scroller.className.indexOf("is-full") < 0;
+      scroller.className = full ? "map-scroll is-full" : "map-scroll";
+      toggle.textContent = full ? "Zoom in" : "Show whole map";
+      if (!full) { focusMap(scroller); }
+    });
+    return el("figure", { className: "campus-map" }, [
+      scroller,
+      el("figcaption", null, [
+        el("span", { className: "legend legend-here", text: "You are here" }),
+        el("span", { className: "legend legend-target", text: map.markers.map(function (m) { return m.label; }).join(", ") }),
+        toggle
+      ])
+    ]);
+  }
+
+  function focusMap(scroller) {
+    var frame = scroller.firstChild;
+    var x = parseFloat(scroller.getAttribute("data-focus-x"));
+    var y = parseFloat(scroller.getAttribute("data-focus-y"));
+    scroller.scrollLeft = Math.max(0, x * frame.offsetWidth - scroller.clientWidth / 2);
+    scroller.scrollTop = Math.max(0, y * frame.offsetHeight - scroller.clientHeight / 2);
+  }
+
+  function eventsTable(rows) {
+    return el("table", { className: "table" }, [
+      el("thead", null, [el("tr", null, [el("th", { text: "Time" }), el("th", { text: "Course" }), el("th", { text: "Venue" })])]),
+      el("tbody", null, rows.map(function (r) {
+        return el("tr", null, [
+          el("td", { className: "mono", text: r.start + "–" + r.end }),
+          el("td", null, [el("span", { className: "code-badge", text: r.code }), r.name,
+            r.kind === "exam" ? el("span", { className: "kind-note", text: " · " + (r.exam_type || "exam") }) : null]),
+          el("td", { text: r.venue })
+        ]);
+      }))
+    ]);
+  }
+
+  function contactCard(person) {
+    var lines = [];
+    if (person.email) { lines.push(el("li", null, ["Email ", el("a", { href: "mailto:" + person.email, text: person.email })])); }
+    if (person.phone) { lines.push(el("li", null, ["Phone ", el("a", { href: "tel:" + person.phone.replace(/\s+/g, ""), text: person.phone })])); }
+    if (person.office) { lines.push(el("li", { text: "Office " + person.office })); }
+    if (person.fax) { lines.push(el("li", { text: "Fax " + person.fax })); }
+    return el("div", { className: "contact" }, [
+      el("p", { className: "contact-role", text: person.role }),
+      el("h3", { className: "result-title", text: person.name }),
+      el("ul", { className: "contact-lines" }, lines)
     ]);
   }
 
@@ -165,28 +246,23 @@
             el("h3", { className: "result-title", text: display.name })
           ]),
           display.lecturer ? el("p", { className: "result-meta" }, ["Lecturer: ", el("strong", { text: display.lecturer })]) : null,
-          display.sessions && display.sessions.length ? sessionsTable(display.sessions, display.highlight) : null
-        ];
+          display.sessions && display.sessions.length ? sessionsTable(display.sessions) : null
+        ].concat((display.exams || []).map(function (exam) {
+          return el("div", { className: "exam" }, [
+            el("p", { className: "exam-kind", text: capitalise(exam.type || "exam") }),
+            el("p", { className: "exam-when" }, [el("strong", { text: exam.day }), " · " + exam.start + "–" + exam.end]),
+            el("p", { className: "exam-where", text: exam.venue })
+          ]);
+        })).concat([campusMap(display.map)]);
       case "schedule":
-        if (!display.rows.length) {
-          return [el("h3", { className: "result-title", text: capitalise(display.weekday) }), el("p", { className: "result-meta", text: "No classes scheduled." })];
-        }
         return [
-          el("h3", { className: "result-title", text: capitalise(display.weekday) }),
-          el("table", { className: "table" }, [
-            el("thead", null, [el("tr", null, [el("th", { text: "Time" }), el("th", { text: "Course" }), el("th", { text: "Venue" })])]),
-            el("tbody", null, display.rows.map(function (r) {
-              return el("tr", null, [
-                el("td", { className: "mono", text: r.start + "–" + r.end }),
-                el("td", null, [el("span", { className: "code-badge", text: r.code }), r.name]),
-                el("td", { text: r.venue || "To be confirmed" })
-              ]);
-            }))
-          ])
+          el("h3", { className: "result-title", text: display.title }),
+          display.rows.length ? eventsTable(display.rows) : el("p", { className: "result-meta", text: "Nothing scheduled." }),
+          campusMap(display.map)
         ];
       case "course_list":
         return [
-          el("h3", { className: "result-title", text: "Courses" }),
+          el("h3", { className: "result-title", text: "Honours courses" }),
           el("ul", { className: "course-list" }, display.courses.map(function (c) {
             return el("li", null, [el("span", { className: "code-badge", text: c.code }), c.name]);
           }))
@@ -201,15 +277,36 @@
         ])];
       case "help":
         return [el("ul", { className: "chips" }, display.items.map(function (item) { return el("li", { text: item }); }))];
-      case "semester":
-        var s = display.semester || display.upcoming;
-        if (!s) { return null; }
+      case "calendar":
+        if (!display.period && !display.next) { return null; }
+        var parts = [];
+        if (display.period) {
+          parts.push(el("p", { className: "contact-role", text: "Now" }));
+          parts.push(el("h3", { className: "result-title", text: display.period.name }));
+          parts.push(el("p", { className: "result-meta", text: longDate(display.period.start) + (display.period.end ? " to " + longDate(display.period.end) : " onwards") }));
+        }
+        if (display.next) {
+          parts.push(el("p", { className: "result-meta" }, ["Next: ", el("strong", { text: display.next.name }), ", from " + longDate(display.next.start)]));
+        }
+        return parts;
+      case "contact":
+        return display.people.map(contactCard);
+      case "location":
+        var where = [];
+        if (display.building && display.building !== display.name) { where.push(display.building); }
+        if (display.campus) { where.push(display.campus + " Campus"); }
+        if (display.grid) { where.push("map grid " + display.grid); }
         return [
-          el("h3", { className: "result-title", text: s.name }),
-          el("p", { className: "result-meta", text: s.start + " to " + s.end })
+          el("h3", { className: "result-title", text: display.name }),
+          where.length ? el("p", { className: "result-meta", text: where.join(" · ") }) : null,
+          display.note ? el("p", { className: "result-meta", text: display.note }) : null,
+          campusMap(display.map)
         ];
       case "needs_slot":
-        return display.courses ? [el("ul", { className: "chips" }, display.courses.map(function (c) { return el("li", { text: c }); }))] : null;
+        return display.choices ? [
+          el("p", { className: "result-meta", text: "Try one of these:" }),
+          el("ul", { className: "chips" }, display.choices.map(function (c) { return el("li", { text: c }); }))
+        ] : null;
       default:
         return null;
     }
@@ -227,6 +324,13 @@
     parts.forEach(function (part) { if (part) { card.appendChild(part); } });
     card.hidden = false;
     $.tips.hidden = true;
+    var maps = card.getElementsByClassName("map-scroll");
+    for (var i = 0; i < maps.length; i++) { focusMapWhenLoaded(maps[i]); }
+  }
+
+  function focusMapWhenLoaded(scroller) {
+    var img = scroller.getElementsByTagName("img")[0];
+    if (img.complete) { focusMap(scroller); } else { img.addEventListener("load", function () { focusMap(scroller); }); }
   }
 
   function resetResult() {

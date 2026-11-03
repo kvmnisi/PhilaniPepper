@@ -13,7 +13,7 @@
 
   var INTENTS = ["greeting", "help", "ask_time", "ask_current_class", "ask_next_class", "ask_lecturer",
     "ask_course_time", "ask_course_venue", "ask_day_schedule", "list_courses", "ask_current_semester",
-    "open_self_service", "OOS"];
+    "open_self_service", "ask_contact", "ask_directions", "OOS"];
   var BRANCH_HELP = {
     A: "A: isiZulu → English translation → English classifier.",
     B: "B: isiZulu → InkubaLM-0.4B classifies the intent directly.",

@@ -41,11 +41,18 @@ def classify(text, language, slots):
     for intent in list(scores):
         if intent in COURSE_INTENTS:
             scores[intent] += 1.0 if has_course else -0.5
-    # "What time is COMS9001?" is a course-time question, not ask_time.
+    # "What time is the COMS4054A exam?" is a course-time question, not ask_time.
     if has_course and "ask_time" in scores:
         scores["ask_course_time"] = scores.get("ask_course_time", 0.0) + scores.pop("ask_time")
     if "weekday" in slots and not has_course:
         scores["ask_day_schedule"] = scores.get("ask_day_schedule", 0.0) + 0.5
+    # "Where is Flower Hall?" names a place, not a course: directions.
+    if "location" in slots and not has_course and scores:
+        scores["ask_directions"] = scores.get("ask_directions", 0.0) + max(0.0, scores.pop("ask_course_venue", 0.0)) + 1.0
+    if "contact" in slots and not has_course:
+        scores["ask_contact"] = scores.get("ask_contact", 0.0) + 1.0
+    if has_course and "ask_directions" in scores:
+        scores["ask_course_venue"] = scores.get("ask_course_venue", 0.0) + scores.pop("ask_directions")
 
     scores = {intent: score for intent, score in scores.items() if score > 0}
     if not scores:
