@@ -13,6 +13,18 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = REPO_ROOT / "data"
 
 
+LOCAL_WHISPER_DIR = REPO_ROOT / "WhisperModel"
+WEIGHT_FILES = ("model.safetensors", "pytorch_model.bin")
+
+
+def _default_whisper_model():
+    """The fine-tuned checkpoint in ./WhisperModel when its weights are present
+    (they are git-ignored, so copy them in locally), else the DSFSI hub model."""
+    if any((LOCAL_WHISPER_DIR / name).exists() for name in WEIGHT_FILES):
+        return str(LOCAL_WHISPER_DIR)
+    return "dsfsi-anv/whisper-small-anv-zulu-first-batch"
+
+
 def _env(name, default=None):
     value = os.environ.get(name)
     return value if value not in (None, "") else default
@@ -40,9 +52,7 @@ class Settings:
     # --- ASR -----------------------------------------------------------
     # "auto" uses Whisper when torch + transformers are installed, else "none".
     asr_engine: str = field(default_factory=lambda: _env("ASR_ENGINE", "auto"))
-    whisper_model: str = field(
-        default_factory=lambda: _env("WHISPER_MODEL", "dsfsi-anv/whisper-small-anv-zulu-first-batch")
-    )
+    whisper_model: str = field(default_factory=lambda: _env("WHISPER_MODEL") or _default_whisper_model())
     # Leave unset to use the checkpoint's own generation config. The DSFSI
     # checkpoint has no isiZulu token, so set this to whatever token your
     # fine-tuning notebook detected if decoding drifts.

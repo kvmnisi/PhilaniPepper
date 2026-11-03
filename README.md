@@ -168,7 +168,7 @@ Then configure engines with environment variables (see `.env.example`):
 
 | Variable | Purpose |
 | --- | --- |
-| `ASR_ENGINE=whisper`, `WHISPER_MODEL=<hub id or path>` | Fine-tuned Whisper checkpoint. `WHISPER_LANGUAGE` is optional; the DSFSI model has no isiZulu token, so use the one your notebook detected. Repetition penalties are applied, as in the notebook. |
+| `ASR_ENGINE=whisper`, `WHISPER_MODEL=<hub id or path>` | Fine-tuned Whisper checkpoint. Defaults to `./WhisperModel` when `model.safetensors` is there (weights are git-ignored, so copy them in locally), otherwise the DSFSI hub checkpoint. `WHISPER_LANGUAGE` overrides the checkpoint's language token; the DSFSI model has no isiZulu token, so use the one your notebook trained with. Repetition penalties are applied, as in the notebook. |
 | `BRANCH_A_ENGINE=hf`, `BRANCH_A_CLASSIFIER=<path>` | NLLB-200 (`zul_Latn`→`eng_Latn`) plus your fine-tuned English sequence classifier. Its `id2label` must use the canonical labels; the backend refuses any others. |
 | `BRANCH_A_ENGINE=nllb-rules` | The default once the ML libraries are installed and no classifier is set. Real NLLB translation, so isiZulu works end to end, but intents come from the English keyword stand-in. Excluded from reports. |
 | `BRANCH_A_ENGINE=zero-shot` | NLLB-200 plus an NLI model scoring each intent's English hypothesis. A no-training baseline; report it as one. |
