@@ -31,7 +31,10 @@ No experimental score appears anywhere in this repository.
 | 12 | Vercel deployment | Configured (`frontend/vercel.json`). Not deployed from this repo. |
 
 Until real models are configured, both branches run **`dev-rules`**: keyword
-stand-ins that exist only to test the plumbing. Every result, log row and
+stand-ins that exist only to test the plumbing. Without the ML libraries,
+Branch A's stand-in cannot translate, so isiZulu input comes out as OOS. With
+them installed, Branch A defaults to **`nllb-rules`**: real translation feeding
+the same English keyword stand-in. Every result, log row and
 health check names the engine that produced it, and the report tool drops
 `dev-rules` rows by default.
 
@@ -157,6 +160,7 @@ Then configure engines with environment variables (see `.env.example`):
 | --- | --- |
 | `ASR_ENGINE=whisper`, `WHISPER_MODEL=<hub id or path>` | Fine-tuned Whisper checkpoint. `WHISPER_LANGUAGE` is optional; the DSFSI model has no isiZulu token, so use the one your notebook detected. Repetition penalties are applied, as in the notebook. |
 | `BRANCH_A_ENGINE=hf`, `BRANCH_A_CLASSIFIER=<path>` | NLLB-200 (`zul_Latn`→`eng_Latn`) plus your fine-tuned English sequence classifier. Its `id2label` must use the canonical labels; the backend refuses any others. |
+| `BRANCH_A_ENGINE=nllb-rules` | The default once the ML libraries are installed and no classifier is set. Real NLLB translation, so isiZulu works end to end, but intents come from the English keyword stand-in. Excluded from reports. |
 | `BRANCH_A_ENGINE=zero-shot` | NLLB-200 plus an NLI model scoring each intent's English hypothesis. A no-training baseline; report it as one. |
 | `BRANCH_B_ENGINE=inkubalm`, `INKUBALM_ADAPTER=<path>` | `lelapa/InkubaLM-0.4B` with your LoRA adapter. |
 | `DEVICE` | `cuda`, `mps` or `cpu` (default: auto) |

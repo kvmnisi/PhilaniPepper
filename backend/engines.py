@@ -6,11 +6,10 @@ from backend.asr.whisper_asr import NoASR, WhisperASR
 from backend.branch_a.branch import BranchA
 from backend.branch_b.branch import BranchB
 from backend.dispatcher.adapters import build_adapter
+from backend.nlu.dev_rules import STAND_IN_ENGINES
 from backend.torch_utils import ml_available
 
 log = logging.getLogger("engines")
-
-DEV_ENGINES = {"dev-rules", "none"}
 
 
 def _resolve_asr(settings):
@@ -23,8 +22,13 @@ def _resolve_asr(settings):
 def _resolve_branch_a(settings):
     engine = settings.branch_a_engine
     if engine == "auto":
-        engine = "hf" if (settings.branch_a_classifier and ml_available()) else "dev-rules"
-    if engine not in ("dev-rules", "hf", "zero-shot"):
+        if not ml_available():
+            engine = "dev-rules"
+        else:
+            # Without a trained classifier, still translate for real so
+            # isiZulu input reaches the English stand-in rules as English.
+            engine = "hf" if settings.branch_a_classifier else "nllb-rules"
+    if engine not in ("dev-rules", "nllb-rules", "hf", "zero-shot"):
         raise ValueError("Unknown BRANCH_A_ENGINE: %s" % engine)
     return BranchA(settings, engine)
 
@@ -62,7 +66,7 @@ class Engines:
             "pepper_adapter": self.adapter.name,
         }
         info["development_engines_active"] = any(
-            part["engine"] in DEV_ENGINES for part in (info["asr"], info["branch_a"], info["branch_b"])
+            part["engine"] in STAND_IN_ENGINES for part in (info["asr"], info["branch_a"], info["branch_b"])
         )
         if self.load_errors:
             info["load_errors"] = self.load_errors

@@ -2,7 +2,7 @@
 
     python -m backend.evaluation.report data/logs/research_log.csv [--include-dev] [--json]
 
-Rows produced by development engines (dev-rules / ASR "none") are excluded
+Rows produced by stand-in engines (dev-rules, nllb-rules) are excluded
 unless --include-dev is passed, so stand-in output cannot leak into results.
 Every figure printed is computed from the log; nothing is estimated.
 """
@@ -18,9 +18,8 @@ from backend.evaluation.metrics import (
     latency_summary,
     mcnemar_exact,
 )
+from backend.nlu.dev_rules import STAND_IN_ENGINES
 from backend.nlu.intents import intent_labels
-
-DEV_ENGINES = {"dev-rules", "none"}
 
 
 def _float(value):
@@ -31,7 +30,7 @@ def _float(value):
 
 
 def _is_dev(row):
-    return row.get("branch_engine") in DEV_ENGINES
+    return row.get("branch_engine") in STAND_IN_ENGINES
 
 
 def summarise(rows, include_dev=False):
@@ -123,7 +122,7 @@ def _fmt(value, pct=False):
 def print_report(report):
     print("Rows analysed: %d (excluded %d development-engine rows)" % (report["rows"], report["excluded_dev_rows"]))
     if not report["rows"] and report["excluded_dev_rows"]:
-        print("Only dev-rules output was logged. Configure the real engines, or pass --include-dev to inspect plumbing.")
+        print("Only stand-in (dev-rules / nllb-rules) output was logged. Configure the real engines, or pass --include-dev to inspect plumbing.")
     if report["asr"]:
         asr = report["asr"]
         print("\nASR on %d utterances: WER %s  CER %s" % (

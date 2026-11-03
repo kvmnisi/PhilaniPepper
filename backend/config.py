@@ -54,7 +54,9 @@ class Settings:
     )
 
     # --- Branch A: isiZulu -> English -> English intent classifier -------
-    # "auto" uses hf/zero-shot when a classifier is configured, else dev-rules.
+    # "auto": hf when BRANCH_A_CLASSIFIER is set; otherwise nllb-rules when the
+    # ML libraries are installed (real translation, stand-in classifier);
+    # otherwise dev-rules (no translation at all).
     branch_a_engine: str = field(default_factory=lambda: _env("BRANCH_A_ENGINE", "auto"))
     translator_model: str = field(
         default_factory=lambda: _env("TRANSLATOR_MODEL", "facebook/nllb-200-distilled-600M")
