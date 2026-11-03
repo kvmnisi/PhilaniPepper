@@ -2,7 +2,12 @@
 
 Engines
   dev-rules  No models. Text is passed through untranslated and classified
-             with English keywords. Plumbing tests only (type English).
+             with English keywords, so isiZulu input ends up as OOS.
+             Plumbing tests only (type English).
+  nllb-rules NLLB translation for real + the English keyword stand-in
+             classifier. Lets isiZulu speech work end to end before a
+             classifier is trained. The classifier is still a stand-in, so
+             these results are excluded from reports.
   hf         NLLB translation + a fine-tuned English sequence classifier
              (BRANCH_A_CLASSIFIER) whose labels are the canonical intents.
   zero-shot  NLLB translation + an NLI model scoring each intent's English
@@ -129,7 +134,7 @@ class BranchA:
 
     def __init__(self, settings, engine):
         self.engine = engine
-        self.translator = NLLBTranslator(settings) if engine in ("hf", "zero-shot") else None
+        self.translator = NLLBTranslator(settings) if engine in ("nllb-rules", "hf", "zero-shot") else None
         if engine == "hf":
             self.classifier = HFIntentClassifier(settings)
         elif engine == "zero-shot":
@@ -139,9 +144,8 @@ class BranchA:
 
     @property
     def loaded(self):
-        if self.engine == "dev-rules":
-            return True
-        return self.translator.loaded and self.classifier.loaded
+        parts = [part for part in (self.translator, self.classifier) if part is not None]
+        return all(part.loaded for part in parts)
 
     def load(self):
         if self.translator:
@@ -156,7 +160,8 @@ class BranchA:
             translation_note = None
         else:
             translation = transcript
-            translation_note = "No translator loaded (dev-rules): text passed through untranslated."
+            translation_note = ("No translator loaded (dev-rules): text passed through untranslated, so isiZulu "
+                                "becomes OOS. Install backend/requirements-ml.txt to translate with NLLB.")
         translation_ms = _ms(start)
 
         start = time.perf_counter()

@@ -16,6 +16,7 @@
   };
   var MIC_LABELS = { idle: "Start speaking", listening: "Stop and send", success: "Start speaking", error: "Start speaking" };
   var BUSY = { uploading: 1, transcribing: 1, classifying: 1, executing: 1 };
+  var STAND_INS = { "dev-rules": "dev-rules (stand-in)", "nllb-rules": "NLLB + rules (stand-in classifier)" };
 
   var $ = {};
 
@@ -298,7 +299,7 @@
     }
     var truth = extras.trueIntent;
     var branchRows = [
-      branchRow("Engine", function (b) { return b.engine === "dev-rules" ? tag("dev-rules (stand-in)", "warn") : b.engine; }),
+      branchRow("Engine", function (b) { return STAND_INS[b.engine] ? tag(STAND_INS[b.engine], "warn") : b.engine; }),
       branchRow("Translation", function (b) { return b.translation_note ? b.translation_note : (b.translation || "—"); }, true),
       branchRow("Intent", function (b) {
         var node = el("span", null, [b.intent + " "]);

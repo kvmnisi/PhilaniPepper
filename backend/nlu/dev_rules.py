@@ -15,6 +15,10 @@ from backend.nlu.slots import normalise_text, _contains_word
 
 COURSE_INTENTS = {"ask_lecturer", "ask_course_time", "ask_course_venue"}
 
+# Engines whose intent decisions come from these keyword rules (or no ASR at
+# all). Their rows are excluded from reports and flagged in the UI.
+STAND_IN_ENGINES = {"dev-rules", "nllb-rules", "none"}
+
 
 @lru_cache(maxsize=1)
 def _keywords():
