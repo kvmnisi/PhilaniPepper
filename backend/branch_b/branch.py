@@ -11,7 +11,7 @@ Engines
 import threading
 import time
 
-from backend.branch_b.prompt import encode_example
+from backend.branch_b.scoring import score_labels
 from backend.nlu import dev_rules
 from backend.nlu.intents import intent_labels, normalise_label
 from backend.nlu.slots import extract_slots
@@ -56,26 +56,7 @@ class InkubaLMClassifier:
 
     def classify(self, text):
         self.load()
-        torch = self._torch
-        labels = intent_labels()
-        encoded = [encode_example(self.tokenizer, text, label) for label in labels]
-        width = max(len(ids) for ids, _ in encoded)
-        input_ids = torch.full((len(labels), width), self.pad_id, dtype=torch.long)
-        attention = torch.zeros((len(labels), width), dtype=torch.long)
-        target_mask = torch.zeros((len(labels), width), dtype=torch.float32)
-        for row, (ids, prompt_len) in enumerate(encoded):
-            input_ids[row, : len(ids)] = torch.tensor(ids)
-            attention[row, : len(ids)] = 1
-            target_mask[row, prompt_len : len(ids)] = 1.0
-
-        input_ids, attention, target_mask = (t.to(self.device) for t in (input_ids, attention, target_mask))
-        with torch.inference_mode():
-            logits = self.model(input_ids=input_ids, attention_mask=attention).logits.float()
-        log_probs = torch.log_softmax(logits[:, :-1], dim=-1)
-        token_lp = log_probs.gather(-1, input_ids[:, 1:].unsqueeze(-1)).squeeze(-1)
-        label_scores = (token_lp * target_mask[:, 1:]).sum(dim=-1)
-        probs = torch.softmax(label_scores, dim=0).tolist()
-        scores = dict(zip(labels, probs))
+        scores = score_labels(self.model, self.tokenizer, text, intent_labels(), self.device, self.pad_id, self._torch)
         best = max(scores, key=scores.get)
         return best, scores
 
