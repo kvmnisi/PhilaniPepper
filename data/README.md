@@ -20,8 +20,6 @@ Wits information supplied by the project owner.
   They are only used during teaching blocks from `calendar.json`.
 - **Lecturers.** Set `lecturer` per course. Until then, "who teaches X"
   points students to the Honours coordinator.
-- **The FNB Building** is an exam venue (COMS4050A) but is not labelled on the
-  campus map, so it has no grid square or marker.
 - **Marker positions and grid squares** were read off the campus map image.
   Check them on site.
 

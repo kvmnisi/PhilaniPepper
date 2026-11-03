@@ -118,7 +118,9 @@ def test_directions():
     assert "also on West Campus, at grid D3" in west["response"]
     room = execute_intent("ask_directions", {"location": "MSL005"})
     assert "in this building" in room["response"] and room["display"]["map"] is None
-    assert "not marked on the campus map" in execute_intent("ask_directions", {"location": "fnb"})["response"]
+    fnb = execute_intent("ask_directions", {"location": "fnb"})
+    assert "Margo Steele" in fnb["response"] and "West Campus, at grid B3" in fnb["response"]
+    assert extract_slots("where is the school of accountancy") == {"location": "fnb"}
     assert execute_intent("ask_directions", {})["status"] == "needs_slot"
 
 

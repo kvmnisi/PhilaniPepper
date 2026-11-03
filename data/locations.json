@@ -162,16 +162,23 @@
     },
     {
       "id": "fnb",
-      "name": "FNB Building",
-      "campus": null,
-      "grid": null,
-      "marker": null,
+      "name": "Wits Margo Steele School of Accountancy (FNB Building)",
+      "campus": "West",
+      "grid": "B3",
+      "marker": {
+        "x": 0.4369,
+        "y": 0.4002
+      },
       "aliases": [
         "fnb building",
         "fnb basement annex",
-        "fnb"
-      ],
-      "note": "Check the exam venue notice, or ask at General Enquiries (UG 01) in this building."
+        "fnb",
+        "wits margo steele school of accountancy",
+        "margo steele school of accountancy",
+        "margo steele",
+        "school of accountancy",
+        "accountancy"
+      ]
     }
   ]
 }
