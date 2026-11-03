@@ -275,11 +275,11 @@ Add `--use-audio` to transcribe `audio_path` first.
 
 ## Fonts and branding
 
-Headings ask for **Europa Grotesk SH Bold**, then **Grotesk** (SoftMaker),
-then fall back to `"Arial Narrow", Arial, sans-serif`. Both are commercial
-fonts, so no font files are committed. See
-[`frontend/assets/fonts/README.md`](frontend/assets/fonts/README.md) for how to
-supply licensed files locally. The Wits crest in `frontend/assets/` is used
+Headings use **Grotesk Medium** (SoftMaker, `frontend/assets/fonts/Grotesk-Medium.ttf`),
+which is committed for this non-commercial project. If **Europa Grotesk SH Bold** is
+installed or supplied locally it takes priority; otherwise the fallback is
+`"Arial Narrow", Arial, sans-serif`. See
+[`frontend/assets/fonts/README.md`](frontend/assets/fonts/README.md). The Wits crest in `frontend/assets/` is used
 for this University project. Confirm the use with University brand guidelines
 before any public deployment.
 
