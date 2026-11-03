@@ -289,10 +289,10 @@ Add `--use-audio` to transcribe `audio_path` first.
 
 ## Look and feel
 
-The interface follows the project owner's portfolio style, light mode only:
-**Bebas Neue** for headings, labels and buttons, **Alice** for spoken text
-(both from Google Fonts), glossy gradient buttons, bordered cards that lift
-on hover, and a gold scrollbar. Accents are Wits gold `#ffb91c` and blue
+The interface follows the project owner's portfolio style in one dark theme
+(`#1f1f1f` background, white text): **Bebas Neue** for headings, labels and
+buttons, **Alice** for spoken text (both from Google Fonts), glossy gradient
+buttons, bordered cards that lift on hover, and a gold scrollbar. Accents are Wits gold `#ffb91c` and blue
 `#002d72`. Without internet (e.g. on Pepper offline) headings fall back to
 the committed **Grotesk Medium** font, then `"Arial Narrow", Arial`. The Wits
 crest in `frontend/assets/` is used for this University project; confirm the
