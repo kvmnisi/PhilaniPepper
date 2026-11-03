@@ -298,55 +298,19 @@ the committed **Grotesk Medium** font, then `"Arial Narrow", Arial`. The Wits
 crest in `frontend/assets/` is used for this University project; confirm the
 use with University brand guidelines before any public deployment.
 
-## Training Branch B (InkubaLM + LoRA)
+## Branch B adapter (InkubaLM + LoRA)
 
-`backend/branch_b/train.py` fine-tunes `lelapa/InkubaLM-0.4B` with a LoRA
-adapter. It uses exactly the prompt (`branch_b/prompt.py`) and label scoring
-(`branch_b/scoring.py`) of the live backend, so the adapter drops straight in.
+Model training happens outside this repository, in a Colab notebook. Only the
+finished adapter is brought in, the same way as `WhisperModel/`: put the
+adapter folder at `InkubaLMAdapter/` (it holds `adapter_config.json`,
+`adapter_model.safetensors`, the tokenizer files and `training_info.json`).
+The backend then uses it automatically (`BRANCH_B_ENGINE=auto`), or set
+`INKUBALM_ADAPTER` to another path. Weights (`*.safetensors`) are git-ignored.
 
-**Data** (UTF-8 CSV; only rows with `verified` = `yes` are used):
-
-| File | Columns | Use |
-| --- | --- | --- |
-| `data/branch_b_train.csv` | `text,intent,verified` | one verified isiZulu request per row |
-| `data/branch_b_templates.csv` | `template,intent,verified` | requests with `{course}`, `{code}`, `{weekday}`, `{location}` or `{contact}`, expanded with every value from `data/`. One verified "class" phrasing with `{course}` trains all 11 courses, so students saying *class* for a course is covered. |
-| `data/intent_dataset.csv` | the recordings sheet | **test set only**, passed as `--exclude`: matching sentences are removed from training |
-
-**Train on Colab (GPU runtime):**
-
-```bash
-git clone -b claude/pensive-brown-6nw0uu https://github.com/kvmnisi/PhilaniPepper && cd PhilaniPepper
-```
-
-```bash
-pip install -r backend/requirements-ml.txt
-```
-
-Upload the CSVs into `data/`, check the data first, then train:
-
-```bash
-python -m backend.branch_b.train --data data/branch_b_train.csv --templates data/branch_b_templates.csv --exclude data/intent_dataset.csv --dry-run
-```
-
-```bash
-python -m backend.branch_b.train --data data/branch_b_train.csv --templates data/branch_b_templates.csv --exclude data/intent_dataset.csv --out models/inkubalm_intent_lora
-```
-
-The dry run prints examples per intent and warns about intents with fewer
-than 5 examples. Training saves the best adapter (by validation macro-F1) with
-`metrics.json` and `training_info.json` to `models/inkubalm_intent_lora/`
-(git-ignored). Download that folder, then serve and test it:
-
-```bash
-BRANCH_B_ENGINE=inkubalm INKUBALM_ADAPTER=models/inkubalm_intent_lora uvicorn backend.main:app --port 8000
-```
-
-```bash
-python -m backend.evaluation.batch data/intent_dataset.csv --use-audio --branches both
-```
-
-Validation scores come from held-out training phrasings. The reported Branch
-B result is the batch run on the recordings.
+On load, the backend checks `training_info.json`: an adapter trained with a
+different prompt format or intent label set is refused, because its scores
+would be meaningless. Test it on the recordings with
+`python -m backend.evaluation.batch data/intent_dataset.csv --use-audio --branches both`.
 
 ## 3D Pepper
 

@@ -8,9 +8,12 @@ Engines
              a probability, and the output is always a valid label.
 """
 
+import json
 import threading
 import time
+from pathlib import Path
 
+from backend.branch_b.prompt import PROMPT_TEMPLATE
 from backend.branch_b.scoring import score_labels
 from backend.nlu import dev_rules
 from backend.nlu.intents import intent_labels, normalise_label
@@ -19,6 +22,24 @@ from backend.nlu.slots import extract_slots
 
 def _ms(start):
     return round((time.perf_counter() - start) * 1000.0, 1)
+
+
+def check_adapter_compatible(adapter_dir):
+    """Refuse an adapter trained with a different prompt or label set.
+
+    The Colab notebook writes training_info.json next to the adapter; label
+    scoring only means something if prompt and labels match this backend.
+    """
+    info_path = Path(adapter_dir) / "training_info.json"
+    if not info_path.exists():
+        raise RuntimeError("%s has no training_info.json; cannot confirm it matches this backend's prompt and labels."
+                           % adapter_dir)
+    info = json.loads(info_path.read_text(encoding="utf-8"))
+    if info.get("prompt_template") != PROMPT_TEMPLATE:
+        raise RuntimeError("Adapter was trained with a different prompt format: %r" % info.get("prompt_template"))
+    if list(info.get("labels") or []) != intent_labels():
+        raise RuntimeError("Adapter was trained on different intent labels: %s" % info.get("labels"))
+    return info
 
 
 class InkubaLMClassifier:
@@ -35,6 +56,7 @@ class InkubaLMClassifier:
                 return
             if not self.adapter:
                 raise RuntimeError("BRANCH_B_ENGINE=inkubalm needs INKUBALM_ADAPTER (the LoRA adapter path).")
+            check_adapter_compatible(self.adapter)
             import torch
             from peft import PeftModel
             from transformers import AutoModelForCausalLM, AutoTokenizer

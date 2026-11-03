@@ -13,7 +13,7 @@ data/intent_dataset.csv
 *.wav
 !tests/fixtures/*.wav
 
-# Model weights and checkpoints
+# Model weights and checkpoints (WhisperModel/ and InkubaLMAdapter/ keep only their configs in git)
 models/
 checkpoints/
 *.safetensors

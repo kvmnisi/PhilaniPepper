@@ -25,6 +25,19 @@ def _default_whisper_model():
     return "dsfsi-anv/whisper-small-anv-zulu-first-batch"
 
 
+LOCAL_ADAPTER_DIR = REPO_ROOT / "InkubaLMAdapter"
+
+
+def _default_inkubalm_adapter():
+    """The finished LoRA adapter in ./InkubaLMAdapter when its weights are present
+    (trained outside this repo with the Colab notebook; weights are git-ignored)."""
+    if (LOCAL_ADAPTER_DIR / "adapter_config.json").exists() and any(
+        (LOCAL_ADAPTER_DIR / name).exists() for name in ("adapter_model.safetensors", "adapter_model.bin")
+    ):
+        return str(LOCAL_ADAPTER_DIR)
+    return None
+
+
 def _env(name, default=None):
     value = os.environ.get(name)
     return value if value not in (None, "") else default
@@ -88,7 +101,7 @@ class Settings:
     # --- Branch B: isiZulu -> InkubaLM-0.4B (+ LoRA) -> intent ------------
     branch_b_engine: str = field(default_factory=lambda: _env("BRANCH_B_ENGINE", "auto"))
     inkubalm_model: str = field(default_factory=lambda: _env("INKUBALM_MODEL", "lelapa/InkubaLM-0.4B"))
-    inkubalm_adapter: str = field(default_factory=lambda: _env("INKUBALM_ADAPTER"))
+    inkubalm_adapter: str = field(default_factory=lambda: _env("INKUBALM_ADAPTER") or _default_inkubalm_adapter())
     inkubalm_trust_remote_code: bool = field(
         default_factory=lambda: _env_bool("INKUBALM_TRUST_REMOTE_CODE", True)
     )
