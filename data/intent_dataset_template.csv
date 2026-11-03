@@ -1,0 +1,2 @@
+id,text,intent,course,weekday,verified,verified_by,audio_path,reference_transcript,notes
+example-1,<isiZulu phrasing goes here>,ask_course_venue,COMS9001,,no,,,,Template row: replace with native-speaker-verified data

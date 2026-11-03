@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>isiZulu Wits Assistant</title>
+  <meta name="description" content="Speak isiZulu to Pepper: the tablet interface for the isiZulu Wits Assistant research project.">
+  <meta name="theme-color" content="#002d72">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-state="idle" data-mode="student">
+  <header class="topbar">
+    <button class="brand" id="brand" type="button" title="isiZulu Wits Assistant">
+      <img class="brand-crest" src="assets/wits-crest.png" alt="" width="48" height="48">
+      <span class="brand-text">
+        <span class="brand-title">isiZulu Wits Assistant</span>
+        <span class="brand-sub">University of the Witwatersrand &middot; Pepper</span>
+      </span>
+    </button>
+    <div class="topbar-actions">
+      <span class="pill" id="connection" data-status="checking">Connecting&hellip;</span>
+      <a class="btn btn-outline" id="selfServiceTop" href="https://self-service.wits.ac.za/" target="_blank" rel="noopener noreferrer">
+        Student Self-Service<span class="ext" aria-hidden="true">&#8599;</span>
+      </a>
+    </div>
+  </header>
+
+  <div class="banner" id="demoBanner" hidden>
+    <strong>Demo mode.</strong> The assistant service is not connected, so responses are simulated and speech is not understood.
+  </div>
+
+  <main class="stage">
+    <section class="robot-panel" aria-label="Speak to Pepper">
+      <div class="pepper" aria-hidden="true">
+        <svg viewBox="0 0 200 200" class="pepper-face" focusable="false">
+          <defs>
+            <radialGradient id="headShade" cx="45%" cy="35%" r="70%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#e3e9f2"/>
+            </radialGradient>
+          </defs>
+          <circle cx="100" cy="100" r="92" fill="url(#headShade)" stroke="#d3dbe7" stroke-width="2"/>
+          <g class="eyes">
+            <g class="eye eye-left">
+              <circle class="eye-ring" cx="66" cy="92" r="19"/>
+              <circle class="eye-core" cx="66" cy="92" r="9"/>
+            </g>
+            <g class="eye eye-right">
+              <circle class="eye-ring" cx="134" cy="92" r="19"/>
+              <circle class="eye-core" cx="134" cy="92" r="9"/>
+            </g>
+          </g>
+          <path class="mouth" d="M84 140 Q100 151 116 140"/>
+        </svg>
+      </div>
+
+      <p class="state-label" id="stateLabel" role="status" aria-live="polite">Tap to speak isiZulu</p>
+
+      <button class="mic" id="micButton" type="button" aria-pressed="false" aria-label="Start speaking">
+        <span class="mic-halo" id="micHalo" aria-hidden="true"></span>
+        <svg class="mic-icon icon-mic" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 15a3.5 3.5 0 0 0 3.5-3.5v-6a3.5 3.5 0 1 0-7 0v6A3.5 3.5 0 0 0 12 15Z"/>
+          <path d="M18.5 11.5a6.5 6.5 0 0 1-13 0M12 18v3.5M8.5 21.5h7" fill="none" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <svg class="mic-icon icon-stop" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <rect x="6.5" y="6.5" width="11" height="11" rx="2.5"/>
+        </svg>
+        <span class="mic-spinner" aria-hidden="true"></span>
+      </button>
+
+      <p class="mic-hint" id="micHint">Tap the microphone, speak in isiZulu, then tap again.</p>
+      <p class="timer" id="timer" aria-hidden="true">0:00</p>
+
+      <ol class="steps" id="steps" aria-label="Progress">
+        <li data-step="listening"><span class="dot"></span>Listening</li>
+        <li data-step="uploading"><span class="dot"></span>Sending</li>
+        <li data-step="transcribing"><span class="dot"></span>Transcribing</li>
+        <li data-step="classifying"><span class="dot"></span>Understanding</li>
+        <li data-step="executing"><span class="dot"></span>Responding</li>
+      </ol>
+    </section>
+
+    <section class="conversation" aria-label="Conversation">
+      <article class="card card-heard">
+        <h2 class="card-label">You said</h2>
+        <p class="transcript is-empty" id="transcript">Your words will appear here.</p>
+      </article>
+
+      <article class="card card-reply">
+        <h2 class="card-label"><span class="speaker-dot" aria-hidden="true"></span>Pepper</h2>
+        <p class="response" id="response">Sawubona! Ask me about your classes, the time, or Student Self-Service.</p>
+      </article>
+
+      <article class="card card-result" id="resultCard" hidden></article>
+
+      <article class="card card-tips" id="tips">
+        <h2 class="card-label">You can ask about</h2>
+        <ul class="chips">
+          <li>the time</li>
+          <li>your current or next class</li>
+          <li>who teaches a course</li>
+          <li>when or where a course meets</li>
+          <li>a day&rsquo;s timetable</li>
+          <li>the list of courses</li>
+          <li>the semester</li>
+          <li>Student Self-Service</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <section class="research" id="research" hidden aria-label="Research panel">
+    <div class="research-head">
+      <h2>Research mode</h2>
+      <p class="research-note">Technical details for controlled sessions. Students never see this panel.</p>
+      <button class="btn btn-outline btn-small" id="exitResearch" type="button">Exit research mode</button>
+    </div>
+
+    <div class="research-grid">
+      <div class="panel">
+        <h3>Pipeline</h3>
+        <div class="field">
+          <span class="field-label" id="branchLabel">Intent branch</span>
+          <div class="segmented" role="radiogroup" aria-labelledby="branchLabel" id="branchControl">
+            <button type="button" role="radio" data-value="A" aria-checked="true">Branch A</button>
+            <button type="button" role="radio" data-value="B" aria-checked="false">Branch B</button>
+            <button type="button" role="radio" data-value="both" aria-checked="false">Compare both</button>
+          </div>
+          <p class="help" id="branchHelp">A: isiZulu &rarr; English translation &rarr; English classifier.</p>
+        </div>
+        <div class="field" id="primaryField" hidden>
+          <label class="field-label" for="primarySelect">Pepper executes</label>
+          <select id="primarySelect">
+            <option value="A">Branch A prediction</option>
+            <option value="B">Branch B prediction</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="sessionId">Session ID</label>
+          <div class="input-row">
+            <input id="sessionId" type="text" autocomplete="off" spellcheck="false">
+            <button class="btn btn-outline btn-small" id="newSession" type="button">New</button>
+          </div>
+        </div>
+        <label class="check"><input type="checkbox" id="logTrials"> Log trials to the research CSV</label>
+        <label class="check"><input type="checkbox" id="saveAudio"> Save audio with logged trials</label>
+        <label class="check"><input type="checkbox" id="speakAloud"> Read responses aloud in this browser</label>
+      </div>
+
+      <div class="panel">
+        <h3>Ground truth <span class="muted">(optional)</span></h3>
+        <div class="field">
+          <label class="field-label" for="refTranscript">Reference transcript</label>
+          <input id="refTranscript" type="text" autocomplete="off" spellcheck="false" placeholder="What the participant actually said">
+        </div>
+        <div class="field">
+          <label class="field-label" for="trueIntent">True intent</label>
+          <select id="trueIntent"><option value="">&mdash; not labelled &mdash;</option></select>
+        </div>
+        <div class="field-pair">
+          <div class="field">
+            <label class="field-label" for="trueCourse">True course</label>
+            <select id="trueCourse"><option value="">&mdash;</option></select>
+          </div>
+          <div class="field">
+            <label class="field-label" for="trueWeekday">True weekday</label>
+            <select id="trueWeekday">
+              <option value="">&mdash;</option>
+              <option value="monday">Monday</option><option value="tuesday">Tuesday</option>
+              <option value="wednesday">Wednesday</option><option value="thursday">Thursday</option>
+              <option value="friday">Friday</option><option value="saturday">Saturday</option>
+              <option value="sunday">Sunday</option><option value="today">Today</option>
+              <option value="tomorrow">Tomorrow</option>
+            </select>
+          </div>
+        </div>
+        <label class="check"><input type="checkbox" id="clearTruth" checked> Clear after each trial</label>
+      </div>
+
+      <div class="panel">
+        <h3>Bypass ASR</h3>
+        <p class="help">Developer fallback: send a typed transcript straight to the intent branch(es).</p>
+        <form id="textForm" class="field">
+          <label class="field-label" for="textInput">Transcript</label>
+          <textarea id="textInput" rows="2" spellcheck="false" placeholder="e.g. a verified isiZulu command"></textarea>
+          <button class="btn btn-primary btn-small" type="submit">Send transcript</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h3>Backend</h3>
+        <form id="apiForm" class="field">
+          <label class="field-label" for="apiUrl">API base URL</label>
+          <div class="input-row">
+            <input id="apiUrl" type="url" autocomplete="off" spellcheck="false">
+            <button class="btn btn-outline btn-small" type="submit">Connect</button>
+          </div>
+        </form>
+        <dl class="engines" id="engines"><dt>Status</dt><dd>Checking&hellip;</dd></dl>
+        <p class="warning" id="devWarning" hidden>Development stand-ins are active. Their output is for plumbing tests only and is excluded from reports.</p>
+      </div>
+
+      <div class="panel panel-wide">
+        <h3>Last trial</h3>
+        <div id="trialDetail"><p class="muted">No trial yet.</p></div>
+      </div>
+
+      <div class="panel panel-wide">
+        <div class="panel-head">
+          <h3>This session</h3>
+          <div class="panel-actions">
+            <a class="btn btn-outline btn-small" id="exportCsv" href="#" target="_blank" rel="noopener">Download research CSV</a>
+            <button class="btn btn-outline btn-small" id="exportJson" type="button">Download session JSON</button>
+          </div>
+        </div>
+        <div id="history"><p class="muted">Trials you run appear here.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>Pepper never asks for your password. Sign in only on the official
+      <a href="https://self-service.wits.ac.za/" target="_blank" rel="noopener noreferrer">Wits Self-Service</a> page.</p>
+    <p class="sample-note" id="sampleNote" hidden>Timetable shows sample data.</p>
+  </footer>
+
+  <script src="js/env.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/recorder.js"></script>
+  <script src="js/pepper.js"></script>
+  <script src="js/demo.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

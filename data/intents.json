@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "notes": "Canonical intent labels shared by Branch A, Branch B, the dispatcher and the evaluation tools. Do not add per-course intents: course, weekday and location are slots.",
+  "intents": [
+    {
+      "label": "greeting",
+      "description": "The student greets Pepper.",
+      "en_hypothesis": "This is a greeting.",
+      "required_slots": [],
+      "optional_slots": []
+    },
+    {
+      "label": "help",
+      "description": "The student asks what Pepper can do.",
+      "en_hypothesis": "This is a request for help or for what the assistant can do.",
+      "required_slots": [],
+      "optional_slots": []
+    },
+    {
+      "label": "ask_time",
+      "description": "The student asks for the current time.",
+      "en_hypothesis": "This asks what the current time is.",
+      "required_slots": [],
+      "optional_slots": []
+    },
+    {
+      "label": "ask_current_class",
+      "description": "The student asks which class is on right now.",
+      "en_hypothesis": "This asks which class is happening right now.",
+      "required_slots": [],
+      "optional_slots": []
+    },
+    {
+      "label": "ask_next_class",
+      "description": "The student asks which class is next.",
+      "en_hypothesis": "This asks what the next class is.",
+      "required_slots": [],
+      "optional_slots": ["course"]
+    },
+    {
+      "label": "ask_lecturer",
+      "description": "The student asks who lectures a course.",
+      "en_hypothesis": "This asks who the lecturer of a course is.",
+      "required_slots": ["course"],
+      "optional_slots": []
+    },
+    {
+      "label": "ask_course_time",
+      "description": "The student asks when a course meets.",
+      "en_hypothesis": "This asks when a course takes place.",
+      "required_slots": ["course"],
+      "optional_slots": ["weekday"]
+    },
+    {
+      "label": "ask_course_venue",
+      "description": "The student asks where a course is held.",
+      "en_hypothesis": "This asks where a course is held.",
+      "required_slots": ["course"],
+      "optional_slots": []
+    },
+    {
+      "label": "ask_day_schedule",
+      "description": "The student asks for the timetable of a day (today if no weekday is given).",
+      "en_hypothesis": "This asks for the class timetable of a day.",
+      "required_slots": [],
+      "optional_slots": ["weekday"]
+    },
+    {
+      "label": "list_courses",
+      "description": "The student asks which courses are offered.",
+      "en_hypothesis": "This asks for the list of courses.",
+      "required_slots": [],
+      "optional_slots": []
+    },
+    {
+      "label": "ask_current_semester",
+      "description": "The student asks which semester it is.",
+      "en_hypothesis": "This asks which semester it currently is.",
+      "required_slots": [],
+      "optional_slots": []
+    },
+    {
+      "label": "open_self_service",
+      "description": "The student asks to open Wits Student Self-Service.",
+      "en_hypothesis": "This asks to open the student self-service portal.",
+      "required_slots": [],
+      "optional_slots": []
+    },
+    {
+      "label": "OOS",
+      "description": "Out of scope: anything the assistant does not support.",
+      "en_hypothesis": "This is about something unrelated to classes, time or self-service.",
+      "required_slots": [],
+      "optional_slots": []
+    }
+  ],
+  "slots": {
+    "course": "Course code from data/courses.json, e.g. COMS9001. Filled from a spoken code or a course alias.",
+    "weekday": "monday ... sunday, or the relative values today / tomorrow.",
+    "location": "A venue name known to the timetable."
+  }
+}

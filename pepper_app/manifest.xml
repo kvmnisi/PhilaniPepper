@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package version="0.1.0" uuid="isizulu-wits-assistant">
+    <names>
+        <name lang="en_US">isiZulu Wits Assistant</name>
+    </names>
+    <supportedLanguages>
+        <language>en_US</language>
+    </supportedLanguages>
+    <descriptionLanguages>
+        <language>en_US</language>
+    </descriptionLanguages>
+    <descriptions>
+        <description lang="en_US">Speak isiZulu to Pepper: classes, venues, lecturers, timetable and Wits Student Self-Service.</description>
+    </descriptions>
+    <contents>
+        <behaviorContent path=".">
+            <nature>interactive</nature>
+            <names>
+                <name lang="en_US">isiZulu Wits Assistant</name>
+            </names>
+            <autonomous>
+                <condition purpose="launchTrigger"><![CDATA[]]></condition>
+            </autonomous>
+        </behaviorContent>
+    </contents>
+    <requirements>
+        <naoqiRequirement minVersion="2.5"/>
+        <robotRequirement model="JULIETTE"/>
+    </requirements>
+</package>

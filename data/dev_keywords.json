@@ -1,0 +1,31 @@
+{
+  "notice": "DEVELOPMENT ONLY. These keyword lists drive the 'dev-rules' stand-in classifiers so the pipeline can be exercised before the real models exist. They are NOT a research baseline. The isiZulu entries were drafted with AI assistance and are UNVERIFIED: a native speaker must check them before they are used for anything beyond plumbing tests. Results produced by dev-rules must never be reported.",
+  "en": {
+    "greeting": ["hello", "hi", "hey", "good morning", "good afternoon", "good evening", "greetings"],
+    "help": ["help", "what can you do", "how do i use", "assist me"],
+    "ask_time": ["what time is it", "the time", "current time", "time now", "clock"],
+    "ask_current_class": ["current class", "class now", "class right now", "on right now", "happening now", "am i in now"],
+    "ask_next_class": ["next class", "next lecture", "coming class", "class after this", "next lesson"],
+    "ask_lecturer": ["lecturer", "who teaches", "who is teaching", "teacher", "professor", "taught by"],
+    "ask_course_time": ["when is", "when does", "what time is", "what time does", "meet", "time of"],
+    "ask_course_venue": ["where", "venue", "room", "which building", "held", "location of"],
+    "ask_day_schedule": ["schedule", "timetable", "classes on", "classes today", "classes tomorrow", "lectures on"],
+    "list_courses": ["list courses", "which courses", "all courses", "what courses", "list of courses", "modules", "courses are there"],
+    "ask_current_semester": ["semester", "which term", "what term"],
+    "open_self_service": ["self service", "self-service", "portal", "my results", "registration", "student portal"]
+  },
+  "zu": {
+    "greeting": ["sawubona", "sanibonani", "unjani"],
+    "help": ["ngisize", "usizo", "siza"],
+    "ask_time": ["isikhathi", "sikhathi", "ihora"],
+    "ask_current_class": ["manje", "njengamanje"],
+    "ask_next_class": ["elandelayo", "esilandelayo", "okulandelayo"],
+    "ask_lecturer": ["ngubani", "umfundisi", "uthisha", "ofundisa"],
+    "ask_course_time": ["nini", "ngasikhathi sini"],
+    "ask_course_venue": ["kuphi", "ikuphi", "iphi", "igumbi", "indawo"],
+    "ask_day_schedule": ["uhlelo", "isheduli", "ithayimthebula"],
+    "list_courses": ["izifundo", "zonke izifundo", "amamojula"],
+    "ask_current_semester": ["isemester", "isimesta", "ithemu"],
+    "open_self_service": ["self service", "self-service", "iportal", "iphothali"]
+  }
+}

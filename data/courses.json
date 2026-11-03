@@ -1,0 +1,72 @@
+{
+  "is_sample": true,
+  "notice": "SAMPLE DATA. Course codes (COMS90xx), lecturers and the venue/time assignments are placeholders for development only. Replace this file with the confirmed Honours timetable before any research session.",
+  "timezone": "Africa/Johannesburg",
+  "self_service_url": "https://self-service.wits.ac.za/",
+  "semesters": [
+    { "name": "Semester 1, 2026 (sample dates)", "start": "2026-02-09", "end": "2026-06-12" },
+    { "name": "Semester 2, 2026 (sample dates)", "start": "2026-07-20", "end": "2026-11-20" }
+  ],
+  "courses": [
+    {
+      "code": "COMS9001",
+      "name": "Robotics",
+      "aliases": ["robotics", "robot"],
+      "lecturer": "Dr A. Sample",
+      "sessions": [
+        { "day": "monday", "start": "10:15", "end": "12:00", "venue": "MSL004" },
+        { "day": "wednesday", "start": "14:15", "end": "16:00", "venue": "MSL004" }
+      ]
+    },
+    {
+      "code": "COMS9002",
+      "name": "Machine Learning",
+      "aliases": ["machine learning", "ml"],
+      "lecturer": "Prof B. Sample",
+      "sessions": [
+        { "day": "tuesday", "start": "08:00", "end": "09:45", "venue": "MSL005" },
+        { "day": "thursday", "start": "08:00", "end": "09:45", "venue": "MSL005" }
+      ]
+    },
+    {
+      "code": "COMS9003",
+      "name": "Computer Vision",
+      "aliases": ["computer vision", "vision"],
+      "lecturer": "Dr C. Sample",
+      "sessions": [
+        { "day": "monday", "start": "14:15", "end": "16:00", "venue": "MSL006" },
+        { "day": "thursday", "start": "10:15", "end": "12:00", "venue": "MSL006" }
+      ]
+    },
+    {
+      "code": "COMS9004",
+      "name": "Natural Language Processing",
+      "aliases": ["natural language processing", "nlp", "language processing"],
+      "lecturer": "Dr D. Sample",
+      "sessions": [
+        { "day": "tuesday", "start": "10:15", "end": "12:00", "venue": "MSL009" },
+        { "day": "friday", "start": "08:00", "end": "09:45", "venue": "MSL009" }
+      ]
+    },
+    {
+      "code": "COMS9005",
+      "name": "Computer Security",
+      "aliases": ["computer security", "security"],
+      "lecturer": "Prof E. Sample",
+      "sessions": [
+        { "day": "wednesday", "start": "08:00", "end": "09:45", "venue": "MSL005" },
+        { "day": "friday", "start": "10:15", "end": "12:00", "venue": "MSL005" }
+      ]
+    },
+    {
+      "code": "COMS9006",
+      "name": "Research Methods",
+      "aliases": ["research methods", "research"],
+      "lecturer": "Dr F. Sample",
+      "sessions": [
+        { "day": "thursday", "start": "14:15", "end": "16:00", "venue": "MSL004" }
+      ]
+    }
+  ],
+  "locations": ["MSL004", "MSL005", "MSL006", "MSL009"]
+}

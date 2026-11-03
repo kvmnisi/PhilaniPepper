@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ChoregrapheProject xmlns="http://www.ald.softbankrobotics.com/schema/choregraphe/project.xsd" xar_version="3">
+    <Box name="root" id="-1" localization="8" tooltip="Root box of the isiZulu Wits Assistant." x="0" y="0">
+        <bitmap>media/images/box/root.png</bitmap>
+        <script language="4">
+            <content>
+                <![CDATA[]]>
+            </content>
+        </script>
+        <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+        <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+        <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+        <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+        <Timeline enable="0">
+            <BehaviorLayer name="behavior_layer1">
+                <BehaviorKeyframe name="keyframe1" index="1">
+                    <Diagram>
+                        <Box name="isiZulu Assistant" id="1" localization="8" tooltip="Shows the tablet page and runs scripts/task_executor.py (record, call backend, speak)." x="240" y="120">
+                            <bitmap>media/images/box/box-python-script.png</bitmap>
+                            <script language="4">
+                                <content>
+                                    <![CDATA[import os
+import sys
+
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        self.assistant = None
+
+    def onLoad(self):
+        scripts = os.path.join(self.behaviorAbsolutePath(), "scripts")
+        if scripts not in sys.path:
+            sys.path.append(scripts)
+
+    def onUnload(self):
+        if self.assistant:
+            self.assistant.stop()
+            self.assistant = None
+
+    def onInput_onStart(self):
+        import task_executor
+        reload(task_executor)
+        base = self.behaviorAbsolutePath()
+        config = task_executor.load_config(os.path.join(base, "scripts", "config.json"))
+        session = self.session()
+        try:
+            tablet = session.service("ALTabletService")
+            tablet.loadApplication(self.packageUid())
+            tablet.showWebview()
+        except Exception as error:
+            self.logger.warning("Tablet unavailable: %s" % error)
+        self.assistant = task_executor.Assistant(session, config)
+        self.assistant.start()
+        self.logger.info("isiZulu Wits Assistant started; backend %s" % config["backend_url"])
+
+    def onInput_onStop(self):
+        self.onUnload()
+        self.onStopped()]]>
+                                </content>
+                            </script>
+                            <Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" />
+                            <Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" />
+                            <Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" />
+                            <Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" />
+                        </Box>
+                        <Link inputowner="1" indexofinput="2" outputowner="0" indexofoutput="2" />
+                        <Link inputowner="1" indexofinput="3" outputowner="0" indexofoutput="3" />
+                        <Link inputowner="0" indexofinput="4" outputowner="1" indexofoutput="4" />
+                    </Diagram>
+                </BehaviorKeyframe>
+            </BehaviorLayer>
+        </Timeline>
+    </Box>
+</ChoregrapheProject>

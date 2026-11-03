@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+*.egg-info/
+
+# Research data: participant audio and trial logs never go to GitHub
+data/logs/
+data/recordings/
+data/intent_dataset.csv
+*.wav
+!tests/fixtures/*.wav
+
+# Model weights and checkpoints
+models/
+checkpoints/
+*.safetensors
+*.bin
+*.pt
+
+# Proprietary fonts: supply licensed files locally (see frontend/assets/fonts/README.md)
+frontend/assets/fonts/*.ttf
+frontend/assets/fonts/*.otf
+frontend/assets/fonts/*.woff
+frontend/assets/fonts/*.woff2
+pepper_app/html/assets/fonts/*.ttf
+pepper_app/html/assets/fonts/*.otf
+pepper_app/html/assets/fonts/*.woff
+pepper_app/html/assets/fonts/*.woff2
+
+# Secrets and local config
+.env
+.env.*
+!.env.example
+
+# Tooling
+.vercel/
+node_modules/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

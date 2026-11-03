@@ -1,0 +1,9 @@
+{
+  "backend_url": "http://192.168.1.100:8000",
+  "branch": "A",
+  "record_seconds": 6,
+  "recordings_dir": "/home/nao/recordings/isizulu",
+  "microphone_channels": [0, 0, 1, 0],
+  "language": "English",
+  "request_timeout_s": 60
+}
