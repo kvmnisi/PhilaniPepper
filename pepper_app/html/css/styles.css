@@ -328,6 +328,26 @@ button:focus-visible, a:focus-visible { outline: 3px solid #ffb91c; outline-offs
 /* ---------- Pepper face ---------- */
 .pepper { width: 188px; height: 188px; filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.12)); }
 .pepper-face { width: 100%; height: 100%; display: block; }
+/* 3D Pepper (js/pepper3d.js) replaces the drawn face when the meshes are installed. */
+.pepper.has-3d {
+  position: relative;
+  width: 250px; height: 310px;
+  filter: none;
+  touch-action: pan-y;
+  background: radial-gradient(ellipse 58% 52% at 50% 46%, rgba(0, 45, 114, 0.12), rgba(0, 45, 114, 0.04) 60%, transparent 72%);
+}
+.pepper.has-3d::after {          /* floor shadow */
+  content: "";
+  position: absolute;
+  left: 30%; right: 30%; bottom: 2px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(17, 18, 13, 0.22), transparent 70%);
+  pointer-events: none;
+}
+.pepper.has-3d .pepper-face { display: none; }
+.pepper-canvas { display: block; width: 100%; height: 100%; cursor: grab; }
+.pepper-canvas:active { cursor: grabbing; }
 .eye { transform-box: fill-box; transform-origin: center; animation: blink 6s infinite; }
 .eye-ring { fill: none; stroke: #002d72; stroke-width: 6; transition: stroke 0.3s; }
 .eye-core { fill: #002d72; transition: fill 0.3s; }
@@ -754,6 +774,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px
   .stage { flex-direction: column; padding: 16px; }
   .robot-panel { flex: none; max-width: none; margin: 0 0 16px; padding: 8px 0; }
   .pepper { width: 140px; height: 140px; }
+  .pepper.has-3d { width: 200px; height: 250px; }
   .topbar { padding: 10px 16px; }
   .research { margin: 0 16px 16px; padding: 16px; }
   .banner, .footer { padding-left: 16px; padding-right: 16px; }

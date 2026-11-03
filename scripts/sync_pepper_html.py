@@ -21,7 +21,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "frontend"
 DST = ROOT / "pepper_app" / "html"
-INCLUDE = ["index.html", "css", "js", "assets"]
+INCLUDE = ["index.html", "css", "js", "assets", "vendor"]
 SKIP_SUFFIXES = {".ttf", ".otf", ".woff", ".woff2"}
 ALLOWED_FONTS = {"Grotesk-Medium.ttf"}
 PEPPER_ENV = (

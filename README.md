@@ -298,6 +298,34 @@ the committed **Grotesk Medium** font, then `"Arial Narrow", Arial`. The Wits
 crest in `frontend/assets/` is used for this University project; confirm the
 use with University brand guidelines before any public deployment.
 
+## 3D Pepper
+
+The robot panel can show a 3D Pepper, assembled from the official Pepper
+URDF and rendered with three.js r147 (bundled in `frontend/vendor/three/`,
+MIT). It animates with the assistant: idle breathing, looking up while
+listening, hand-to-chin while working, presenting the answer, and looking
+down on errors. Drag it to turn it. Where the meshes or WebGL are missing
+(the public Vercel site, older Pepper tablet browsers) the 2D face is shown
+and three.js is never downloaded.
+
+The meshes are (c) SoftBank Robotics / Aldebaran under **CC BY-NC-ND 4.0**,
+and may only be redistributed when the user explicitly accepts that licence,
+so they are **not in this repository**. Install them locally:
+
+```bash
+python scripts/install_pepper_meshes.py
+```
+
+It asks you to type `yes` to the licence, then downloads the unmodified
+files into `frontend/assets/pepper3d/meshes/` (git-ignored). By default it
+uses the copy in Maelic/llm-agent-pepper-robot; with
+`--from <folder>` it copies from an official install of `ros-naoqi/pepper_meshes`.
+Run `python scripts/sync_pepper_html.py` afterwards for the Pepper tablet build.
+
+`frontend/assets/pepper3d/pepper-model.json` (committed) holds only the joint
+frames and mesh names, generated from the Apache-2.0 URDF in
+ros-naoqi/pepper_robot by `scripts/build_pepper_model.py`.
+
 ## Tests
 
 ```bash

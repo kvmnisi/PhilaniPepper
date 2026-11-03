@@ -1,0 +1,1937 @@
+{
+ "source": "ros-naoqi/pepper_robot pepper_description pepper.urdf (Apache License 2.0)",
+ "up_axis": "Z",
+ "root": "base_link",
+ "links": {
+  "Head": [
+   {
+    "mesh": "HeadPitch.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "Hip": [
+   {
+    "mesh": "HipRoll.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "LBicep": [
+   {
+    "mesh": "LShoulderRoll.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "LElbow": [
+   {
+    "mesh": "LElbowYaw.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "LFinger11_link": [
+   {
+    "mesh": "LFinger11.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "LFinger12_link": [
+   {
+    "mesh": "LFinger12.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "LFinger13_link": [
+   {
+    "mesh": "LFinger13.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "LFinger21_link": [
+   {
+    "mesh": "LFinger21.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "LFinger22_link": [
+   {
+    "mesh": "LFinger22.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "LFinger23_link": [
+   {
+    "mesh": "LFinger23.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "LFinger31_link": [
+   {
+    "mesh": "LFinger31.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "LFinger32_link": [
+   {
+    "mesh": "LFinger32.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "LFinger33_link": [
+   {
+    "mesh": "LFinger33.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "LFinger41_link": [
+   {
+    "mesh": "LFinger41.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "LFinger42_link": [
+   {
+    "mesh": "LFinger42.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "LFinger43_link": [
+   {
+    "mesh": "LFinger43.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "LForeArm": [
+   {
+    "mesh": "LElbowRoll.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "LShoulder": [
+   {
+    "mesh": "LShoulderPitch.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "LThumb1_link": [
+   {
+    "mesh": "LThumb1.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "LThumb2_link": [
+   {
+    "mesh": "LThumb2.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "Neck": [
+   {
+    "mesh": "HeadYaw.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "Pelvis": [
+   {
+    "mesh": "HipPitch.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "RBicep": [
+   {
+    "mesh": "RShoulderRoll.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "RElbow": [
+   {
+    "mesh": "RElbowYaw.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "RFinger11_link": [
+   {
+    "mesh": "RFinger11.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "RFinger12_link": [
+   {
+    "mesh": "RFinger12.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "RFinger13_link": [
+   {
+    "mesh": "RFinger13.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "RFinger21_link": [
+   {
+    "mesh": "RFinger21.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "RFinger22_link": [
+   {
+    "mesh": "RFinger22.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "RFinger23_link": [
+   {
+    "mesh": "RFinger23.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "RFinger31_link": [
+   {
+    "mesh": "RFinger31.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "RFinger32_link": [
+   {
+    "mesh": "RFinger32.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "RFinger33_link": [
+   {
+    "mesh": "RFinger33.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "RFinger41_link": [
+   {
+    "mesh": "RFinger41.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "RFinger42_link": [
+   {
+    "mesh": "RFinger42.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "RFinger43_link": [
+   {
+    "mesh": "RFinger43.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "RForeArm": [
+   {
+    "mesh": "RElbowRoll.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "RShoulder": [
+   {
+    "mesh": "RShoulderPitch.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "RThumb1_link": [
+   {
+    "mesh": "RThumb1.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "RThumb2_link": [
+   {
+    "mesh": "RThumb2.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "Tibia": [
+   {
+    "mesh": "KneePitch.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "WheelB_link": [
+   {
+    "mesh": "WheelB.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "WheelFL_link": [
+   {
+    "mesh": "WheelFL.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "WheelFR_link": [
+   {
+    "mesh": "WheelFR.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "base_link": [],
+  "l_wrist": [
+   {
+    "mesh": "LWristYaw.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "r_wrist": [
+   {
+    "mesh": "RWristYaw.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ],
+  "torso": [
+   {
+    "mesh": "Torso.dae",
+    "xyz": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "rpy": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "scale": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   }
+  ]
+ },
+ "joints": [
+  {
+   "name": "HeadYaw",
+   "type": "revolute",
+   "parent": "torso",
+   "child": "Neck",
+   "xyz": [
+    -0.038,
+    0.0,
+    0.1699
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "HeadPitch",
+   "type": "revolute",
+   "parent": "Neck",
+   "child": "Head",
+   "xyz": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "HipRoll",
+   "type": "revolute",
+   "parent": "torso",
+   "child": "Hip",
+   "xyz": [
+    2e-05,
+    0.0,
+    -0.139
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "HipPitch",
+   "type": "revolute",
+   "parent": "Hip",
+   "child": "Pelvis",
+   "xyz": [
+    0.0,
+    0.0,
+    -0.079
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "KneePitch",
+   "type": "revolute",
+   "parent": "Pelvis",
+   "child": "Tibia",
+   "xyz": [
+    0.0,
+    0.0,
+    -0.268
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "base_link_fixedjoint",
+   "type": "fixed",
+   "parent": "base_link",
+   "child": "torso",
+   "xyz": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "LShoulderPitch",
+   "type": "revolute",
+   "parent": "torso",
+   "child": "LShoulder",
+   "xyz": [
+    -0.057,
+    0.14974,
+    0.08682
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "LShoulderRoll",
+   "type": "revolute",
+   "parent": "LShoulder",
+   "child": "LBicep",
+   "xyz": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "LElbowYaw",
+   "type": "revolute",
+   "parent": "LBicep",
+   "child": "LElbow",
+   "xyz": [
+    0.1812,
+    0.015,
+    0.00013
+   ],
+   "rpy": [
+    0.0,
+    -0.157079,
+    0.0
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "LElbowRoll",
+   "type": "revolute",
+   "parent": "LElbow",
+   "child": "LForeArm",
+   "xyz": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "LWristYaw",
+   "type": "revolute",
+   "parent": "LForeArm",
+   "child": "l_wrist",
+   "xyz": [
+    0.15,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "RShoulderPitch",
+   "type": "revolute",
+   "parent": "torso",
+   "child": "RShoulder",
+   "xyz": [
+    -0.057,
+    -0.14974,
+    0.08682
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": [
+    0.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "name": "RShoulderRoll",
+   "type": "revolute",
+   "parent": "RShoulder",
+   "child": "RBicep",
+   "xyz": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "RElbowYaw",
+   "type": "revolute",
+   "parent": "RBicep",
+   "child": "RElbow",
+   "xyz": [
+    0.1812,
+    -0.015,
+    0.00013
+   ],
+   "rpy": [
+    0.0,
+    -0.157079,
+    0.0
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "RElbowRoll",
+   "type": "revolute",
+   "parent": "RElbow",
+   "child": "RForeArm",
+   "xyz": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "RWristYaw",
+   "type": "revolute",
+   "parent": "RForeArm",
+   "child": "r_wrist",
+   "xyz": [
+    0.15,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "RFinger41",
+   "type": "continuous",
+   "parent": "r_wrist",
+   "child": "RFinger41_link",
+   "xyz": [
+    0.074,
+    -0.0309,
+    0.0
+   ],
+   "rpy": [
+    1.74402,
+    1.04064,
+    -0.0683394
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "LFinger42",
+   "type": "continuous",
+   "parent": "LFinger41_link",
+   "child": "LFinger42_link",
+   "xyz": [
+    0.018,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -1.0472
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "RFinger12",
+   "type": "continuous",
+   "parent": "RFinger11_link",
+   "child": "RFinger12_link",
+   "xyz": [
+    0.018,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -1.0472
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "LFinger33",
+   "type": "continuous",
+   "parent": "LFinger32_link",
+   "child": "LFinger33_link",
+   "xyz": [
+    0.018,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -1.0472
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "RFinger31",
+   "type": "continuous",
+   "parent": "r_wrist",
+   "child": "RFinger31_link",
+   "xyz": [
+    0.0833,
+    -0.0123,
+    0.004
+   ],
+   "rpy": [
+    1.67523,
+    1.04483,
+    0.029316
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "LFinger21",
+   "type": "continuous",
+   "parent": "l_wrist",
+   "child": "LFinger21_link",
+   "xyz": [
+    0.0873,
+    -0.0073,
+    0.006
+   ],
+   "rpy": [
+    1.5708,
+    1.0472,
+    -0.061086
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "RFinger32",
+   "type": "continuous",
+   "parent": "RFinger31_link",
+   "child": "RFinger32_link",
+   "xyz": [
+    0.018,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -1.0472
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "LFinger13",
+   "type": "continuous",
+   "parent": "LFinger12_link",
+   "child": "LFinger13_link",
+   "xyz": [
+    0.018,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -1.0472
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "LFinger32",
+   "type": "continuous",
+   "parent": "LFinger31_link",
+   "child": "LFinger32_link",
+   "xyz": [
+    0.018,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -1.0472
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "LFinger11",
+   "type": "continuous",
+   "parent": "l_wrist",
+   "child": "LFinger11_link",
+   "xyz": [
+    0.0821,
+    -0.0268,
+    0.004
+   ],
+   "rpy": [
+    1.74402,
+    1.04064,
+    -0.0334335
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "RFinger22",
+   "type": "continuous",
+   "parent": "RFinger21_link",
+   "child": "RFinger22_link",
+   "xyz": [
+    0.018,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -1.0472
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "RFinger13",
+   "type": "continuous",
+   "parent": "RFinger12_link",
+   "child": "RFinger13_link",
+   "xyz": [
+    0.018,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -1.0472
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "LFinger22",
+   "type": "continuous",
+   "parent": "LFinger21_link",
+   "child": "LFinger22_link",
+   "xyz": [
+    0.018,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -1.0472
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "RFinger21",
+   "type": "continuous",
+   "parent": "r_wrist",
+   "child": "RFinger21_link",
+   "xyz": [
+    0.0873,
+    0.0073,
+    0.006
+   ],
+   "rpy": [
+    1.5708,
+    1.0472,
+    0.061086
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "LFinger41",
+   "type": "continuous",
+   "parent": "l_wrist",
+   "child": "LFinger41_link",
+   "xyz": [
+    0.074,
+    0.0309,
+    0.0
+   ],
+   "rpy": [
+    1.39757,
+    1.04064,
+    0.0683394
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "LFinger12",
+   "type": "continuous",
+   "parent": "LFinger11_link",
+   "child": "LFinger12_link",
+   "xyz": [
+    0.018,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -1.0472
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "RFinger23",
+   "type": "continuous",
+   "parent": "RFinger22_link",
+   "child": "RFinger23_link",
+   "xyz": [
+    0.018,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -1.0472
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "RFinger11",
+   "type": "continuous",
+   "parent": "r_wrist",
+   "child": "RFinger11_link",
+   "xyz": [
+    0.0821,
+    0.0268,
+    0.004
+   ],
+   "rpy": [
+    1.39757,
+    1.04064,
+    0.0334335
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "LFinger23",
+   "type": "continuous",
+   "parent": "LFinger22_link",
+   "child": "LFinger23_link",
+   "xyz": [
+    0.018,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -1.0472
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "LFinger43",
+   "type": "continuous",
+   "parent": "LFinger42_link",
+   "child": "LFinger43_link",
+   "xyz": [
+    0.018,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -1.0472
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "RFinger43",
+   "type": "continuous",
+   "parent": "RFinger42_link",
+   "child": "RFinger43_link",
+   "xyz": [
+    0.018,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -1.0472
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "RFinger42",
+   "type": "continuous",
+   "parent": "RFinger41_link",
+   "child": "RFinger42_link",
+   "xyz": [
+    0.018,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -1.0472
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "LFinger31",
+   "type": "continuous",
+   "parent": "l_wrist",
+   "child": "LFinger31_link",
+   "xyz": [
+    0.0833,
+    0.0123,
+    0.004
+   ],
+   "rpy": [
+    1.46636,
+    1.04483,
+    -0.029314
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "RFinger33",
+   "type": "continuous",
+   "parent": "RFinger32_link",
+   "child": "RFinger33_link",
+   "xyz": [
+    0.018,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -1.0472
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "LThumb1",
+   "type": "continuous",
+   "parent": "l_wrist",
+   "child": "LThumb1_link",
+   "xyz": [
+    0.0482,
+    -0.0357,
+    -0.0199
+   ],
+   "rpy": [
+    -1.95836,
+    0.60626,
+    0.533978
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "RThumb2",
+   "type": "continuous",
+   "parent": "RThumb1_link",
+   "child": "RThumb2_link",
+   "xyz": [
+    0.022,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -1.0472
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "RThumb1",
+   "type": "continuous",
+   "parent": "r_wrist",
+   "child": "RThumb1_link",
+   "xyz": [
+    0.0482,
+    0.0357,
+    -0.0199
+   ],
+   "rpy": [
+    -1.18323,
+    0.60626,
+    -0.533978
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "LThumb2",
+   "type": "continuous",
+   "parent": "LThumb1_link",
+   "child": "LThumb2_link",
+   "xyz": [
+    0.022,
+    0.0,
+    0.0
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -1.0472
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  {
+   "name": "WheelFL",
+   "type": "continuous",
+   "parent": "Tibia",
+   "child": "WheelFL_link",
+   "xyz": [
+    0.09,
+    0.155,
+    -0.264
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    1.07517
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "WheelB",
+   "type": "continuous",
+   "parent": "Tibia",
+   "child": "WheelB_link",
+   "xyz": [
+    -0.17,
+    0.0,
+    -0.264
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -3.14159
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "name": "WheelFR",
+   "type": "continuous",
+   "parent": "Tibia",
+   "child": "WheelFR_link",
+   "xyz": [
+    0.09,
+    -0.155,
+    -0.264
+   ],
+   "rpy": [
+    0.0,
+    0.0,
+    -1.07517
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ]
+  }
+ ]
+}

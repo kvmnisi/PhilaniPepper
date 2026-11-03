@@ -33,6 +33,11 @@ pepper_app/html/assets/fonts/*.woff2
 !frontend/assets/fonts/Grotesk-Medium.ttf
 !pepper_app/html/assets/fonts/Grotesk-Medium.ttf
 
+# Pepper 3D meshes: CC BY-NC-ND 4.0, installed locally after licence acceptance
+# (scripts/install_pepper_meshes.py), never committed
+frontend/assets/pepper3d/meshes/
+pepper_app/html/assets/pepper3d/meshes/
+
 # Secrets and local config
 .env
 .env.*
