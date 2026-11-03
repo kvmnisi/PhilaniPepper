@@ -31,7 +31,93 @@
     <strong>Demo mode.</strong> The assistant service is not connected, so responses are simulated and speech is not understood.
   </div>
 
-  <main class="stage">
+  <section class="welcome" id="welcome" aria-labelledby="welcomeTitle">
+    <div class="welcome-content">
+      <span class="welcome-eyebrow">Wits Honours research project &middot; Pepper robot</span>
+      <h1 class="welcome-title" id="welcomeTitle">
+        Speak isiZulu,<br>
+        <span>ask Pepper</span><br>
+        about Wits.
+      </h1>
+      <p class="welcome-subtitle">
+        I'm <strong>Pepper</strong>, the isiZulu Wits Assistant. Ask me about
+        <strong>Honours exams, the academic calendar, School contacts</strong> or
+        <strong>finding your way on campus</strong>, in isiZulu.
+      </p>
+      <div class="welcome-actions">
+        <a class="btn btn-gold btn-large" href="#assistant" data-start>Start talking</a>
+      </div>
+    </div>
+
+    <div class="slider" id="welcomeSlider" aria-roledescription="carousel" aria-label="What you can ask">
+      <button class="slider-nav slider-prev" type="button" aria-label="Previous slide"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="slider-viewport">
+        <div class="slider-track" id="sliderTrack" aria-live="off">
+          <article class="slide is-active" role="group" aria-roledescription="slide" aria-label="1 of 4: Exams">
+            <div class="slide-visual">
+              <span class="slide-word" aria-hidden="true">EXAMS</span>
+              <span class="slide-category">Exams</span>
+            </div>
+            <div class="slide-info">
+              <p class="slide-meta"><span class="slide-number">01</span><span class="slide-total">/04</span></p>
+              <h3>When and where is my exam?</h3>
+              <p class="slide-description">All 11 Honours Computer Science exams for November 2026: the date, time and venue, the next exam, and what is on any day.</p>
+              <ul class="slide-tags"><li>Next exam</li><li>Exam venues</li><li>A day's exams</li></ul>
+              <a class="btn btn-primary" href="#assistant" data-start>Ask Pepper</a>
+            </div>
+          </article>
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="2 of 4: Calendar">
+            <div class="slide-visual">
+              <span class="slide-word" aria-hidden="true">2026</span>
+              <span class="slide-category">Calendar</span>
+            </div>
+            <div class="slide-info">
+              <p class="slide-meta"><span class="slide-number">02</span><span class="slide-total">/04</span></p>
+              <h3>Where are we in the academic year?</h3>
+              <p class="slide-description">Teaching blocks, study breaks, exam periods and the last day of term, from the 2026 Wits academic calendar.</p>
+              <ul class="slide-tags"><li>Semester</li><li>Breaks</li><li>Last day of term</li></ul>
+              <a class="btn btn-primary" href="#assistant" data-start>Ask Pepper</a>
+            </div>
+          </article>
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="3 of 4: Contacts">
+            <div class="slide-visual">
+              <span class="slide-word" aria-hidden="true">CSAM</span>
+              <span class="slide-category">Contacts</span>
+            </div>
+            <div class="slide-info">
+              <p class="slide-meta"><span class="slide-number">03</span><span class="slide-total">/04</span></p>
+              <h3>Who should I talk to?</h3>
+              <p class="slide-description">The Head of School, administrators, General Enquiries and every course coordinator in Computer Science and Applied Mathematics.</p>
+              <ul class="slide-tags"><li>Head of School</li><li>Coordinators</li><li>Enquiries</li></ul>
+              <a class="btn btn-primary" href="#assistant" data-start>Ask Pepper</a>
+            </div>
+          </article>
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="4 of 4: Directions">
+            <div class="slide-visual">
+              <img class="slide-photo" src="assets/campus-map.jpg" alt="" loading="lazy">
+              <span class="slide-category">Directions</span>
+            </div>
+            <div class="slide-info">
+              <p class="slide-meta"><span class="slide-number">04</span><span class="slide-total">/04</span></p>
+              <h3>How do I find a building?</h3>
+              <p class="slide-description">Find MSL rooms in this building and other venues across Braamfontein campus, shown on the official campus map.</p>
+              <ul class="slide-tags"><li>MSL rooms</li><li>East Campus</li><li>Campus map</li></ul>
+              <a class="btn btn-primary" href="#assistant" data-start>Ask Pepper</a>
+            </div>
+          </article>
+        </div>
+      </div>
+      <button class="slider-nav slider-next" type="button" aria-label="Next slide"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+    <div class="slider-indicators" id="sliderIndicators">
+          <button class="indicator is-active" type="button" data-slide="0" aria-label="Show slide 1"><span class="indicator-fill"></span><span class="indicator-num">01</span></button>
+          <button class="indicator" type="button" data-slide="1" aria-label="Show slide 2"><span class="indicator-fill"></span><span class="indicator-num">02</span></button>
+          <button class="indicator" type="button" data-slide="2" aria-label="Show slide 3"><span class="indicator-fill"></span><span class="indicator-num">03</span></button>
+          <button class="indicator" type="button" data-slide="3" aria-label="Show slide 4"><span class="indicator-fill"></span><span class="indicator-num">04</span></button>
+    </div>
+  </section>
+
+  <main class="stage" id="assistant" tabindex="-1">
     <section class="robot-panel" aria-label="Speak to Pepper">
       <div class="pepper" aria-hidden="true">
         <svg viewBox="0 0 200 200" class="pepper-face" focusable="false">
@@ -234,6 +320,7 @@
   <script src="js/pepper.js"></script>
   <script src="js/demo.js"></script>
   <script src="js/ui.js"></script>
+  <script src="js/welcome.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

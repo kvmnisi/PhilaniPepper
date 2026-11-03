@@ -5,7 +5,7 @@
    inlines them for the Pepper copy so older tablet WebViews render correctly.
    Layout uses flexbox and margins (no CSS grid / flex gap) for the same reason. */
 
-@import url("https://fonts.googleapis.com/css2?family=Alice&family=Bebas+Neue&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Alice&family=Bebas+Neue&family=Special+Gothic+Expanded+One&display=swap");
 
 /* Local fallbacks used when Google Fonts cannot be reached (e.g. offline on Pepper). */
 @font-face {
@@ -57,6 +57,7 @@
 
   --font-display: "Bebas Neue", "Grotesk", "Europa Grotesk SH", "Arial Narrow", Arial, sans-serif;
   --font-heading: "Bebas Neue", "Grotesk", "Europa Grotesk SH", "Arial Narrow", Arial, sans-serif;
+  --font-hero: "Special Gothic Expanded One", "Bebas Neue", "Arial Black", Arial, sans-serif;
   --font-text: "Alice", Georgia, "Times New Roman", serif;
   --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -236,6 +237,173 @@ button:focus-visible, a:focus-visible { outline: 3px solid #ffb91c; outline-offs
   border-bottom: 1px solid rgba(255, 185, 28, 0.5);
 }
 .banner strong { font: 400 19px/1 "Bebas Neue", "Grotesk", "Europa Grotesk SH", "Arial Narrow", Arial, sans-serif; letter-spacing: 0.04em; }
+
+/* ---------- Welcome (portfolio hero) ---------- */
+.welcome {
+  position: relative;
+  min-height: calc(100vh - 76px);
+  padding: 56px 28px 32px;
+  overflow: hidden;
+}
+.welcome::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at 50% 26%, rgba(255, 185, 28, 0.22), transparent 28%);
+  pointer-events: none;
+}
+.welcome-content {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  animation: fadeUp 0.9s ease both;
+}
+.welcome-eyebrow {
+  font: 400 15px/1.4 "Alice", Georgia, "Times New Roman", serif;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #4a4b43;
+}
+.welcome-title {
+  margin: 22px 0;
+  font-family: "Special Gothic Expanded One", "Bebas Neue", "Arial Black", Arial, sans-serif;
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: #11120d;
+}
+.welcome-title span {
+  color: #002d72;
+  background-image: linear-gradient(transparent 62%, rgba(255, 185, 28, 0.85) 62%, rgba(255, 185, 28, 0.85) 92%, transparent 92%);
+  padding: 0 0.12em;
+}
+.welcome-subtitle { max-width: 660px; margin: 0 auto 30px; font-size: 19px; line-height: 1.7; color: #4a4b43; }
+.welcome-subtitle strong { color: #11120d; }
+.welcome-actions { display: flex; justify-content: center; margin-bottom: 44px; }
+
+.slider { position: relative; max-width: 1100px; margin: 0 auto 26px; animation: fadeUp 0.9s 0.15s ease both; }
+.slider-viewport {
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 24px;
+  background: #f8f9fa;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+}
+.slider-track { display: flex; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+.slide { display: flex; align-items: center; flex: 0 0 100%; min-width: 100%; padding: 26px; }
+.slide-visual {
+  position: relative;
+  flex: 1 1 50%;
+  min-width: 0;
+  height: 270px;
+  margin-right: 34px;
+  overflow: hidden;
+  border-radius: 16px;
+  background-image: linear-gradient(325deg, #002d72 0%, #14468f 55%, #002d72 90%);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), inset 6px 6px 16px rgba(120, 160, 230, 0.3), inset -6px -6px 16px rgba(0, 20, 60, 0.4);
+}
+.slide-word {
+  position: absolute;
+  left: 0; right: 0; top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  font: 400 128px/1 "Bebas Neue", "Grotesk", "Europa Grotesk SH", "Arial Narrow", Arial, sans-serif;
+  letter-spacing: 0.04em;
+  color: #ffb91c;
+  text-shadow: 0 0 40px rgba(255, 185, 28, 0.45);
+  transition: transform 0.5s ease;
+}
+.slide-photo { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+@media (hover: hover) {
+  .slide-visual:hover .slide-photo { transform: scale(1.05); }
+  .slide-visual:hover .slide-word { transform: translateY(-50%) scale(1.05); }
+}
+.slide-category {
+  position: absolute;
+  top: 14px; right: 14px;
+  padding: 6px 14px 5px;
+  border-radius: 9999px;
+  background-image: linear-gradient(325deg, #ffb91c, #ffd773);
+  color: #11120d;
+  font: 400 17px/1.2 "Bebas Neue", "Grotesk", "Europa Grotesk SH", "Arial Narrow", Arial, sans-serif;
+  letter-spacing: 0.06em;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.slide-info { flex: 1 1 50%; min-width: 0; padding: 8px 8px 8px 0; }
+.slide-meta { margin: 0 0 14px; font-family: "Bebas Neue", "Grotesk", "Europa Grotesk SH", "Arial Narrow", Arial, sans-serif; }
+.slide-number { font-size: 46px; line-height: 1; color: #8a5a00; }
+.slide-total { margin-left: 4px; font-size: 20px; color: #4a4b43; }
+.slide-info h3 { margin-bottom: 10px; font-size: 38px; color: #002d72; }
+.slide-description { margin: 0 0 16px; font-size: 17px; line-height: 1.7; color: #4a4b43; }
+.slide-tags { display: flex; flex-wrap: wrap; list-style: none; margin: 0 -4px 20px; padding: 0; }
+.slide-tags li {
+  margin: 4px;
+  padding: 5px 13px 4px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 9999px;
+  background: #fdfdfd;
+  color: #4a4b43;
+  font: 400 16px/1.2 "Bebas Neue", "Grotesk", "Europa Grotesk SH", "Arial Narrow", Arial, sans-serif;
+  letter-spacing: 0.05em;
+}
+@media (hover: hover) {
+  .slide-tags li:hover { border-color: #ffb91c; color: #8a5a00; transform: translateY(-2px); }
+}
+
+.slider-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: 50px; height: 50px;
+  margin-top: -25px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  background: #fdfdfd;
+  color: #11120d;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+.slider-nav svg { width: 22px; height: 22px; }
+.slider-prev { left: -25px; }
+.slider-next { right: -25px; }
+@media (hover: hover) {
+  .slider-nav:hover { border-color: #ffb91c; color: #002d72; transform: scale(1.1); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+}
+
+.slider-indicators { display: flex; justify-content: center; }
+.indicator {
+  position: relative;
+  width: 56px; height: 56px;
+  margin: 0 5px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  background: #f8f9fa;
+  color: #4a4b43;
+  font: 400 18px/1 "Bebas Neue", "Grotesk", "Europa Grotesk SH", "Arial Narrow", Arial, sans-serif;
+  cursor: pointer;
+}
+.indicator.is-active { border-color: #ffb91c; color: #002d72; background: #fff5db; }
+.indicator-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: rgba(255, 185, 28, 0.45); }
+.indicator.is-running .indicator-fill { animation: progressFill 5s linear forwards; }
+.indicator-num { position: relative; }
+@media (hover: hover) {
+  .indicator:hover { border-color: #ffb91c; color: #002d72; transform: translateY(-2px); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes progressFill { from { width: 0; } to { width: 100%; } }
+
+#assistant:focus { outline: none; }
 
 /* ---------- Main stage ---------- */
 .stage {
@@ -688,7 +856,17 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px
 .sample-note { font-weight: 600; color: #8a5a00; }
 
 /* ---------- Responsive ---------- */
+@media (max-width: 1180px) {
+  .slider-prev { left: 8px; }
+  .slider-next { right: 8px; }
+}
 @media (max-width: 900px) {
+  .welcome { min-height: 0; padding: 40px 16px 28px; }
+  .welcome-title { font-size: 38px; }
+  .slide { display: block; padding: 18px; }
+  .slide-visual { height: 200px; margin: 0 0 18px; }
+  .slide-word { font-size: 96px; }
+  .slider-nav { top: 118px; margin-top: 0; }
   .stage { flex-direction: column; padding: 16px; }
   .robot-panel { flex: none; max-width: none; margin: 0 0 16px; padding: 8px 0; }
   .pepper { width: 140px; height: 140px; }
@@ -710,6 +888,14 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px
   .field-pair { display: block; margin: 0; }
   .field-pair > .field { margin-left: 0; margin-right: 0; }
   .big-clock { font-size: 72px; }
+  .welcome-eyebrow { font-size: 12px; letter-spacing: 0.15em; }
+  .welcome-title { font-size: 25px; line-height: 1.3; margin: 18px 0; }
+  .welcome-subtitle { font-size: 16px; }
+  .welcome-actions .btn { width: 100%; }
+  .slide-info h3 { font-size: 30px; }
+  .slide-number { font-size: 36px; }
+  .slider-nav { width: 40px; height: 40px; }
+  .indicator { width: 46px; height: 46px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001s !important; animation-iteration-count: 1 !important; transition: none !important; }
