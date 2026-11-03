@@ -287,15 +287,16 @@ Add `--use-audio` to transcribe `audio_path` first.
 - No credentials or API keys are in the repository. Use `.env` (ignored)
   for local settings.
 
-## Fonts and branding
+## Look and feel
 
-Headings use **Grotesk Medium** (SoftMaker, `frontend/assets/fonts/Grotesk-Medium.ttf`),
-which is committed for this non-commercial project. If **Europa Grotesk SH Bold** is
-installed or supplied locally it takes priority; otherwise the fallback is
-`"Arial Narrow", Arial, sans-serif`. See
-[`frontend/assets/fonts/README.md`](frontend/assets/fonts/README.md). The Wits crest in `frontend/assets/` is used
-for this University project. Confirm the use with University brand guidelines
-before any public deployment.
+The interface follows the project owner's portfolio style, light mode only:
+**Bebas Neue** for headings, labels and buttons, **Alice** for spoken text
+(both from Google Fonts), glossy gradient buttons, bordered cards that lift
+on hover, and a gold scrollbar. Accents are Wits gold `#ffb91c` and blue
+`#002d72`. Without internet (e.g. on Pepper offline) headings fall back to
+the committed **Grotesk Medium** font, then `"Arial Narrow", Arial`. The Wits
+crest in `frontend/assets/` is used for this University project; confirm the
+use with University brand guidelines before any public deployment.
 
 ## Tests
 
