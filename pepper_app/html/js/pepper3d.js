@@ -57,6 +57,18 @@
     return fetch(MESHES + "NOTICE.txt", { method: "HEAD" }).then(function (r) { return r.ok; }, function () { return false; });
   }
 
+  /* The meshes' "shiny_white" material has full white emission, which makes
+     the shell glow flat white with no shading. Tune it at render time (the
+     mesh files themselves stay unmodified). */
+  function tuneMaterial(material) {
+    if (!material || material.userData.tuned) { return; }
+    material.userData.tuned = true;
+    if (material.emissive && !material.emissiveMap) { material.emissive.setRGB(0, 0, 0); }
+    if (!material.map && material.color && material.color.r > 0.5) { material.color.setRGB(0.94, 0.94, 0.95); }
+    if (material.specular) { material.specular.setRGB(0.28, 0.28, 0.3); material.shininess = 70; }
+    material.needsUpdate = true;
+  }
+
   /* URDF rpy = fixed-axis roll, pitch, yaw = three.js Euler order ZYX. */
   function applyOrigin(object, xyz, rpy) {
     object.position.set(xyz[0], xyz[1], xyz[2]);
@@ -83,12 +95,15 @@
     if (THREE.sRGBEncoding) { this.renderer.outputEncoding = THREE.sRGBEncoding; }
     this.renderer.domElement.className = "pepper-canvas";
 
-    this.scene.add(new THREE.HemisphereLight(0xffffff, 0xd9dee8, 0.95));
-    var key = new THREE.DirectionalLight(0xffffff, 0.75);
-    key.position.set(1.5, 2.5, 3);
+    this.scene.add(new THREE.HemisphereLight(0xffffff, 0x8f9ab0, 0.55));
+    var key = new THREE.DirectionalLight(0xffffff, 0.85);
+    key.position.set(-1.6, 2.4, 3);
     this.scene.add(key);
-    var rim = new THREE.DirectionalLight(0xffe3a3, 0.35);   // warm gold rim light
-    rim.position.set(-2, 1.5, -2);
+    var fill = new THREE.DirectionalLight(0xdfe7f5, 0.25);  // cool fill from the right
+    fill.position.set(2.5, 0.5, 1.5);
+    this.scene.add(fill);
+    var rim = new THREE.DirectionalLight(0xffd27a, 0.55);   // warm gold rim light
+    rim.position.set(1.5, 2, -2.5);
     this.scene.add(rim);
 
     // URDF: X forward, Y left, Z up. three.js: Y up, camera looks down -Z.
@@ -137,7 +152,9 @@
             mesh.quaternion.set(0, 0, 0, 1);       // keep URDF's Z-up frame
             mesh.scale.set(1, 1, 1);
             mesh.traverse(function (node) {
-              if (node.isMesh && node.geometry && !node.geometry.attributes.normal) { node.geometry.computeVertexNormals(); }
+              if (!node.isMesh) { return; }
+              if (node.geometry && !node.geometry.attributes.normal) { node.geometry.computeVertexNormals(); }
+              [].concat(node.material || []).forEach(tuneMaterial);
             });
             var holder = new THREE.Group();
             applyOrigin(holder, visual.xyz, visual.rpy);
