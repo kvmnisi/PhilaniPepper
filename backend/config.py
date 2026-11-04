@@ -108,6 +108,8 @@ class Settings:
     # Precision for InkubaLM: float32 (as trained and validated), bfloat16, float16, or auto.
     # float16 on a GPU can overflow in this model and produce NaN scores.
     inkubalm_dtype: str = field(default_factory=lambda: _env("INKUBALM_DTYPE", "float32"))
+    # Device for InkubaLM: auto = cuda if available, else cpu (Apple MPS only if set explicitly).
+    inkubalm_device: str = field(default_factory=lambda: _env("INKUBALM_DEVICE", "auto"))
 
     # --- Shared ----------------------------------------------------------
     device: str = field(default_factory=lambda: _env("DEVICE", "auto"))

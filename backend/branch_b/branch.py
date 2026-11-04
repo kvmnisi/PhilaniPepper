@@ -62,6 +62,69 @@ def resolve_dtype(setting, device, torch):
     return getattr(torch, name)
 
 
+class BranchBUnusable(RuntimeError):
+    """Branch B cannot produce valid scores; the message says why and what to do."""
+
+
+def inkubalm_device(setting, torch):
+    """auto -> cuda if available, else cpu. Apple MPS is used only when set explicitly,
+    because InkubaLM's custom model code is not reliable on it."""
+    setting = (setting or "auto").lower()
+    if setting != "auto":
+        return setting
+    return "cuda" if torch.cuda.is_available() else "cpu"
+
+
+def load_base_model(auto_cls, model_id, trust, dtype):
+    """Load InkubaLM, preferring the plain ('eager') attention implementation."""
+    attempts = [dict(dtype=dtype, attn_implementation="eager"), dict(torch_dtype=dtype, attn_implementation="eager"),
+                dict(dtype=dtype), dict(torch_dtype=dtype)]
+    last = None
+    for kwargs in attempts:
+        try:
+            return auto_cls.from_pretrained(model_id, trust_remote_code=trust, **kwargs)
+        except (TypeError, ValueError) as error:   # argument not supported by this version / model
+            last = error
+    raise last
+
+
+def explain_failure(bad_lora_tensors, adapted_ok, base_ok, device, dtype):
+    """Turn the load-time checks into one actionable message (None = healthy)."""
+    if bad_lora_tensors:
+        return ("The Branch B adapter contains NaN/infinite weights (%d tensors, e.g. %s): it was damaged during "
+                "training. Retrain it with the latest Colab notebook, which refuses to save a damaged adapter."
+                % (len(bad_lora_tensors), bad_lora_tensors[0]))
+    if adapted_ok:
+        return None
+    if base_ok:
+        return ("The InkubaLM base model works, but adding the adapter produces NaN/infinite outputs. Retrain the "
+                "adapter with the latest Colab notebook.")
+    return ("InkubaLM itself produces NaN/infinite outputs on device=%s with dtype=%s. Try INKUBALM_DEVICE=cpu and "
+            "INKUBALM_DTYPE=float32." % (device, dtype))
+
+
+def check_model_health(model, tokenizer, device, dtype, torch, text="Sawubona"):
+    """Raise BranchBUnusable with the reason if the adapted model cannot score."""
+    from backend.branch_b.prompt import build_prompt
+
+    bad = [name for name, param in model.named_parameters()
+           if "lora_" in name and not bool(torch.isfinite(param).all())]
+
+    def probe(m):
+        ids = torch.tensor([tokenizer(build_prompt(text)).input_ids], device=device)
+        with torch.inference_mode():
+            return bool(torch.isfinite(m(input_ids=ids).logits.float()).all())
+
+    adapted_ok = not bad and probe(model)
+    base_ok = True
+    if not adapted_ok and not bad:
+        with model.disable_adapter():
+            base_ok = probe(model)
+    message = explain_failure(bad, adapted_ok, base_ok, device, dtype)
+    if message:
+        raise BranchBUnusable(message)
+
+
 class InkubaLMClassifier:
     def __init__(self, settings):
         self.settings = settings
@@ -81,21 +144,18 @@ class InkubaLMClassifier:
             from peft import PeftModel
             from transformers import AutoModelForCausalLM, AutoTokenizer
 
-            from backend.torch_utils import pick_device
 
             trust = self.settings.inkubalm_trust_remote_code
-            self.device = pick_device(self.settings.device)
+            self.device = inkubalm_device(self.settings.inkubalm_device, torch)
             self.tokenizer = AutoTokenizer.from_pretrained(self.model_id, trust_remote_code=trust)
             dtype = resolve_dtype(self.settings.inkubalm_dtype, self.device, torch)
-            try:
-                base = AutoModelForCausalLM.from_pretrained(self.model_id, trust_remote_code=trust, dtype=dtype)
-            except TypeError:  # older transformers
-                base = AutoModelForCausalLM.from_pretrained(self.model_id, trust_remote_code=trust, torch_dtype=dtype)
+            base = load_base_model(AutoModelForCausalLM, self.model_id, trust, dtype)
             self.dtype_name = str(dtype).replace("torch.", "")
             self.model = PeftModel.from_pretrained(base, self.adapter).to(self.device).eval()
             self.pad_id = self.tokenizer.pad_token_id
             if self.pad_id is None:
                 self.pad_id = self.tokenizer.eos_token_id
+            check_model_health(self.model, self.tokenizer, self.device, self.dtype_name, torch)
             self._torch = torch
             self.loaded = True
 

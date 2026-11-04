@@ -96,3 +96,58 @@ def test_invalid_scores_become_a_readable_error(monkeypatch):
         body = client.post("/api/process", data={"text": "sawubona", "branch": "B"}).json()
     assert body["error"]["code"] == "classification_failed"
     assert "invalid scores" in body["error"]["message"]
+
+
+# --- load-time diagnosis -----------------------------------------------------
+
+from backend.branch_b.branch import explain_failure, inkubalm_device, load_base_model
+
+
+def test_damaged_adapter_weights_are_named_first():
+    msg = explain_failure(["base_model.layers.0.q_proj.lora_A.weight"], False, True, "cpu", "float32")
+    assert "damaged during training" in msg and "lora_A" in msg
+
+
+def test_adapter_producing_nan_on_a_healthy_base():
+    assert "adding the adapter produces NaN" in explain_failure([], False, True, "cuda", "float32")
+
+
+def test_base_model_producing_nan_points_at_device_and_dtype():
+    msg = explain_failure([], False, False, "mps", "float16")
+    assert "device=mps" in msg and "INKUBALM_DEVICE=cpu" in msg
+
+
+def test_healthy_model_has_no_message():
+    assert explain_failure([], True, True, "cpu", "float32") is None
+
+
+class _FakeTorch:
+    class cuda:
+        available = False
+
+        @classmethod
+        def is_available(cls):
+            return cls.available
+
+
+def test_inkubalm_never_picks_apple_mps_automatically():
+    _FakeTorch.cuda.available = False
+    assert inkubalm_device("auto", _FakeTorch) == "cpu"
+    _FakeTorch.cuda.available = True
+    assert inkubalm_device("auto", _FakeTorch) == "cuda"
+    assert inkubalm_device("mps", _FakeTorch) == "mps"          # only when asked for
+
+
+def test_base_model_prefers_eager_attention_and_falls_back():
+    seen = []
+
+    class Auto:
+        @staticmethod
+        def from_pretrained(model_id, trust_remote_code, **kwargs):
+            seen.append(kwargs)
+            if "attn_implementation" in kwargs or "dtype" in kwargs:
+                raise TypeError("unsupported")
+            return "model"
+    assert load_base_model(Auto, "lelapa/InkubaLM-0.4B", True, "float32") == "model"
+    assert seen[0] == {"dtype": "float32", "attn_implementation": "eager"}
+    assert seen[-1] == {"torch_dtype": "float32"}

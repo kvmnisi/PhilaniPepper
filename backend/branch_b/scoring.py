@@ -28,10 +28,16 @@ def pad_batch(encoded, pad_id, torch):
 
 
 def sequence_logprobs(model, encoded, device, pad_id, torch):
-    """Summed log-probability of each sequence's label tokens, as Python floats."""
-    input_ids, attention, target_mask = (t.to(device) for t in pad_batch(encoded, pad_id, torch))
+    """Summed log-probability of each sequence's label tokens, as Python floats.
+
+    Sequences are right-padded and the model is causal, so every label token
+    only attends to real tokens before it: the padding cannot change the
+    scores, and no attention mask is passed. This avoids padding-mask code
+    paths that produce NaN in some model implementations.
+    """
+    input_ids, _, target_mask = (t.to(device) for t in pad_batch(encoded, pad_id, torch))
     with torch.inference_mode():
-        logits = model(input_ids=input_ids, attention_mask=attention).logits.float()
+        logits = model(input_ids=input_ids).logits.float()
     log_probs = torch.log_softmax(logits[:, :-1], dim=-1)
     token_lp = log_probs.gather(-1, input_ids[:, 1:].unsqueeze(-1)).squeeze(-1)
     # Select the label positions; never multiply by the mask. Padded positions can

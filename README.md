@@ -334,6 +334,10 @@ adapter folder at `InkubaLMAdapter/` (it holds `adapter_config.json`,
 The backend then uses it automatically (`BRANCH_B_ENGINE=auto`), or set
 `INKUBALM_ADAPTER` to another path. Weights (`*.safetensors`) are git-ignored.
 
+If Branch B reports NaN or invalid scores, run `python -m backend.branch_b.diagnose`. It checks
+the adapter's weights, then loads the model and says whether the adapter (retrain it) or
+the device/precision (`INKUBALM_DEVICE=cpu`, `INKUBALM_DTYPE=float32`) is at fault.
+
 On load, the backend checks `training_info.json`: an adapter trained with a
 different prompt format or intent label set is refused, because its scores
 would be meaningless. Test it on the recordings with
