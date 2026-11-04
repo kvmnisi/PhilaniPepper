@@ -1,5 +1,5 @@
 {
- "notice": "Verb-then-object interpretation used after intent classification (backend/nlu/frame.py). Question words (where, when, who, what) count as verbs, so questions without an action verb still work. Verb patterns are regular expressions for the verb stem plus its endings; any subject/object prefixes before the stem are allowed (e.g. 'siz(a|e|...)' matches siza, ungisize, ngisizeni).",
+ "notice": "Verb-then-object interpretation used after intent classification (backend/nlu/frame.py). Question words (where, when, who, what) count as verbs, so questions without an action verb still work. Verb patterns are regular expressions for the verb stem plus its endings; up to 10 letters of subject/object prefixes before the stem are allowed (e.g. 'siz(a|e|...)' matches siza, ungisize, ngisizeni).",
  "verbs": [
   {
    "id": "open",
@@ -99,13 +99,11 @@
    "priority": 8,
    "patterns": [
     "tshel(?:a|e|ele|ile|eni)",
-    "(?:kw|w)azi",
     "chaz(?:a|e|ele|ile)",
     "buz(?:a|e|ile)"
    ],
    "words": [
     "tell",
-    "know",
     "explain",
     "ask"
    ],
@@ -235,6 +233,33 @@
     "ask_directions"
    ],
    "refusal": "Sorry, I cannot help with that."
+  },
+  {
+   "id": "do",
+   "label": "do",
+   "priority": 10,
+   "patterns": [
+    "enz(?:a|e|ele|ela|ile|anga|eni)"
+   ],
+   "words": [
+    "do"
+   ],
+   "intents": [
+    "help",
+    "ask_time",
+    "ask_current_class",
+    "ask_next_class",
+    "ask_lecturer",
+    "ask_course_time",
+    "ask_course_venue",
+    "ask_day_schedule",
+    "list_courses",
+    "ask_current_semester",
+    "open_self_service",
+    "ask_contact",
+    "ask_directions"
+   ],
+   "refusal": "Sorry, I cannot do that."
   }
  ],
  "objects": [
@@ -483,7 +508,48 @@
   "namhlanje",
   "kusasa",
   "next",
-  "current"
+  "current",
+  "kwazi",
+  "ukwazi",
+  "ngikwazi",
+  "angikwazi",
+  "ungakwazi",
+  "ngingakwazi",
+  "sikwazi",
+  "lutho",
+  "okuthile",
+  "into",
+  "izinto",
+  "eziningi",
+  "ingabe",
+  "umfundi",
+  "abafundi",
+  "ngingumfundi",
+  "angiyena",
+  "nginayo",
+  "unayo",
+  "nginezinto",
+  "anginalutho",
+  "cannot",
+  "ngi",
+  "ungi",
+  "si",
+  "usi",
+  "ba",
+  "yami",
+  "wami",
+  "lami",
+  "sami",
+  "zami",
+  "bami",
+  "kwami",
+  "yakho",
+  "wakho",
+  "lakho",
+  "sakho",
+  "zakho",
+  "yethu",
+  "wethu"
  ],
  "capabilities": {
   "ask_time": "the current time",

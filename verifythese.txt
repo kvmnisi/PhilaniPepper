@@ -6,8 +6,8 @@ project. Tick each item once checked, and correct the file it points to.
 1. isiZulu VOCABULARY
 ------------------------------------------------------------------------
 1a. Verbs and question words  (data/action_lexicon.json -> "verbs")
-    Patterns are regular expressions: the stem plus endings; any prefixes
-    before the stem are allowed (siz(a|e|...) matches siza, ungisize).
+    Patterns are regular expressions: the stem plus endings; up to 10 letters of
+    prefixes before the stem are allowed (siz(a|e|...) matches siza, ungisize).
     [ ] open     patterns: vul(?:a|e|ele|ela|ile|eni)
               English words: open
     [ ] show     patterns: bonis(?:a|e|ele|ile), khombis(?:a|e|ele|ile)
@@ -18,9 +18,8 @@ project. Tick each item once checked, and correct the file it points to.
               English words: call, contact
     [ ] teach    patterns: fundis(?:a|e|ile)(?:yo)?
               English words: teach, teaches, lecture
-    [ ] tell     patterns: tshel(?:a|e|ele|ile|eni), (?:kw|w)azi, chaz(?:a|e|ele|ile),
-            buz(?:a|e|ile)
-              English words: tell, know, explain, ask
+    [ ] tell     patterns: tshel(?:a|e|ele|ile|eni), chaz(?:a|e|ele|ile), buz(?:a|e|ile)
+              English words: tell, explain, ask
     [ ] where    patterns: kuphi, [ilsz]iphi
               English words: where
     [ ] when     patterns: nini
@@ -31,6 +30,10 @@ project. Tick each item once checked, and correct the file it points to.
               English words: what, which
     [ ] help     patterns: siz(?:a|e|ele|ela|ile|eni|o)
               English words: help, assist
+    [x] do       patterns: enz(?:a|e|ele|ela|ile|anga|eni)
+              English words: do   (from your verified pairs)
+    [x] -kwazi is the 'can / be able' auxiliary (angikwazi), not 'know': removed from
+        'tell' and ignored instead (from your verified pairs)
     [ ] Are any common verbs missing (e.g. other ways to say help, open, show,
         find, call, tell)? Add them with their stems.
     [ ] Check none of the stems also appears inside unrelated words.
@@ -47,10 +50,16 @@ project. Tick each item once checked, and correct the file it points to.
     [ ] place        ibalazwe, indlela, igumbi, isakhiwo
 
 1c. Words ignored when looking for an unknown subject  ("function_words")
+    [x] (words in your verified pairs) lokho, angikwazi, lutho, okuthile, izinto,
+            eziningi, ingabe, umfundi, ngingumfundi, angiyena, unayo, nginezinto,
+            anginalutho
     [ ] ngicela, sicela, ngiyacela, siyacela, cela, ngiyabonga, ngiyaxolisa, mina, wena,
-            thina, futhi, noma, kodwa, ukuthi, ngoba, kakhulu, lapha, lokho, lo, le, la,
-            nga, nge, ngo, ngama, ngezi, nama, na, ka, kwa, ku, e, i, u, ngifuna, sifuna,
-            funa, ngingathanda, ngicabanga, malini, manje, namhlanje, kusasa
+            thina, futhi, noma, kodwa, ukuthi, ngoba, kakhulu, lapha, lo, le, la, nga,
+            nge, ngo, ngama, ngezi, nama, na, ka, kwa, ku, e, u, ngifuna, sifuna, funa,
+            ngingathanda, ngicabanga, malini, manje, namhlanje, kusasa, kwazi, ukwazi,
+            ngikwazi, ungakwazi, ngingakwazi, sikwazi, into, abafundi, nginayo, ngi,
+            ungi, si, usi, ba, yami, wami, lami, sami, zami, bami, kwami, yakho, wakho,
+            lakho, sakho, zakho, yethu, wethu
 
 1d. Stand-in classifier keywords, isiZulu lists  (data/dev_keywords.json -> "zu")
     [ ] greeting               sawubona, sanibonani, unjani
@@ -224,6 +233,7 @@ project. Tick each item once checked, and correct the file it points to.
 5. WORDING
 ------------------------------------------------------------------------
     [ ] Refusals, one per verb (data/action_lexicon.json -> "refusal")
+        do       Sorry, I cannot do that.   [x] from your verified pairs
         open     Sorry, I cannot open that.
         show     Sorry, I cannot show you that.
         find     Sorry, I cannot find that.

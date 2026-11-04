@@ -111,3 +111,29 @@ def test_every_verb_and_object_points_at_real_intents():
         assert set(entry["intents"]) <= labels, entry["id"]
     assert set(lex["capabilities"]) <= labels
     assert all(v["refusal"].startswith("Sorry") for v in lex["verbs"])
+
+
+# Verified sentence pairs supplied by the project owner.
+@pytest.mark.parametrize("text, verb", [
+    ("Ngenze okuthile", "do"),               # I did something
+    ("Angenzanga lutho", "do"),              # I did not do anything
+    ("Ungakwenza lokho?", "do"),             # Can you do that?
+    ("Angikwazi ukukwenza lokho", "do"),     # I cannot do that  (-kwazi = can, not know)
+    ("Ngingakwenza lokho", "do"),            # I can do that
+    ("Angiyena umfundi", None),              # I am not a student
+    ("Ngingumfundi", None),                  # I am a student
+    ("Anginalutho", None),                   # I don't have anything
+    ("Nginezinto eziningi", None),           # I have a lot of things
+])
+def test_owner_supplied_pairs(text, verb):
+    frame = analyse(text)
+    assert frame["verb"] == verb and frame["unknown"] == []
+
+
+def test_money_is_an_unknown_subject():
+    assert analyse("Ingabe unayo imali?")["unknown"] == ["imali"]      # Do you have money?
+
+
+def test_do_request_outside_scope_is_refused():
+    _, result = run("Ungakwenza i-NSFAS yami?", "OOS")
+    assert result["response"] == "Sorry, I cannot do that."

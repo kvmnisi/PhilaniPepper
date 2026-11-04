@@ -38,7 +38,7 @@ def lexicon():
     with open(settings.action_lexicon_file, encoding="utf-8") as handle:
         data = json.load(handle)
     for verb in data["verbs"]:
-        verb["_regex"] = [re.compile(r"(?<![a-z])[a-z]{0,7}?(?:%s)(?![a-z])" % p) for p in verb.get("patterns", [])]
+        verb["_regex"] = [re.compile(r"(?<![a-z])[a-z]{0,10}?(?:%s)(?![a-z])" % p) for p in verb.get("patterns", [])]
     data["_verbs"] = {v["id"]: v for v in data["verbs"]}
     data["_objects"] = {o["id"]: o for o in data["objects"]}
     return data
