@@ -454,6 +454,11 @@ def execute_intent(intent, slots=None, now=None, timetable=None):
     now = timetable.localise(now)
     if intent not in intent_labels():
         intent = OOS
-    result = HANDLERS.get(intent, _fallback)(slots, timetable, now)
+    handler = HANDLERS.get(intent, _fallback)
+    # "Please help me with student fees": a help request about something we cannot do.
+    # Whatever the classifier said ("help"), answer by naming the topic and declining.
+    if intent == "help" and slots.get("topic") and not any(k in slots for k in ("course", "location", "contact")):
+        handler = _fallback
+    result = handler(slots, timetable, now)
     result.update({"intent": intent, "slots": slots, "sample_data": timetable.is_sample})
     return result

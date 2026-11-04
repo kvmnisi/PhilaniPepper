@@ -182,3 +182,11 @@ def test_topics_never_shadow_supported_slots():
     contact_aliases = {a.lower() for c in tt.contacts for a in c["aliases"]}
     course_aliases = {a.lower() for c in tt.courses for a in c["aliases"] + [c["name"]]}
     assert not topic_aliases & (contact_aliases | course_aliases)
+
+
+def test_help_with_an_unsupported_topic_is_declined_whatever_the_model_says():
+    slots = extract_slots("ngi cela ungi size ngama Student fees")
+    result = execute_intent("help", slots)              # e.g. what a trained model might predict
+    assert result["intent"] == "help"                    # the prediction is still reported as is
+    assert "help with student fees" in result["response"] and result["status"] == "fallback"
+    assert execute_intent("help", {})["display"]["kind"] == "help"
