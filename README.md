@@ -118,8 +118,7 @@ After the intent model, Pepper reads the isiZulu transcript in two steps
 
 The analysis is identical for Branch A and B. Logs keep `predicted_intent`
 (the model, used for accuracy and macro-F1) apart from `executed_intent` and
-`policy` (what Pepper did, used for task completion). The isiZulu vocabulary is
-AI-drafted and must be checked by a native speaker.
+`policy` (what Pepper did, used for task completion).
 
 ### What it knows
 
@@ -380,9 +379,8 @@ Pepper package validity, and that `pepper_app/html` is in sync with `frontend/`.
 
 ## Known limitations
 
+Items still to be checked are listed in `verifythese.txt`.
+
 - Weekly lecture times and per-course lecturers are not in the data yet (see `data/README.md`).
-- Map grid squares and marker positions were read off the campus map image; check them on site.
-- The isiZulu in `data/dev_keywords.json` and the slot-extraction prefixes is
-  AI-drafted and **unverified**. A native speaker must check it.
 - Pepper's responses are in English, through the robot's English TTS.
 - The Pepper package has not been run on a robot and targets NAOqi 2.5 only.

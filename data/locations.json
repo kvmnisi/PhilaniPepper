@@ -1,5 +1,5 @@
 {
-  "source": "Wits Braamfontein Campus map 2025 (public). Grid squares and marker positions were read off the map; verify on site before relying on them.",
+  "source": "Wits Braamfontein Campus map 2025 (public). Grid squares and marker positions were read off the map.",
   "map_image": "assets/campus-map.jpg",
   "here": "msb",
   "rooms": [

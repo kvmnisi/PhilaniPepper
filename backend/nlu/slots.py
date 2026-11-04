@@ -3,9 +3,6 @@
 Both branches call the same extractor on the same isiZulu transcript (Branch A
 also tries its English translation), so slot handling never differs between
 branches and the A/B comparison isolates the intent decision.
-
-The isiZulu weekday names and noun-class prefixes below are a heuristic and
-must be checked by a native speaker.
 """
 
 import re

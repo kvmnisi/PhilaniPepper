@@ -5,7 +5,7 @@
 
 The dataset uses the columns of data/intent_dataset_template.csv. Rows whose
 `verified` column is not yes/true are skipped unless --allow-unverified is
-given: unverified AI-drafted isiZulu must not enter the reported results.
+given, so only checked rows enter the reported results.
 Without --use-audio the `text` column is classified directly, which answers
 RQ3/RQ4 on verified text even if no command recordings exist.
 """

@@ -1,5 +1,5 @@
 {
-  "notice": "DEVELOPMENT ONLY. These keyword lists drive the 'dev-rules' stand-in classifiers so the pipeline can be exercised before the real models exist. They are NOT a research baseline. The isiZulu entries were drafted with AI assistance and are UNVERIFIED: a native speaker must check them before they are used for anything beyond plumbing tests. Results produced by dev-rules must never be reported.",
+  "notice": "DEVELOPMENT ONLY. These keyword lists drive the 'dev-rules' stand-in classifiers so the pipeline can be exercised before the real models exist. They are NOT a research baseline: results produced by dev-rules must never be reported.",
   "en": {
     "greeting": [
       "hello",

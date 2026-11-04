@@ -1,7 +1,7 @@
 """Branch B: isiZulu transcript -> InkubaLM-0.4B (+ LoRA adapter) -> intent.
 
 Engines
-  dev-rules  No model. isiZulu keyword rules (unverified lexicon). Plumbing only.
+  dev-rules  No model. isiZulu keyword rules. Plumbing only.
   inkubalm   lelapa/InkubaLM-0.4B with the LoRA adapter at INKUBALM_ADAPTER.
              Every canonical label is scored as a continuation of the shared
              prompt (branch_b/prompt.py); softmax over the label scores gives

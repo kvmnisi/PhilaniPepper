@@ -1,0 +1,262 @@
+VERIFY THESE
+========================================================================
+Everything below was drafted, assumed or read off a document while building the
+project. Tick each item once checked, and correct the file it points to.
+
+1. isiZulu VOCABULARY
+------------------------------------------------------------------------
+1a. Verbs and question words  (data/action_lexicon.json -> "verbs")
+    Patterns are regular expressions: the stem plus endings; any prefixes
+    before the stem are allowed (siz(a|e|...) matches siza, ungisize).
+    [ ] open     patterns: vul(?:a|e|ele|ela|ile|eni)
+              English words: open
+    [ ] show     patterns: bonis(?:a|e|ele|ile), khombis(?:a|e|ele|ile)
+              English words: show
+    [ ] find     patterns: thol(?:a|e|ile|eni), fik(?:a|e|ile), kanjani
+              English words: find, get to, go to, how do i get
+    [ ] contact  patterns: shayel(?:a|e|ile), thint(?:a|e|ile)
+              English words: call, contact
+    [ ] teach    patterns: fundis(?:a|e|ile)(?:yo)?
+              English words: teach, teaches, lecture
+    [ ] tell     patterns: tshel(?:a|e|ele|ile|eni), (?:kw|w)azi, chaz(?:a|e|ele|ile),
+            buz(?:a|e|ile)
+              English words: tell, know, explain, ask
+    [ ] where    patterns: kuphi, [ilsz]iphi
+              English words: where
+    [ ] when     patterns: nini
+              English words: when, what time
+    [ ] who      patterns: ngubani, obani
+              English words: who
+    [ ] what     patterns: sini, yini, yimuphi, yiziphi
+              English words: what, which
+    [ ] help     patterns: siz(?:a|e|ele|ela|ile|eni|o)
+              English words: help, assist
+    [ ] Are any common verbs missing (e.g. other ways to say help, open, show,
+        find, call, tell)? Add them with their stems.
+    [ ] Check none of the stems also appears inside unrelated words.
+
+1b. Subject words  (data/action_lexicon.json -> "objects")
+    [ ] time         isikhathi, sikhathi, ihora, amahora
+    [ ] exam         isivivinyo, uvivinyo, izivivinyo
+    [ ] course       ikilasi, amakilasi, isifundo, izifundo
+    [ ] schedule     uhlelo, ithayimthebula, isheduli
+    [ ] lecturer     umfundisi, uthisha
+    [ ] calendar     isemester, isimesta, ithemu, amaholide, ikhalenda
+    [ ] self_service iportal, iphothali
+    [ ] contact      ucingo, inombolo, i-email, imeyili
+    [ ] place        ibalazwe, indlela, igumbi, isakhiwo
+
+1c. Words ignored when looking for an unknown subject  ("function_words")
+    [ ] ngicela, sicela, ngiyacela, siyacela, cela, ngiyabonga, ngiyaxolisa, mina, wena,
+            thina, futhi, noma, kodwa, ukuthi, ngoba, kakhulu, lapha, lokho, lo, le, la,
+            nga, nge, ngo, ngama, ngezi, nama, na, ka, kwa, ku, e, i, u, ngifuna, sifuna,
+            funa, ngingathanda, ngicabanga, malini, manje, namhlanje, kusasa
+
+1d. Stand-in classifier keywords, isiZulu lists  (data/dev_keywords.json -> "zu")
+    [ ] greeting               sawubona, sanibonani, unjani
+    [ ] help                   ngisize, usizo, siza
+    [ ] ask_time               isikhathi, sikhathi, ihora
+    [ ] ask_current_class      manje, njengamanje
+    [ ] ask_next_class         elandelayo, esilandelayo, okulandelayo, isivivinyo
+            esilandelayo
+    [ ] ask_lecturer           ngubani, umfundisi, uthisha, ofundisa
+    [ ] ask_course_time        nini, ngasikhathi sini, usuku
+    [ ] ask_course_venue       kuphi, ikuphi, iphi, igumbi, indawo
+    [ ] ask_day_schedule       uhlelo, isheduli, ithayimthebula
+    [ ] list_courses           izifundo, zonke izifundo, amamojula
+    [ ] ask_current_semester   isemester, isimesta, ithemu, amaholide, ikhalenda
+    [ ] open_self_service      self service, self-service, iportal, iphothali
+    [ ] ask_contact            ngithinte, ucingo, inombolo, i-email, imeyili, ngikhulume
+            nobani, ngibuze bani
+    [ ] ask_directions         ngiya kanjani, ngifika kanjani, indlela, ibalazwe,
+            ngiyithola kanjani
+
+1e. Slot extraction  (backend/nlu/slots.py)
+    [ ] Weekday names: uMsombuluko, uLwesibili, uLwesithathu, uLwesine,
+        uLwesihlanu, uMgqibelo, ngeSonto (Sunday)
+    [ ] Relative days: namhlanje = today, kusasa = tomorrow
+    [ ] Prefixes allowed before names (up to two may stack):
+        kwi, nge, nga, ngo, lwa, kwa, wa, ya, za, sa, ba, la, ku, ka, ye, we, se, i, e, u,
+                o
+    [ ] The same weekday list is in the Colab notebook (cell 4, SLOT_VALUES["weekday"])
+
+1f. isiZulu in Pepper's replies  (backend/dispatcher/dispatcher.py)
+    [ ] "Sawubona!" in the greeting and on the tablet's welcome text
+
+2. RECORDINGS AND TRANSCRIPTS
+------------------------------------------------------------------------
+    [ ] Listen to every split piece and confirm it holds exactly one whole request:
+        seg-015a ... seg-015p (16 pieces), seg-028a ... seg-028j (10 pieces).
+        Shortest, most at risk: seg-015m (1.5 s), seg-015a (2.1 s).
+        Originals: data/recordings/unsplit/
+    [ ] data/intent_dataset.csv: reference_transcript, text, intent and slots for
+        every row, then verified = yes
+
+3. WHISPER SETTINGS
+------------------------------------------------------------------------
+    [ ] WhisperModel/generation_config.json forces language "en". Confirm this is
+        the token the fine-tuning notebook trained with; otherwise set WHISPER_LANGUAGE.
+    [ ] Decoding: beam size 5, no repetition penalty, no n-gram blocking. Confirm
+        these match the evaluation that gave 16.25% WER (backend/config.py).
+
+4. CAMPUS DATA
+------------------------------------------------------------------------
+4a. Exams  (data/courses.json; source: Final November 2026 Assessment Timetable)
+    [ ] COMS4032A Applications of Algorithms (Theory)    2026-11-23 09:00-11:00  Basement
+            1A @ solomon_mahlangu
+    [ ] COMS4036A Computer Vision                        2026-11-18 14:00-17:00  MSL006
+    [ ] COMS4041A Human Computer Interaction             2026-11-20 09:00-12:00  MSL004
+    [ ] COMS4050A Discrete Optimisation (Theory)         2026-11-06 14:00-17:00  Basement
+            Annex @ fnb
+    [ ] COMS4054A Natural Language Processing            2026-11-10 14:00-17:00  MSL005,
+            MSL006
+    [ ] COMS4060A Data Visualisation and Exploration     2026-11-02 09:00-12:00  MSL004,
+            MSL109, MSL110
+    [ ] COMS4061A Reinforcement Learning                 2026-11-13 09:00-12:00  MSL006
+    [ ] COMS4066A Secure Systems Design and Analysis     2026-11-10 14:00-17:00  MSL005
+    [ ] COMS4067A Offensive Security and Ethical Hacking 2026-11-20 09:00-13:00  MSL006
+    [ ] COMS4068A Data Privacy and Ethics                2026-11-16 09:00-12:00  MSL006,
+            MSL110, MSL111
+    [ ] COMS4070A Computational Neuroscience             2026-11-05 09:00-12:00  MSL110
+    [ ] Only Honours COMS4xxx courses are included. Add any that are missing.
+
+4b. Course names students use  (data/courses.json -> "aliases")
+    [ ] COMS4032A: applications of algorithms, application of algorithms, algorithms
+    [ ] COMS4036A: computer vision, vision
+    [ ] COMS4041A: human computer interaction, human-computer interaction, hci
+    [ ] COMS4050A: discrete optimisation, discrete optimization, optimisation,
+            optimization
+    [ ] COMS4054A: natural language processing, language processing, nlp
+    [ ] COMS4060A: data visualisation and exploration, data visualisation, data
+            visualization, visualisation, visualization
+    [ ] COMS4061A: reinforcement learning, rl
+    [ ] COMS4066A: secure systems design and analysis, secure systems design, secure
+            systems
+    [ ] COMS4067A: offensive security and ethical hacking, offensive security, ethical
+            hacking, hacking
+    [ ] COMS4068A: data privacy and ethics, data privacy, privacy
+    [ ] COMS4070A: computational neuroscience, neuroscience
+
+4c. Places  (data/locations.json; grid squares and pins read off the campus map)
+    [ ] TW Kambule Mathematical Sciences Building            West  grid C3   aliases: tw
+            kambule mathematical sciences building, tw kambule, kambule, mathematical
+            sciences building, math science building, maths science building, maths
+            building, msb, this building
+    [ ] Science Stadium                                      West  grid C3   aliases:
+            science stadium
+    [ ] Flower Hall                                          West  grid D3   aliases:
+            flower hall
+    [ ] Hall 29                                              West  grid A3   aliases: hall
+            29, hall twenty nine, hall twenty-nine
+    [ ] Solomon Mahlangu House                               East  grid D4   aliases:
+            solomon mahlangu house, solomon mahlangu, senate house
+    [ ] Robert Sobukwe Block                                 East  grid D4   aliases:
+            robert sobukwe block, robert sobukwe, central block
+    [ ] Great Hall                                           East  grid D4   aliases:
+            great hall
+    [ ] William Cullen Library                               East  grid C4   aliases:
+            william cullen library, cullen library, cullen
+    [ ] Old Mutual Sports Hall                               East  grid C4   aliases: old
+            mutual sports hall, old mutual multipurpose sports hall, old mutual
+    [ ] The Matrix                                           East  grid C5   aliases: the
+            matrix, matrix
+    [ ] Wits Margo Steele School of Accountancy (FNB Building) West  grid B3   aliases:
+            fnb building, fnb basement annex, fnb, wits margo steele school of
+            accountancy, margo steele school of accountancy, margo steele, school of
+            accountancy, accountancy
+    [ ] Hall 29 sits on the A/B grid line; confirm A3.
+    [ ] MSL rooms (MSL004, MSL005, ...) are inside the TW Kambule building.
+    [ ] "Senate House" = Solomon Mahlangu House and "Central Block" = Robert
+        Sobukwe Block (former names used as aliases).
+    [ ] Pin positions on the tablet map land on the right buildings.
+
+4d. Contacts  (data/contacts.json): names, roles, emails and phone numbers
+    were copied from the School page; the aliases were added:
+    [ ] head_of_school         head of school, head of the school, hos, richard klein,
+            professor klein, prof klein
+    [ ] school_admin           school administrator, administrator, admin, ramabolu
+    [ ] finance_admin          finance administrator, finance, khunou
+    [ ] general_cs             general enquiries, general inquiries, enquiries, inquiries,
+            reception, school office, computer science office, monyepote
+    [ ] general_appm           applied mathematics office, applied maths office, applied
+            mathematics enquiries, applied maths enquiries, mosiane
+    [ ] cs1                    computer science 1, computer science one, first year
+            computer science, cs1, olukanmi
+    [ ] cs2                    computer science 2, computer science two, second year
+            computer science, cs2, ranchod
+    [ ] cs3                    computer science 3, computer science three, third year
+            computer science, cs3, ingram
+    [ ] appm_new_first_year    new first year, first year applied maths queries, carrim
+    [ ] cam1                   applied mathematics 1, applied maths 1, applied mathematics
+            one, applied maths one, cam1, kgalte-maseko
+    [ ] cam2                   applied mathematics 2, applied maths 2, applied mathematics
+            two, applied maths two, cam2
+    [ ] cam3                   applied mathematics 3, applied maths 3, applied mathematics
+            three, applied maths three, cam3, mubai
+    [ ] honours_cs             honours coordinator, computer science honours, honours, big
+            data analytics, big data, cybersecurity honours, hairong wang
+    [ ] honours_appm           applied mathematics honours, applied maths honours,
+            otegbeye
+    [ ] pgdip_ds               postgraduate diploma, pgdip, data science diploma, kariv
+    [ ] msc_phd_cs             phd computer science, msc computer science research,
+            computer science phd, research degrees computer science, vadapalli
+    [ ] msc_phd_appm           phd applied mathematics, phd applied maths, applied maths
+            phd, fareo
+    [ ] msc_coursework         msc by coursework, coursework masters, msc coursework,
+            masters by coursework, devon jarvis, jarvis
+
+4e. Calendar  (data/calendar.json): period names and dates from the 2026 calendar
+    [ ] Returning Students Registration (PG and UG)      2026-01-02 to 2026-02-02
+    [ ] Gateway to Success and Postgraduate Orientation  2026-01-20 to 2026-02-02
+    [ ] First Teaching Block                             2026-02-03 to 2026-03-18
+    [ ] Mid-term Vacation / Study / Research Break       2026-03-19 to 2026-03-29
+    [ ] Second Teaching Block                            2026-03-30 to 2026-05-19
+    [ ] Study Break                                      2026-05-20 to 2026-05-24
+    [ ] June Examination / Assessment Period             2026-05-25 to 2026-06-22
+    [ ] Winter Vacation / Study / Research Break         2026-06-23 to 2026-07-19
+    [ ] Third Teaching Block                             2026-07-20 to 2026-09-04
+    [ ] Mid-term Vacation / Study / Research Break       2026-09-07 to 2026-09-13
+    [ ] Fourth Teaching Block                            2026-09-14 to 2026-10-27
+    [ ] Study Break                                      2026-10-28 to 2026-11-01
+    [ ] November Examination / Assessment Period         2026-11-02 to 2026-11-27
+    [ ] Summer Vacation / Study / Research Break         2026-11-28 to (open)
+
+5. WORDING
+------------------------------------------------------------------------
+    [ ] Refusals, one per verb (data/action_lexicon.json -> "refusal")
+        open     Sorry, I cannot open that.
+        show     Sorry, I cannot show you that.
+        find     Sorry, I cannot find that.
+        contact  Sorry, I cannot contact that for you.
+        teach    Sorry, I cannot help with that.
+        tell     Sorry, I cannot tell you that.
+        where    Sorry, I don't know where that is.
+        when     Sorry, I don't know when that is.
+        who      Sorry, I don't know who that is.
+        what     Sorry, I don't know that.
+        help     Sorry, I cannot help with that.
+    [ ] Capability phrases (data/action_lexicon.json -> "capabilities")
+    [ ] Intent descriptions and English hypotheses for the zero-shot baseline
+        (data/intents.json)
+
+6. PEPPER ROBOT
+------------------------------------------------------------------------
+    [ ] Lab robot runs NAOqi 2.5 (Choregraphe) or 2.9 (QiSDK)? The package targets 2.5.
+    [ ] pepper_app/behavior.xar opens in Choregraphe (written by hand).
+    [ ] pepper_app/scripts/task_executor.py runs under Python 2.7 on the robot (never
+            run).
+    [ ] Microphone channel mask [0, 0, 1, 0] (front microphone) records clearly.
+    [ ] The app appears in the App Launcher with its icon.
+    [ ] 3D model standing pose and gestures look right (frontend/js/pepper3d.js).
+
+7. LICENCES AND CREDITS
+------------------------------------------------------------------------
+    [ ] Grotesk Medium (SoftMaker) may be embedded in this web page.
+    [ ] Use of the Wits crest fits University brand guidelines.
+    [ ] Pepper meshes: CC BY-NC-ND 4.0, SoftBank Robotics / Aldebaran; installed
+        locally only after accepting the licence.
+    [ ] NCHLT credit in the report: NCHLT Clean isiZulu Text Corpus v2.0, South
+        African Department of Arts and Culture & CTexT, North-West University
+        (CC BY 2.5 South Africa).
+    [ ] Report states the changes from the proposal: Whisper instead of Kaldi,
+        Choregraphe/NAOqi instead of QiSDK, the reduced intent set.

@@ -17,7 +17,7 @@ places, plus the course/weekday/location/contact slots). Then:
 
 The same analysis runs on the isiZulu transcript for both branches, so it
 never favours Branch A or B. The model's prediction is still reported as is.
-Vocabulary lives in data/action_lexicon.json (AI-drafted, to be verified).
+Vocabulary lives in data/action_lexicon.json.
 """
 
 import json

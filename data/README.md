@@ -10,7 +10,7 @@ Wits information supplied by the project owner.
 | `contacts.json` | School of Computer Science and Applied Mathematics contacts. `default` lists who is suggested when no one specific is asked for. | CSAM contact page |
 | `locations.json` | Campus places with campus side, map grid square and map marker position. Rooms matching `MSL###` are in this building. | Braamfontein campus map 2025 |
 | `intents.json` | The 15 canonical intent labels and their slots. | Project design |
-| `dev_keywords.json` | Keyword lists for the stand-in classifiers. **Development only**; the isiZulu is AI-drafted and unverified. | Project design |
+| `dev_keywords.json` | Keyword lists for the stand-in classifiers. **Development only.** | Project design |
 | `intent_dataset_template.csv` | Column layout for the labelled isiZulu command set. | Template |
 
 ## Not in the data yet
@@ -20,8 +20,6 @@ Wits information supplied by the project owner.
   They are only used during teaching blocks from `calendar.json`.
 - **Lecturers.** Set `lecturer` per course. Until then, "who teaches X"
   points students to the Honours coordinator.
-- **Marker positions and grid squares** were read off the campus map image.
-  Check them on site.
 
 ## Updating for a new period
 

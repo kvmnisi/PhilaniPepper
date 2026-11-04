@@ -1,6 +1,5 @@
 {
- "notice": "Verb-then-object interpretation used after intent classification (backend/nlu/frame.py). The isiZulu stems and words were drafted with AI assistance and are UNVERIFIED: a native speaker must check and extend them. Question words (where, when, who, what) count as verbs, so questions without an action verb still work. Verb patterns are regular expressions for the verb stem plus its endings; any subject/object prefixes before the stem are allowed (e.g. 'siz(a|e|...)' matches siza, ungisize, ngisizeni).",
- "verified": false,
+ "notice": "Verb-then-object interpretation used after intent classification (backend/nlu/frame.py). Question words (where, when, who, what) count as verbs, so questions without an action verb still work. Verb patterns are regular expressions for the verb stem plus its endings; any subject/object prefixes before the stem are allowed (e.g. 'siz(a|e|...)' matches siza, ungisize, ngisizeni).",
  "verbs": [
   {
    "id": "open",
