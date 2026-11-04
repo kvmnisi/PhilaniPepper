@@ -1,0 +1,137 @@
+{
+  "base_model": "lelapa/InkubaLM-0.4B",
+  "prompt_template": "### isiZulu command:\n{text}\n### Intent:",
+  "labels": [
+    "greeting",
+    "help",
+    "ask_time",
+    "ask_current_class",
+    "ask_next_class",
+    "ask_lecturer",
+    "ask_course_time",
+    "ask_course_venue",
+    "ask_day_schedule",
+    "list_courses",
+    "ask_current_semester",
+    "open_self_service",
+    "ask_contact",
+    "ask_directions",
+    "OOS"
+  ],
+  "lora": {
+    "r": 16,
+    "alpha": 32,
+    "dropout": 0.05,
+    "targets": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ]
+  },
+  "epochs": 8,
+  "learning_rate": 0.0002,
+  "batch_size": 16,
+  "seed": 42,
+  "train_examples": 24,
+  "val_examples": 2,
+  "data_report": {
+    "skipped_unverified": 0,
+    "dropped_test_overlap": 0,
+    "duplicates": 0,
+    "examples": 26,
+    "per_intent": {
+      "OOS": 3,
+      "ask_contact": 3,
+      "ask_course_time": 1,
+      "ask_current_class": 1,
+      "ask_current_semester": 2,
+      "ask_day_schedule": 1,
+      "ask_directions": 4,
+      "ask_lecturer": 1,
+      "ask_time": 1,
+      "greeting": 4,
+      "help": 3,
+      "list_courses": 2
+    },
+    "nchlt_lm_sentences": 20000
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": NaN,
+      "seconds": 0.6,
+      "val_accuracy": 0.5,
+      "val_macro_f1": 0.3333333333333333
+    },
+    {
+      "epoch": 2,
+      "train_loss": NaN,
+      "seconds": 0.5,
+      "val_accuracy": 0.5,
+      "val_macro_f1": 0.3333333333333333
+    },
+    {
+      "epoch": 3,
+      "train_loss": NaN,
+      "seconds": 0.5,
+      "val_accuracy": 0.5,
+      "val_macro_f1": 0.3333333333333333
+    },
+    {
+      "epoch": 4,
+      "train_loss": NaN,
+      "seconds": 0.5,
+      "val_accuracy": 0.5,
+      "val_macro_f1": 0.3333333333333333
+    },
+    {
+      "epoch": 5,
+      "train_loss": NaN,
+      "seconds": 0.6,
+      "val_accuracy": 0.5,
+      "val_macro_f1": 0.3333333333333333
+    },
+    {
+      "epoch": 6,
+      "train_loss": NaN,
+      "seconds": 0.5,
+      "val_accuracy": 0.5,
+      "val_macro_f1": 0.3333333333333333
+    },
+    {
+      "epoch": 7,
+      "train_loss": NaN,
+      "seconds": 0.5,
+      "val_accuracy": 0.5,
+      "val_macro_f1": 0.3333333333333333
+    },
+    {
+      "epoch": 8,
+      "train_loss": NaN,
+      "seconds": 0.5,
+      "val_accuracy": 0.5,
+      "val_macro_f1": 0.3333333333333333
+    }
+  ],
+  "test_transcripts_text_level": {
+    "accuracy": 0.0,
+    "macro_f1": 0.0
+  },
+  "nchlt": {
+    "used": true,
+    "stage_a_sentences": 20000,
+    "stage_a_history": [
+      {
+        "epoch": 1,
+        "lm_loss": NaN,
+        "seconds": 1396.3
+      }
+    ],
+    "source": "NCHLT Clean isiZulu Text Corpus v2.0 (DAC & CTexT, NWU), CC BY 2.5 ZA"
+  },
+  "note": "Validation uses held-out training phrasings. Report Branch B from the repo's batch evaluation on the recordings."
+}
