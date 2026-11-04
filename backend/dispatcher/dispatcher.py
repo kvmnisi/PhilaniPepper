@@ -420,13 +420,35 @@ def _ask_directions(slots, tt, now):
 
 
 def _fallback(slots, tt, now):
-    topic = tt.topic(slots.get("topic")) if slots.get("topic") else None
-    if topic:
-        text = ("Ngiyaxolisa. I understood that you need help with %s, but that is not something I can help with. "
-                "I can help with Honours exams, the academic calendar, School contacts and finding your way on campus."
-                % topic["label"])
-        return _say(text, {"kind": "message", "text": text, "topic": topic["id"]}, status="fallback")
     return _say(FALLBACK_RESPONSE, {"kind": "message", "text": FALLBACK_RESPONSE}, status="fallback")
+
+
+def _policy_response(policy):
+    """Response for a verb/object decision from backend/nlu/frame.py.
+
+    Returns (result, executed_intent): refusals are carried out as OOS,
+    capability offers as help.
+    """
+    caps = policy.get("capabilities", [])
+    about = _join(policy.get("objects", []))
+    kind = policy["policy"]
+    if kind == "verb_unknown_object":
+        # Exactly the verb's refusal, e.g. "Sorry, I cannot help with that."
+        text = policy["refusal"]
+        display = {"kind": "capabilities", "title": "What I can do instead", "items": caps}
+        return {"status": "fallback", "response": text, "action": {"type": "say", "text": text}, "display": display}, OOS
+    if kind == "verb_object_mismatch":
+        text = "%s About %s, I can help with %s." % (policy["refusal"], about, _join(caps))
+        display = {"kind": "capabilities", "title": "About %s" % about, "items": caps}
+        return {"status": "fallback", "response": text, "action": {"type": "say", "text": text}, "display": display}, OOS
+    if kind == "object_offer":
+        text = "About %s, I can help with %s. What would you like to know?" % (about, _join(caps))
+        display = {"kind": "capabilities", "title": "About %s" % about, "items": caps}
+        return {"status": "needs_slot", "response": text, "action": {"type": "show", "text": text}, "display": display}, "help"
+    # verb_offer: the verb alone
+    text = "I can help with %s. What would you like?" % _join(caps)
+    display = {"kind": "capabilities", "title": "What I can do", "items": caps}
+    return {"status": "needs_slot", "response": text, "action": {"type": "show", "text": text}, "display": display}, "help"
 
 
 HANDLERS = {
@@ -448,17 +470,28 @@ HANDLERS = {
 }
 
 
-def execute_intent(intent, slots=None, now=None, timetable=None):
+def execute_intent(intent, slots=None, now=None, timetable=None, frame=None):
+    """Carry out `intent`. With a `frame` (backend/nlu/frame.py), the verb/object
+    policy may refuse or offer capabilities instead; the result then reports
+    both the model's intent ("predicted_intent") and what was done ("intent")."""
+    from backend.nlu.frame import decide
+
     timetable = timetable or get_timetable()
     slots = dict(slots or {})
     now = timetable.localise(now)
-    if intent not in intent_labels():
-        intent = OOS
-    handler = HANDLERS.get(intent, _fallback)
-    # "Please help me with student fees": a help request about something we cannot do.
-    # Whatever the classifier said ("help"), answer by naming the topic and declining.
-    if intent == "help" and slots.get("topic") and not any(k in slots for k in ("course", "location", "contact")):
-        handler = _fallback
-    result = handler(slots, timetable, now)
-    result.update({"intent": intent, "slots": slots, "sample_data": timetable.is_sample})
+    predicted = intent if intent in intent_labels() else OOS
+    policy = decide(predicted, frame)
+    if policy is None or policy["policy"] == "execute":
+        executed = policy["intent"] if policy else predicted
+        result = HANDLERS.get(executed, _fallback)(slots, timetable, now)
+    else:
+        result, executed = _policy_response(policy)
+    result.update({
+        "intent": executed,
+        "predicted_intent": predicted,
+        "policy": policy["policy"] if policy else None,
+        "frame": frame,
+        "slots": slots,
+        "sample_data": timetable.is_sample,
+    })
     return result

@@ -28,6 +28,8 @@ COLUMNS = [
     "branch_engine",
     "translation",
     "predicted_intent",
+    "executed_intent",
+    "policy",
     "confidence",
     "course_slot",
     "weekday_slot",
@@ -55,10 +57,16 @@ def _bool(value):
 
 
 def task_correct(row):
-    """Intent right and every supplied gold slot matched; None without gold."""
+    """What Pepper did matches the gold intent and every supplied gold slot; None without gold.
+
+    Uses executed_intent (after the verb/object policy) when present: a correct
+    refusal of an out-of-scope request is a completed task even if the model
+    predicted something else. Intent accuracy / macro-F1 still use predicted_intent.
+    """
     if not row.get("true_intent"):
         return None
-    if row.get("predicted_intent") != row["true_intent"]:
+    done = row.get("executed_intent") or row.get("predicted_intent")
+    if done != row["true_intent"]:
         return False
     for gold_key, slot_key in (("true_course", "course_slot"), ("true_weekday", "weekday_slot")):
         gold = (row.get(gold_key) or "").strip().lower()

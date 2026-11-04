@@ -13,6 +13,8 @@ from pathlib import Path
 from backend.asr.whisper_asr import ASRUnavailable
 from backend.audio import AudioDecodeError, decode_audio
 from backend.dispatcher.dispatcher import execute_intent
+from backend.nlu.frame import analyse
+from backend.nlu.slots import extract_slots
 from backend.evaluation.metrics import cer, wer
 
 
@@ -102,18 +104,22 @@ def run_trial(engines, research_log, recordings_dir, *, audio=None, text=None, b
 
         # --- Execution ----------------------------------------------------
         yield {"stage": "executing"}
+        # Verb-then-object reading of the isiZulu transcript, identical for both branches.
+        frame = analyse(transcript, extract_slots(transcript))
         execution_ms = None
         dispatched = {}
         adapter_report = None
         for name in branches:
             start = time.perf_counter()
-            dispatched[name] = execute_intent(results[name]["intent"], results[name]["slots"])
+            dispatched[name] = execute_intent(results[name]["intent"], results[name]["slots"], frame=frame)
             if name == primary:
                 adapter_report = engines.adapter.deliver(dispatched[name])
                 execution_ms = _ms(start)
             results[name]["dispatch"] = {
                 "status": dispatched[name]["status"],
                 "response": dispatched[name]["response"],
+                "executed_intent": dispatched[name]["intent"],
+                "policy": dispatched[name]["policy"],
             }
 
         total_ms = _ms(started)
@@ -144,6 +150,7 @@ def run_trial(engines, research_log, recordings_dir, *, audio=None, text=None, b
                     "weekday_slot": results[name]["slots"].get("weekday"),
                     "location_slot": results[name]["slots"].get("location"),
                     "executed": name == primary,
+                    "executed_intent": dispatched[name]["intent"], "policy": dispatched[name]["policy"],
                     "asr_latency_ms": asr_info["latency_ms"],
                     "translation_latency_ms": results[name]["latency"]["translation_ms"],
                     "classification_latency_ms": results[name]["latency"]["classification_ms"],
@@ -168,6 +175,9 @@ def run_trial(engines, research_log, recordings_dir, *, audio=None, text=None, b
                 "confidence": chosen["confidence"],
                 "translation": chosen["translation"],
                 "status": outcome["status"],
+                "executed_intent": outcome["intent"],
+                "policy": outcome["policy"],
+                "frame": frame,
                 "response": outcome["response"],
                 "action": outcome["action"],
                 "display": outcome["display"],

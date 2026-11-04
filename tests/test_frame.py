@@ -1,0 +1,113 @@
+"""Verb-then-object policy (backend/nlu/frame.py) applied by the dispatcher."""
+
+import pytest
+
+from backend.dispatcher.dispatcher import FALLBACK_RESPONSE, execute_intent
+from backend.nlu.frame import analyse, decide, lexicon
+from backend.nlu.slots import extract_slots
+
+
+def run(text, model_intent):
+    slots = extract_slots(text)
+    frame = analyse(text, slots)
+    return frame, execute_intent(model_intent, slots, frame=frame)
+
+
+@pytest.mark.parametrize("text, verb", [
+    ("ngicela ungisize", "help"), ("ungivulele", "open"), ("ngitshele", "tell"), ("ngibonise", "show"),
+    ("ngiyithola kanjani", "find"), ("ngubani ofundisa", "teach"), ("ikuphi", "where"), ("sinini", "when"),
+    ("ngubani", "who"), ("isikhathi sini", "what"), ("please help me", "help"), ("open it", "open"),
+])
+def test_verbs_are_found_inside_inflected_words(text, verb):
+    assert analyse(text)["verb"] == verb
+
+
+def test_isizulu_is_not_mistaken_for_the_help_verb():
+    assert analyse("isizulu")["verb"] is None          # contains "siz" but is not siza
+
+
+def test_known_names_are_not_unknown_subjects():
+    frame = analyse("ngiya kanjani e-Solomon Mahlangu House", extract_slots("ngiya kanjani e-Solomon Mahlangu House"))
+    assert frame["objects"] == ["place"] and "solomon" not in frame["unknown"]
+
+
+def test_help_request_outside_scope_is_refused_with_the_verb_message():
+    frame, result = run("ngi cela ungi size ngama Student fees", "help")
+    assert frame["verb"] == "help" and frame["objects"] == [] and {"student", "fees"} <= set(frame["unknown"])
+    assert result["response"] == "Sorry, I cannot help with that."
+    assert result["policy"] == "verb_unknown_object"
+    assert result["intent"] == "OOS" and result["predicted_intent"] == "help"   # both reported
+    assert result["display"]["kind"] == "capabilities" and result["display"]["items"]
+
+
+def test_open_request_outside_scope_is_refused_with_the_open_message():
+    _, result = run("ngicela ungivulele i-library", "open_self_service")     # even if the model says open
+    assert result["response"] == "Sorry, I cannot open that." and result["intent"] == "OOS"
+
+
+def test_open_with_an_in_scope_object_is_carried_out():
+    _, result = run("ngicela uvule i-self service", "open_self_service")
+    assert result["policy"] is None and result["action"]["type"] == "open_url"
+
+
+def test_object_without_a_verb_offers_every_related_capability():
+    frame, result = run("blah blah blah isikhathi", "ask_time")             # model guess is not trusted
+    assert frame["verb"] is None and frame["objects"] == ["time"]
+    assert result["policy"] == "object_offer" and result["intent"] == "help"
+    caps = lexicon()["capabilities"]
+    for intent in ("ask_time", "ask_current_class", "ask_next_class", "ask_course_time", "ask_day_schedule"):
+        assert caps[intent] in result["display"]["items"]
+    assert "About the time" in result["response"]
+
+
+def test_verb_that_cannot_apply_to_an_in_scope_object():
+    _, result = run("ngicela ungivulele isikhathi", "ask_time")
+    assert result["policy"] == "verb_object_mismatch"
+    assert result["response"].startswith("Sorry, I cannot open that. About the time")
+
+
+def test_verb_alone_offers_what_that_verb_can_do():
+    _, result = run("ngicela uvule", "OOS")
+    assert result["policy"] == "verb_offer" and result["display"]["items"] == ["opening Student Self-Service"]
+    _, result = run("ngicela ungisize", "OOS")
+    assert result["intent"] == "help" and result["display"]["kind"] == "help"
+
+
+@pytest.mark.parametrize("text, model_intent", [
+    ("isikhathi sini?", "ask_time"),
+    ("ikuphi i-COMS4054", "ask_course_venue"),
+    ("ngubani ofundisa i-computer vision", "ask_lecturer"),
+    ("ngiya kanjani e-Solomon Mahlangu House", "ask_directions"),
+    ("ngitshele isikhathi", "ask_time"),
+])
+def test_consistent_model_intent_is_carried_out(text, model_intent):
+    _, result = run(text, model_intent)
+    assert result["policy"] is None and result["intent"] == model_intent
+
+
+def test_question_word_with_unknown_subject_is_refused():
+    _, result = run("i-library ikuphi?", "ask_course_venue")
+    assert result["response"] == "Sorry, I don't know where that is."
+
+
+def test_no_verb_and_no_object_trusts_the_model():
+    _, result = run("sawubona pepper", "greeting")
+    assert result["policy"] is None and result["intent"] == "greeting"
+    _, result = run("blah blah", "OOS")
+    assert result["response"] == FALLBACK_RESPONSE
+
+
+def test_without_a_frame_the_dispatcher_is_unchanged():
+    assert decide("ask_time", None) is None
+    result = execute_intent("ask_time", {})
+    assert result["intent"] == result["predicted_intent"] == "ask_time" and result["policy"] is None
+
+
+def test_every_verb_and_object_points_at_real_intents():
+    from backend.nlu.intents import intent_labels
+    labels = set(intent_labels())
+    lex = lexicon()
+    for entry in lex["verbs"] + lex["objects"]:
+        assert set(entry["intents"]) <= labels, entry["id"]
+    assert set(lex["capabilities"]) <= labels
+    assert all(v["refusal"].startswith("Sorry") for v in lex["verbs"])

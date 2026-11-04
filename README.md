@@ -93,6 +93,34 @@ later the physical robot.
 `today`/`tomorrow`), `location` (a campus place or an `MSL` room), and `contact`.
 Defined once in [`data/intents.json`](data/intents.json).
 
+### Verb first, then subject
+
+After the intent model, Pepper reads the isiZulu transcript in two steps
+(`backend/nlu/frame.py`, vocabulary in `data/action_lexicon.json`):
+
+1. **The verb**: help (*siza*), open (*vula*), show (*bonisa*), find (*thola*,
+   *fika*), contact (*shayela*, *thinta*), teach (*fundisa*), tell (*tshela*,
+   *azi*), or a question word: where (*kuphi*), when (*nini*), who
+   (*ngubani*), what (*sini*, *yini*). Stems are matched inside inflected words
+   (*ungisize*, *ungivulele*).
+2. **The subject**: time, exams, courses/classes, the timetable, lecturers, the
+   calendar, Self-Service, contacts, places, or any known course, place,
+   weekday or contact name.
+
+| Verb | Subject | Pepper |
+| --- | --- | --- |
+| recognised | in scope, model intent fits | carries out the request |
+| recognised | unknown (e.g. *ngisize ngama student fees*) | the verb's refusal: "Sorry, I cannot help with that." / "Sorry, I cannot open that." |
+| recognised | in scope, verb cannot apply | refusal, then what it can do about the subject |
+| recognised | none | what that verb can do |
+| not recognised | in scope (e.g. *… isikhathi*) | every capability about that subject |
+| neither | | the model's intent (e.g. greetings) |
+
+The analysis is identical for Branch A and B. Logs keep `predicted_intent`
+(the model, used for accuracy and macro-F1) apart from `executed_intent` and
+`policy` (what Pepper did, used for task completion). The isiZulu vocabulary is
+AI-drafted and must be checked by a native speaker.
+
 ### What it knows
 
 Pepper stands in the **TW Kambule Mathematical Sciences Building**. It answers

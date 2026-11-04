@@ -275,6 +275,11 @@
             [display.label, el("span", { className: "ext", "aria-hidden": "true", text: "↗" })]),
           el("p", { text: "You will sign in on the official Wits page. Pepper never sees or stores your password." })
         ])];
+      case "capabilities":
+        return [
+          el("h3", { className: "result-title", text: display.title }),
+          el("ul", { className: "chips" }, display.items.map(function (item) { return el("li", { text: item }); }))
+        ];
       case "help":
         return [el("ul", { className: "chips" }, display.items.map(function (item) { return el("li", { text: item }); }))];
       case "calendar":
@@ -371,6 +376,21 @@
     return result.branches && result.branches[name];
   }
 
+  var POLICY_LABELS = {
+    verb_unknown_object: "verb + unknown subject: refused",
+    verb_object_mismatch: "verb cannot apply: refused + offer",
+    object_offer: "no verb: offered capabilities",
+    verb_offer: "verb alone: offered capabilities",
+    execute: "verb alone: help"
+  };
+
+  function frameText(frame) {
+    if (!frame) { return "\u2014"; }
+    var parts = ["verb: " + (frame.verb || "none"), "subject: " + (frame.objects && frame.objects.length ? frame.objects.join(", ") : "none")];
+    if (frame.unknown && frame.unknown.length) { parts.push("unknown: " + frame.unknown.join(" ")); }
+    return parts.join(" \u00b7 ");
+  }
+
   function renderTrial(result, extras) {
     var box = $.trialDetail;
     clear(box);
@@ -422,6 +442,8 @@
 
     var lat = result.latency || {};
     var summary = [
+      ["Verb / subject", frameText(result.frame)],
+      ["Pepper did", result.policy ? el("span", null, [(result.executed_intent || result.intent) + " ", tag(POLICY_LABELS[result.policy] || result.policy, "warn")]) : (result.executed_intent || result.intent)],
       ["Agreement", result.agreement === null || result.agreement === undefined ? "—" : (result.agreement ? tag("A and B agree", "ok") : tag("A and B disagree", "bad"))],
       ["ASR latency", ms(lat.asr_ms)],
       ["Execution latency", ms(lat.execution_ms)],

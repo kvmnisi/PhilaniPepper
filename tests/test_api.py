@@ -139,3 +139,16 @@ def test_adapter_must_match_prompt_and_labels(tmp_path):
     (tmp_path / "training_info.json").write_text(_json.dumps(dict(info, labels=intent_labels()[:-1])))
     with pytest.raises(RuntimeError, match="different intent labels"):
         check_adapter_compatible(tmp_path)
+
+
+def test_policy_is_logged_separately_from_the_model_prediction(client):
+    body = client.post("/api/process", data={
+        "text": "ngi cela ungi size ngama Student fees", "branch": "B", "log": "true",
+        "session_id": "S2", "trial_id": "t1", "true_intent": "OOS"}).json()
+    assert body["response"] == "Sorry, I cannot help with that."
+    assert body["executed_intent"] == "OOS" and body["policy"] == "verb_unknown_object"
+    assert body["frame"]["verb"] == "help"
+    row = read_rows(client.log_path)[-1]
+    assert row["policy"] == "verb_unknown_object" and row["executed_intent"] == "OOS"
+    assert row["task_correct"] == "1"                     # Pepper did the right thing
+    assert row["correct"] == ("1" if row["predicted_intent"] == "OOS" else "0")   # model scored on its own

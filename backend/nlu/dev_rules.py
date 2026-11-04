@@ -51,9 +51,6 @@ def classify(text, language, slots):
         scores["ask_directions"] = scores.get("ask_directions", 0.0) + max(0.0, scores.pop("ask_course_venue", 0.0)) + 1.0
     if "contact" in slots and not has_course:
         scores["ask_contact"] = scores.get("ask_contact", 0.0) + 1.0
-    # "Please help me with student fees": a request for help we cannot give -> OOS, not help.
-    if "topic" in slots and not (has_course or "location" in slots or "contact" in slots):
-        return OOS, {"OOS": 1.0}
     if has_course and "ask_directions" in scores:
         scores["ask_course_venue"] = scores.get("ask_course_venue", 0.0) + scores.pop("ask_directions")
 
