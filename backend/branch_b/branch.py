@@ -42,6 +42,26 @@ def check_adapter_compatible(adapter_dir):
     return info
 
 
+DTYPES = ("float32", "bfloat16", "float16")
+
+
+def dtype_name(setting, device):
+    """Resolve INKUBALM_DTYPE. 'auto' keeps float32, except bfloat16 on GPUs that support it."""
+    setting = (setting or "float32").lower()
+    if setting in DTYPES:
+        return setting
+    if setting == "auto":
+        return "bfloat16" if device == "cuda" else "float32"
+    raise ValueError("INKUBALM_DTYPE must be one of %s or auto" % ", ".join(DTYPES))
+
+
+def resolve_dtype(setting, device, torch):
+    name = dtype_name(setting, device)
+    if name == "bfloat16" and device == "cuda" and not torch.cuda.is_bf16_supported():
+        name = "float32"
+    return getattr(torch, name)
+
+
 class InkubaLMClassifier:
     def __init__(self, settings):
         self.settings = settings
@@ -61,14 +81,17 @@ class InkubaLMClassifier:
             from peft import PeftModel
             from transformers import AutoModelForCausalLM, AutoTokenizer
 
-            from backend.torch_utils import pick_device, pick_dtype
+            from backend.torch_utils import pick_device
 
             trust = self.settings.inkubalm_trust_remote_code
             self.device = pick_device(self.settings.device)
             self.tokenizer = AutoTokenizer.from_pretrained(self.model_id, trust_remote_code=trust)
-            base = AutoModelForCausalLM.from_pretrained(
-                self.model_id, trust_remote_code=trust, torch_dtype=pick_dtype(self.device)
-            )
+            dtype = resolve_dtype(self.settings.inkubalm_dtype, self.device, torch)
+            try:
+                base = AutoModelForCausalLM.from_pretrained(self.model_id, trust_remote_code=trust, dtype=dtype)
+            except TypeError:  # older transformers
+                base = AutoModelForCausalLM.from_pretrained(self.model_id, trust_remote_code=trust, torch_dtype=dtype)
+            self.dtype_name = str(dtype).replace("torch.", "")
             self.model = PeftModel.from_pretrained(base, self.adapter).to(self.device).eval()
             self.pad_id = self.tokenizer.pad_token_id
             if self.pad_id is None:
@@ -122,5 +145,7 @@ class BranchB:
     def describe(self):
         info = {"engine": self.engine, "loaded": self.loaded}
         if self.classifier:
-            info.update(model=self.classifier.model_id, adapter=self.classifier.adapter)
+            info.update(model=self.classifier.model_id, adapter=self.classifier.adapter,
+                        device=getattr(self.classifier, "device", None),
+                        dtype=getattr(self.classifier, "dtype_name", None) or self.classifier.settings.inkubalm_dtype)
         return info

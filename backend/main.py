@@ -6,6 +6,7 @@ Run from the repository root:
 
 import inspect
 import json
+import math
 import logging
 import time
 from contextlib import asynccontextmanager
@@ -70,6 +71,17 @@ class AsrEvalIn(BaseModel):
     hypothesis: str
 
 
+def json_safe(value):
+    """Replace NaN/Infinity (invalid in JSON) with None, recursively."""
+    if isinstance(value, float):
+        return value if math.isfinite(value) else None
+    if isinstance(value, dict):
+        return {k: json_safe(v) for k, v in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [json_safe(v) for v in value]
+    return value
+
+
 def _error_response(error):
     return JSONResponse(status_code=error.get("status", 422), content={"error": error})
 
@@ -114,7 +126,7 @@ def _classify(name, body):
     start = time.perf_counter()
     result = engines.branches[name].classify(body.text)
     result["latency"]["total_ms"] = round((time.perf_counter() - start) * 1000.0, 1)
-    return result
+    return json_safe(result)
 
 
 @app.post("/api/classify/a")
@@ -167,14 +179,14 @@ async def process(
     if _form_bool(stream):
         def ndjson():
             for event in trial():
-                yield json.dumps(event) + "\n"
+                yield json.dumps(json_safe(event), allow_nan=False) + "\n"
         return StreamingResponse(ndjson(), media_type="application/x-ndjson")
 
     events = await run_in_threadpool(lambda: list(trial()))
     final = events[-1]
     if final["stage"] == "error":
         return _error_response(final["error"])
-    return final["result"]
+    return json_safe(final["result"])
 
 
 @app.post("/api/execute")
