@@ -1,20 +1,19 @@
-"""Branch B: isiZulu transcript -> InkubaLM-0.4B (+ LoRA adapter) -> intent.
+"""Branch B: isiZulu transcript -> InkubaLM-0.4B -> intent.
 
 Engines
   dev-rules  No model. isiZulu keyword rules. Plumbing only.
-  inkubalm   lelapa/InkubaLM-0.4B with the LoRA adapter at INKUBALM_ADAPTER.
-             Every canonical label is scored as a continuation of the shared
-             prompt (branch_b/prompt.py); softmax over the label scores gives
-             a probability, and the output is always a valid label.
+  inkubalm   lelapa/InkubaLM-0.4B with few-shot label scoring: the prompt shows
+             labelled isiZulu requests (data/branch_b_examples.json), then the
+             new request; every intent's label word is scored as the next word
+             (branch_b/scoring.py). The output is always a valid label, with a
+             probability.
 """
 
-import json
 import threading
 import time
-from pathlib import Path
 
-from backend.branch_b.prompt import PROMPT_TEMPLATE
-from backend.branch_b.scoring import score_labels
+from backend.branch_b.prompt import load_examples, ordered_examples
+from backend.branch_b.scoring import InvalidScores, LabelScorer
 from backend.nlu import dev_rules
 from backend.nlu.intents import intent_labels, normalise_label
 from backend.nlu.slots import extract_slots
@@ -22,24 +21,6 @@ from backend.nlu.slots import extract_slots
 
 def _ms(start):
     return round((time.perf_counter() - start) * 1000.0, 1)
-
-
-def check_adapter_compatible(adapter_dir):
-    """Refuse an adapter trained with a different prompt or label set.
-
-    The Colab notebook writes training_info.json next to the adapter; label
-    scoring only means something if prompt and labels match this backend.
-    """
-    info_path = Path(adapter_dir) / "training_info.json"
-    if not info_path.exists():
-        raise RuntimeError("%s has no training_info.json; cannot confirm it matches this backend's prompt and labels."
-                           % adapter_dir)
-    info = json.loads(info_path.read_text(encoding="utf-8"))
-    if info.get("prompt_template") != PROMPT_TEMPLATE:
-        raise RuntimeError("Adapter was trained with a different prompt format: %r" % info.get("prompt_template"))
-    if list(info.get("labels") or []) != intent_labels():
-        raise RuntimeError("Adapter was trained on different intent labels: %s" % info.get("labels"))
-    return info
 
 
 DTYPES = ("float32", "bfloat16", "float16")
@@ -88,80 +69,55 @@ def load_base_model(auto_cls, model_id, trust, dtype):
     raise last
 
 
-def explain_failure(bad_lora_tensors, adapted_ok, base_ok, device, dtype):
-    """Turn the load-time checks into one actionable message (None = healthy)."""
-    if bad_lora_tensors:
-        return ("The Branch B adapter contains NaN/infinite weights (%d tensors, e.g. %s): it was damaged during "
-                "training. Retrain it with the latest Colab notebook, which refuses to save a damaged adapter."
-                % (len(bad_lora_tensors), bad_lora_tensors[0]))
-    if adapted_ok:
-        return None
-    if base_ok:
-        return ("The InkubaLM base model works, but adding the adapter produces NaN/infinite outputs. Retrain the "
-                "adapter with the latest Colab notebook.")
-    return ("InkubaLM itself produces NaN/infinite outputs on device=%s with dtype=%s. Try INKUBALM_DEVICE=cpu and "
-            "INKUBALM_DTYPE=float32." % (device, dtype))
-
-
-def check_model_health(model, tokenizer, device, dtype, torch, text="Sawubona"):
-    """Raise BranchBUnusable with the reason if the adapted model cannot score."""
-    from backend.branch_b.prompt import build_prompt
-
-    bad = [name for name, param in model.named_parameters()
-           if "lora_" in name and not bool(torch.isfinite(param).all())]
-
-    def probe(m):
-        ids = torch.tensor([tokenizer(build_prompt(text)).input_ids], device=device)
-        with torch.inference_mode():
-            return bool(torch.isfinite(m(input_ids=ids).logits.float()).all())
-
-    adapted_ok = not bad and probe(model)
-    base_ok = True
-    if not adapted_ok and not bad:
-        with model.disable_adapter():
-            base_ok = probe(model)
-    message = explain_failure(bad, adapted_ok, base_ok, device, dtype)
-    if message:
-        raise BranchBUnusable(message)
+def explain_failure(device, dtype):
+    return ("InkubaLM produces NaN/infinite outputs on device=%s with dtype=%s. Use INKUBALM_DEVICE=cpu and "
+            "INKUBALM_DTYPE=float32. If that does not help, install transformers 4.44.2 "
+            "(pip install \"transformers==4.44.2\"): InkubaLM runs its own model code, written for that "
+            "generation of transformers." % (device, dtype))
 
 
 class InkubaLMClassifier:
     def __init__(self, settings):
         self.settings = settings
         self.model_id = settings.inkubalm_model
-        self.adapter = settings.inkubalm_adapter
         self.loaded = False
+        self.examples = []
         self._lock = threading.Lock()
 
     def load(self):
         with self._lock:
             if self.loaded:
                 return
-            if not self.adapter:
-                raise RuntimeError("BRANCH_B_ENGINE=inkubalm needs INKUBALM_ADAPTER (the LoRA adapter path).")
-            check_adapter_compatible(self.adapter)
-            import torch
-            from peft import PeftModel
-            from transformers import AutoModelForCausalLM, AutoTokenizer
+            labels = intent_labels()
+            data = load_examples(str(self.settings.branch_b_examples_file))
+            self.examples = ordered_examples(data, labels)
 
+            import torch
+            from transformers import AutoModelForCausalLM, AutoTokenizer
 
             trust = self.settings.inkubalm_trust_remote_code
             self.device = inkubalm_device(self.settings.inkubalm_device, torch)
             self.tokenizer = AutoTokenizer.from_pretrained(self.model_id, trust_remote_code=trust)
             dtype = resolve_dtype(self.settings.inkubalm_dtype, self.device, torch)
-            base = load_base_model(AutoModelForCausalLM, self.model_id, trust, dtype)
             self.dtype_name = str(dtype).replace("torch.", "")
-            self.model = PeftModel.from_pretrained(base, self.adapter).to(self.device).eval()
-            self.pad_id = self.tokenizer.pad_token_id
-            if self.pad_id is None:
-                self.pad_id = self.tokenizer.eos_token_id
-            check_model_health(self.model, self.tokenizer, self.device, self.dtype_name, torch)
-            self._torch = torch
+            self.model = load_base_model(AutoModelForCausalLM, self.model_id, trust, dtype).to(self.device).eval()
+            pad_id = self.tokenizer.pad_token_id
+            if pad_id is None:
+                pad_id = self.tokenizer.eos_token_id if self.tokenizer.eos_token_id is not None else 0
+            self.scorer = LabelScorer(
+                self.model, self.tokenizer, labels, data["label_words"], self.examples, self.device, pad_id, torch,
+                calibrate=self.settings.inkubalm_calibrate,
+                max_tokens=getattr(self.model.config, "max_position_embeddings", None),
+            )
+            try:   # health check; also computes the calibration baseline
+                self.scorer.score("Sawubona")
+            except InvalidScores:
+                raise BranchBUnusable(explain_failure(self.device, self.dtype_name))
             self.loaded = True
 
     def classify(self, text):
         self.load()
-        scores = score_labels(self.model, self.tokenizer, text, intent_labels(), self.device, self.pad_id, self._torch)
+        scores = self.scorer.score(text)
         best = max(scores, key=scores.get)
         return best, scores
 
@@ -205,7 +161,8 @@ class BranchB:
     def describe(self):
         info = {"engine": self.engine, "loaded": self.loaded}
         if self.classifier:
-            info.update(model=self.classifier.model_id, adapter=self.classifier.adapter,
-                        device=getattr(self.classifier, "device", None),
-                        dtype=getattr(self.classifier, "dtype_name", None) or self.classifier.settings.inkubalm_dtype)
+            c = self.classifier
+            info.update(model=c.model_id, method="few-shot label scoring", examples=len(c.examples) or None,
+                        calibrated=c.settings.inkubalm_calibrate, device=getattr(c, "device", None),
+                        dtype=getattr(c, "dtype_name", None) or c.settings.inkubalm_dtype)
         return info

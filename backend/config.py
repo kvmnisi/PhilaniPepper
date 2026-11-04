@@ -25,19 +25,6 @@ def _default_whisper_model():
     return "dsfsi-anv/whisper-small-anv-zulu-first-batch"
 
 
-LOCAL_ADAPTER_DIR = REPO_ROOT / "InkubaLMAdapter"
-
-
-def _default_inkubalm_adapter():
-    """The finished LoRA adapter in ./InkubaLMAdapter when its weights are present
-    (trained outside this repo with the Colab notebook; weights are git-ignored)."""
-    if (LOCAL_ADAPTER_DIR / "adapter_config.json").exists() and any(
-        (LOCAL_ADAPTER_DIR / name).exists() for name in ("adapter_model.safetensors", "adapter_model.bin")
-    ):
-        return str(LOCAL_ADAPTER_DIR)
-    return None
-
-
 def _env(name, default=None):
     value = os.environ.get(name)
     return value if value not in (None, "") else default
@@ -98,14 +85,20 @@ class Settings:
         default_factory=lambda: _env("BRANCH_A_ZERO_SHOT_MODEL", "facebook/bart-large-mnli")
     )
 
-    # --- Branch B: isiZulu -> InkubaLM-0.4B (+ LoRA) -> intent ------------
+    # --- Branch B: isiZulu -> InkubaLM-0.4B -> intent ---------------------
+    # "auto": inkubalm when the ML libraries are installed, else dev-rules.
     branch_b_engine: str = field(default_factory=lambda: _env("BRANCH_B_ENGINE", "auto"))
     inkubalm_model: str = field(default_factory=lambda: _env("INKUBALM_MODEL", "lelapa/InkubaLM-0.4B"))
-    inkubalm_adapter: str = field(default_factory=lambda: _env("INKUBALM_ADAPTER") or _default_inkubalm_adapter())
+    # Labelled example requests and label words shown to InkubaLM in the prompt.
+    branch_b_examples_file: Path = field(
+        default_factory=lambda: Path(_env("BRANCH_B_EXAMPLES_FILE", str(DATA_DIR / "branch_b_examples.json")))
+    )
+    # Divide out the model's preference for some label words (content-free calibration).
+    inkubalm_calibrate: bool = field(default_factory=lambda: _env_bool("INKUBALM_CALIBRATE", True))
     inkubalm_trust_remote_code: bool = field(
         default_factory=lambda: _env_bool("INKUBALM_TRUST_REMOTE_CODE", True)
     )
-    # Precision for InkubaLM: float32 (as trained and validated), bfloat16, float16, or auto.
+    # Precision for InkubaLM: float32 (default), bfloat16, float16, or auto.
     # float16 on a GPU can overflow in this model and produce NaN scores.
     inkubalm_dtype: str = field(default_factory=lambda: _env("INKUBALM_DTYPE", "float32"))
     # Device for InkubaLM: auto = cuda if available, else cpu (Apple MPS only if set explicitly).

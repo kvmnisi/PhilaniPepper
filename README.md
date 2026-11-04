@@ -24,7 +24,7 @@ No experimental score appears anywhere in this repository.
 | 3 | Browser recording → 16 kHz WAV → upload | Done |
 | 4–5 | Whisper ASR, transcript shown in the UI | Code done. Loads the DSFSI checkpoint or your fine-tuned one via `WHISPER_MODEL`. Not run here without weights. |
 | 6 | Branch A: NLLB-200 translation → English classifier | Code done. Needs a trained English classifier (`BRANCH_A_CLASSIFIER`), or use the untrained `zero-shot` baseline. |
-| 7 | Branch B: InkubaLM-0.4B + LoRA | Inference done (label scoring). **The LoRA fine-tune itself has not been done**, and no training script is included yet. |
+| 7 | Branch B: InkubaLM-0.4B | Done: few-shot label scoring with labelled isiZulu examples (`data/branch_b_examples.json`). |
 | 8–9 | Shared dispatcher wired to the UI | Done |
 | 10 | Choregraphe / Pepper integration | Code done (`pepper_app/`). Untested on a robot. The NAOqi version is still unconfirmed. |
 | 11 | Research logging, WER/CER, macro-F1, McNemar, batch evaluation | Done |
@@ -50,7 +50,7 @@ flowchart TD
         API["FastAPI · backend/main.py"]
         ASR["Whisper ASR (fine-tuned isiZulu)"]
         A["Branch A<br/>NLLB zul→eng + English classifier"]
-        B["Branch B<br/>InkubaLM-0.4B + LoRA"]
+        B["Branch B<br/>InkubaLM-0.4B (few-shot)"]
         S["Slot extraction<br/>course · weekday · location"]
         D["Shared dispatcher<br/>execute_intent(intent, slots)"]
         L[("Research log CSV")]
@@ -141,7 +141,7 @@ backend/
   pipeline.py        one trial: ASR → branches → dispatcher → adapter → log
   asr/               Whisper engine
   branch_a/          NLLB translator + HF / zero-shot English classifier
-  branch_b/          InkubaLM + LoRA label scorer, shared prompt format
+  branch_b/          InkubaLM few-shot prompt and label scorer
   nlu/               canonical intents, slot extraction, dev-rules stand-in
   dispatcher/        execute_intent, timetable, Pepper adapter
   evaluation/        metrics, research log, report, batch evaluator
@@ -199,16 +199,19 @@ Then configure engines with environment variables (see `.env.example`):
 | `BRANCH_A_ENGINE=hf`, `BRANCH_A_CLASSIFIER=<path>` | NLLB-200 (`zul_Latn`→`eng_Latn`) plus your fine-tuned English sequence classifier. Its `id2label` must use the canonical labels; the backend refuses any others. |
 | `BRANCH_A_ENGINE=nllb-rules` | The default once the ML libraries are installed and no classifier is set. Real NLLB translation, so isiZulu works end to end, but intents come from the English keyword stand-in. Excluded from reports. |
 | `BRANCH_A_ENGINE=zero-shot` | NLLB-200 plus an NLI model scoring each intent's English hypothesis. A no-training baseline; report it as one. |
-| `BRANCH_B_ENGINE=inkubalm`, `INKUBALM_ADAPTER=<path>` | `lelapa/InkubaLM-0.4B` with your LoRA adapter. |
+| `BRANCH_B_ENGINE=inkubalm` | `lelapa/InkubaLM-0.4B`, the default once the ML libraries are installed. `INKUBALM_DEVICE` (`auto`: CUDA if available, else CPU), `INKUBALM_DTYPE` (default `float32`), `INKUBALM_CALIBRATE` (default on). |
 | `DEVICE` | `cuda`, `mps` or `cpu` (default: auto) |
 | `PEPPER_EXECUTOR_URL` | Forward executed results to the Pepper bridge |
 
-**Branch B training format.** Inference scores every canonical label as a
-continuation of the prompt in [`backend/branch_b/prompt.py`](backend/branch_b/prompt.py),
-then takes a softmax over the label scores. This always yields a valid label
-plus a probability. Train the LoRA with `encode_example()` from that file, with
-the loss on the tokens after `prompt_len` only. Otherwise training and
-inference will not match.
+**How Branch B classifies.** The prompt ([`backend/branch_b/prompt.py`](backend/branch_b/prompt.py))
+shows InkubaLM 30 labelled requests from [`data/branch_b_examples.json`](data/branch_b_examples.json),
+two per intent and spread evenly, then the new request followed by `Intent:`. Each intent
+has a label word (`time`, `venue`, `lecturer`, ...). The model's probability of each label
+word coming next, compared across the 15 intents, is the prediction, so the output is
+always a valid label plus a probability. Scoring all intents takes one forward pass.
+Scores are calibrated against the same prompt with a content-free request
+(Zhao et al., 2021, *Calibrate Before Use*), which removes the model's preference for
+some label words regardless of the request.
 
 ## Three ways the frontend runs
 
@@ -325,22 +328,17 @@ the committed **Grotesk Medium** font, then `"Arial Narrow", Arial`. The Wits
 crest in `frontend/assets/` is used for this University project; confirm the
 use with University brand guidelines before any public deployment.
 
-## Branch B adapter (InkubaLM + LoRA)
+## Branch B (InkubaLM)
 
-Model training happens outside this repository, in a Colab notebook. Only the
-finished adapter is brought in, the same way as `WhisperModel/`: put the
-adapter folder at `InkubaLMAdapter/` (it holds `adapter_config.json`,
-`adapter_model.safetensors`, the tokenizer files and `training_info.json`).
-The backend then uses it automatically (`BRANCH_B_ENGINE=auto`), or set
-`INKUBALM_ADAPTER` to another path. Weights (`*.safetensors`) are git-ignored.
+The first start downloads `lelapa/InkubaLM-0.4B` from Hugging Face. To
+change what InkubaLM is shown, edit `data/branch_b_examples.json`: `examples` holds the
+labelled requests, and `label_words` holds each intent's label word, with alternatives.
 
-If Branch B reports NaN or invalid scores, run `python -m backend.branch_b.diagnose`. It checks
-the adapter's weights, then loads the model and says whether the adapter (retrain it) or
-the device/precision (`INKUBALM_DEVICE=cpu`, `INKUBALM_DTYPE=float32`) is at fault.
-
-On load, the backend checks `training_info.json`: an adapter trained with a
-different prompt format or intent label set is refused, because its scores
-would be meaningless. Test it on the recordings with
+To check Branch B on your machine, run `python -m backend.branch_b.diagnose`. It loads the
+model, confirms its outputs are finite, and scores a few sentences. If InkubaLM produces
+NaN, use `INKUBALM_DEVICE=cpu` and `INKUBALM_DTYPE=float32`. If that does not help, install
+`transformers==4.44.2`, because InkubaLM runs its own model code (`trust_remote_code`).
+Test Branch B on the recordings with
 `python -m backend.evaluation.batch data/intent_dataset.csv --use-audio --branches both`.
 
 ## 3D Pepper

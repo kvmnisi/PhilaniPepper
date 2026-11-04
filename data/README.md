@@ -10,6 +10,7 @@ Wits information supplied by the project owner.
 | `contacts.json` | School of Computer Science and Applied Mathematics contacts. `default` lists who is suggested when no one specific is asked for. | CSAM contact page |
 | `locations.json` | Campus places with campus side, map grid square and map marker position. Rooms matching `MSL###` are in this building. | Braamfontein campus map 2025 |
 | `intents.json` | The 15 canonical intent labels and their slots. | Project design |
+| `branch_b_examples.json` | Labelled isiZulu requests and one label word per intent, shown to InkubaLM in the Branch B prompt. | Project recordings and the project owner's sentences |
 | `dev_keywords.json` | Keyword lists for the stand-in classifiers. **Development only.** | Project design |
 | `intent_dataset_template.csv` | Column layout for the labelled isiZulu command set. | Template |
 

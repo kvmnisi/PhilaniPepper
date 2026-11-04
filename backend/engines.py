@@ -36,7 +36,7 @@ def _resolve_branch_a(settings):
 def _resolve_branch_b(settings):
     engine = settings.branch_b_engine
     if engine == "auto":
-        engine = "inkubalm" if (settings.inkubalm_adapter and ml_available()) else "dev-rules"
+        engine = "inkubalm" if ml_available() else "dev-rules"
     if engine not in ("dev-rules", "inkubalm"):
         raise ValueError("Unknown BRANCH_B_ENGINE: %s" % engine)
     return BranchB(settings, engine)

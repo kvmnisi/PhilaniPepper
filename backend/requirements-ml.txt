@@ -1,10 +1,9 @@
-# Model engines (Whisper, NLLB, English classifier, InkubaLM + LoRA).
+# Model engines (Whisper, NLLB, English classifier, InkubaLM).
 # Install a torch build that matches your hardware first if you need CUDA:
 #   https://pytorch.org/get-started/locally/
 -r requirements.txt
 torch>=2.2
 transformers>=4.44
 accelerate>=0.33
-peft>=0.12
 sentencepiece>=0.2
 protobuf>=4.25

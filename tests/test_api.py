@@ -124,23 +124,6 @@ def test_whisper_decoding_defaults_to_beam_search():
     assert WhisperASR(greedy).generation_kwargs() == {"max_new_tokens": 128, "num_beams": 1, "repetition_penalty": 1.2}
 
 
-def test_adapter_must_match_prompt_and_labels(tmp_path):
-    import json as _json
-
-    from backend.branch_b.branch import check_adapter_compatible
-    from backend.branch_b.prompt import PROMPT_TEMPLATE
-    from backend.nlu.intents import intent_labels
-
-    with pytest.raises(RuntimeError, match="training_info"):
-        check_adapter_compatible(tmp_path)
-    info = {"prompt_template": PROMPT_TEMPLATE, "labels": intent_labels()}
-    (tmp_path / "training_info.json").write_text(_json.dumps(info))
-    assert check_adapter_compatible(tmp_path)["labels"] == intent_labels()
-    (tmp_path / "training_info.json").write_text(_json.dumps(dict(info, labels=intent_labels()[:-1])))
-    with pytest.raises(RuntimeError, match="different intent labels"):
-        check_adapter_compatible(tmp_path)
-
-
 def test_policy_is_logged_separately_from_the_model_prediction(client):
     body = client.post("/api/process", data={
         "text": "ngi cela ungi size ngama Student fees", "branch": "B", "log": "true",

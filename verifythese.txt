@@ -87,10 +87,28 @@ project. Tick each item once checked, and correct the file it points to.
     [ ] Prefixes allowed before names (up to two may stack):
         kwi, nge, nga, ngo, lwa, kwa, wa, ya, za, sa, ba, la, ku, ka, ye, we, se, i, e, u,
                 o
-    [ ] The same weekday list is in the Colab notebook (cell 4, SLOT_VALUES["weekday"])
 
 1f. isiZulu in Pepper's replies  (backend/dispatcher/dispatcher.py)
     [ ] "Sawubona!" in the greeting and on the tablet's welcome text
+
+1g. Branch B prompt examples  (data/branch_b_examples.json)
+    Examples marked "recording" or "verified" are yours. Check these others:
+    [ ] greeting               sawubona pepper
+    [ ] greeting               sanibonani
+    [ ] ask_time               isikhathi sini manje
+    [ ] ask_next_class         ikilasi elilandelayo yiliphi
+    [ ] ask_next_class         isivivinyo sami esilandelayo sinini
+    [ ] ask_lecturer           ngubani ofundisa i-computer vision
+    [ ] ask_course_time        isivivinyo se-natural language processing sinini
+    [ ] ask_course_time        i-COMS4036 ibhalwa nini
+    [ ] ask_course_venue       isivivinyo se-COMS4054 sikuphi
+    [ ] ask_course_venue       ikilasi le-computer vision likuphi
+    [ ] ask_current_semester   sikusiphi isemester manje
+    [ ] ask_current_semester   amaholide aqala nini
+    [ ] ask_contact            ngicela inombolo yocingo ye-honours coordinator
+    [ ] ask_contact            ngingathinta bani mayelana nezifundo
+    [ ] ask_directions         ngiya kanjani e-Solomon Mahlangu House
+    [ ] Label words read sensibly for each intent (label_words)
 
 2. RECORDINGS AND TRANSCRIPTS
 ------------------------------------------------------------------------

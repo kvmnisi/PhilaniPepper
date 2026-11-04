@@ -1,26 +1,61 @@
-"""Prompt format shared by Branch B training and inference.
+"""Branch B prompt: labelled example requests, then the new request.
 
-The LoRA fine-tune of InkubaLM-0.4B must be trained on exactly this format,
-built with `encode_example`:
-    build_prompt(<isiZulu transcript>) + " " + <intent label> + <eos>
-Inference scores every canonical label as a continuation of the prompt, so
-the output is always a valid label and comes with a probability.
+    Requests that students say to Pepper, ... and the intent of each request.
+
+    Request: ngicela usizo
+    Intent: help
+
+    ... (one example per intent, then a second round)
+
+    Request: <isiZulu transcript>
+    Intent:
+
+The examples and each intent's label words live in data/branch_b_examples.json.
 """
 
-PROMPT_TEMPLATE = "### isiZulu command:\n{text}\n### Intent:"
+import json
+from functools import lru_cache
+
+HEADER = ("Requests that students say to Pepper, a robot assistant at Wits University, "
+          "and the intent of each request.\n\n")
+EXAMPLE = "Request: {text}\nIntent: {word}\n\n"
+QUERY = "Request: {text}\nIntent:"
 
 
-def build_prompt(text):
-    return PROMPT_TEMPLATE.format(text=" ".join(text.split()))
+def clean(text):
+    return " ".join((text or "").split())
 
 
-def encode_example(tokenizer, text, label):
-    """Token ids for prompt + label + eos, and the number of prompt tokens.
+def build_prompt(text, examples=()):
+    """examples: [(request text, label word)] shown before the new request."""
+    shown = "".join(EXAMPLE.format(text=clean(t), word=w) for t, w in examples)
+    return HEADER + shown + QUERY.format(text=clean(text))
 
-    Use this in the LoRA training script too: the loss should cover only the
-    tokens after `prompt_len`, and inference scores exactly those tokens.
+
+@lru_cache(maxsize=4)
+def load_examples(path):
+    with open(path, encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def ordered_examples(data, labels):
+    """[(text, label word)] in rounds: the first example of every intent, then the second, ...
+
+    Spreading the intents evenly keeps any one label from sitting next to the new request.
     """
-    prompt = build_prompt(text)
-    prompt_len = len(tokenizer(prompt).input_ids)
-    ids = tokenizer(prompt + " " + label).input_ids + [tokenizer.eos_token_id]
-    return ids, prompt_len
+    words = data["label_words"]
+    by_label = {label: [] for label in labels}
+    for example in data["examples"]:
+        if example["intent"] not in by_label:
+            raise ValueError("Branch B example has an unknown intent: %r" % example["intent"])
+        by_label[example["intent"]].append(example["text"])
+    missing = [label for label in labels if not words.get(label)]
+    if missing:
+        raise ValueError("Branch B label words missing for: %s" % ", ".join(missing))
+    rounds = max((len(v) for v in by_label.values()), default=0)
+    ordered = []
+    for index in range(rounds):
+        for label in labels:
+            if index < len(by_label[label]):
+                ordered.append((by_label[label][index], words[label][0]))
+    return ordered
