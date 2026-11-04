@@ -1,0 +1,13 @@
+{
+  "notice": "Things students ask for help with that the assistant cannot do. Detected as the 'topic' slot so the OOS reply can say what was understood. Aliases are the English words commonly used inside isiZulu speech (code-switching); add isiZulu terms once verified. Keep words that belong to supported intents (e.g. results, registration -> Self-Service) out of this list.",
+  "topics": [
+    { "id": "student_fees", "label": "student fees", "aliases": ["student fees", "school fees", "tuition fees", "tuition", "fees", "fee statement", "fee"] },
+    { "id": "funding", "label": "bursaries and funding", "aliases": ["nsfas", "bursary", "bursaries", "funding", "scholarship", "student loan", "allowance"] },
+    { "id": "accommodation", "label": "residence and accommodation", "aliases": ["residence", "res", "accommodation", "housing", "room booking"] },
+    { "id": "library", "label": "the library", "aliases": ["library", "library books", "books"] },
+    { "id": "it_support", "label": "Wi-Fi and IT support", "aliases": ["wifi", "wi-fi", "internet", "password reset", "student email", "laptop"] },
+    { "id": "transport", "label": "transport and parking", "aliases": ["bus", "shuttle", "transport", "parking", "taxi"] },
+    { "id": "food", "label": "food and meals", "aliases": ["food", "meal", "meals", "canteen", "lunch"] },
+    { "id": "health", "label": "health and counselling", "aliases": ["clinic", "doctor", "counselling", "counseling", "medicine"] }
+  ]
+}

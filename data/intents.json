@@ -118,16 +118,19 @@
     },
     {
       "label": "OOS",
-      "description": "Out of scope: anything the assistant does not support.",
+      "description": "Out of scope: anything the assistant does not support, including requests for help it cannot give (e.g. student fees).",
       "en_hypothesis": "This is about something unrelated to classes, time or self-service.",
       "required_slots": [],
-      "optional_slots": []
+      "optional_slots": [
+        "topic"
+      ]
     }
   ],
   "slots": {
     "course": "Course code from data/courses.json, e.g. COMS4054A. Filled from a spoken code or a course alias.",
     "weekday": "monday ... sunday, or the relative values today / tomorrow. Resolved to the next matching date.",
     "location": "A location id from data/locations.json, or a room such as MSL005.",
-    "contact": "A contact id from data/contacts.json, e.g. head_of_school."
+    "contact": "A contact id from data/contacts.json, e.g. head_of_school.",
+    "topic": "An out-of-scope topic id from data/out_of_scope_topics.json (e.g. student_fees), used only by the OOS reply."
   }
 }

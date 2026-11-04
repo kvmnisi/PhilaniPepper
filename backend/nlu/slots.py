@@ -122,8 +122,17 @@ def extract_contact(text, timetable=None):
     return _match_alias(norm, entries)
 
 
+def extract_topic(text, timetable=None):
+    """An out-of-scope topic id (data/out_of_scope_topics.json), e.g. student_fees."""
+    timetable = timetable or get_timetable()
+    norm = normalise_text(text)
+    entries = [(normalise_text(alias), topic["id"])
+               for topic in timetable.topics for alias in [topic["label"]] + topic.get("aliases", [])]
+    return _match_alias(norm, entries)
+
+
 def extract_slots(*texts, timetable=None):
-    """Return {course, weekday, location, contact} found in the first text that has each."""
+    """Return {course, weekday, location, contact, topic} found in the first text that has each."""
     slots = {}
     for text in texts:
         if not text:
@@ -144,4 +153,8 @@ def extract_slots(*texts, timetable=None):
             contact = extract_contact(text, timetable)
             if contact:
                 slots["contact"] = contact
+        if "topic" not in slots:
+            topic = extract_topic(text, timetable)
+            if topic:
+                slots["topic"] = topic
     return slots

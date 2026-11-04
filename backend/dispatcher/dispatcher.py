@@ -420,6 +420,12 @@ def _ask_directions(slots, tt, now):
 
 
 def _fallback(slots, tt, now):
+    topic = tt.topic(slots.get("topic")) if slots.get("topic") else None
+    if topic:
+        text = ("Ngiyaxolisa. I understood that you need help with %s, but that is not something I can help with. "
+                "I can help with Honours exams, the academic calendar, School contacts and finding your way on campus."
+                % topic["label"])
+        return _say(text, {"kind": "message", "text": text, "topic": topic["id"]}, status="fallback")
     return _say(FALLBACK_RESPONSE, {"kind": "message", "text": FALLBACK_RESPONSE}, status="fallback")
 
 

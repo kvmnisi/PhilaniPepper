@@ -121,6 +121,9 @@ class Settings:
     locations_file: Path = field(
         default_factory=lambda: Path(_env("LOCATIONS_FILE", str(DATA_DIR / "locations.json")))
     )
+    topics_file: Path = field(
+        default_factory=lambda: Path(_env("TOPICS_FILE", str(DATA_DIR / "out_of_scope_topics.json")))
+    )
     intents_file: Path = field(
         default_factory=lambda: Path(_env("INTENTS_FILE", str(DATA_DIR / "intents.json")))
     )

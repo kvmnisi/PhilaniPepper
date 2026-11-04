@@ -44,7 +44,7 @@ def _load(path, default=None):
 
 
 class Timetable:
-    def __init__(self, courses, calendar=None, contacts=None, locations=None):
+    def __init__(self, courses, calendar=None, contacts=None, locations=None, topics=None):
         self.data = courses
         self.is_sample = bool(courses.get("is_sample", False))
         self.notice = courses.get("notice", "")
@@ -67,6 +67,7 @@ class Timetable:
         self.east_west_note = locations.get("east_west_note", "")
         self.room_rules = [(re.compile(r["pattern"], re.IGNORECASE), r["location"]) for r in locations.get("rooms", [])]
         self.here_id = courses.get("here") or locations.get("here")
+        self.topics = (topics or {}).get("topics", [])
 
     # --- clock -------------------------------------------------------------
     def now(self):
@@ -86,6 +87,12 @@ class Timetable:
         for course in self.courses:
             if course["code"].upper() == str(code).upper():
                 return course
+        return None
+
+    def topic(self, topic_id):
+        for topic in self.topics:
+            if topic["id"] == topic_id:
+                return topic
         return None
 
     def contact(self, contact_id):
@@ -203,4 +210,5 @@ def get_timetable():
         calendar=_load(settings.calendar_file, {}),
         contacts=_load(settings.contacts_file, {}),
         locations=_load(settings.locations_file, {}),
+        topics=_load(settings.topics_file, {}),
     )
