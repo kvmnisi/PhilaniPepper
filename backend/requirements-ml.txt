@@ -5,6 +5,6 @@
 torch>=2.2
 transformers>=4.44,<4.47   # InkubaLM's own model code produces NaN under transformers 5.x
 accelerate>=0.33
-peft>=0.13
+peft==0.13.2   # the version the adapter is trained with; newer peft needs a newer torch
 sentencepiece>=0.2
 protobuf>=4.25

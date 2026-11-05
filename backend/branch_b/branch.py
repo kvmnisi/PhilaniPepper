@@ -129,6 +129,10 @@ class InkubaLMClassifier:
             if pad_id is None:
                 pad_id = self.tokenizer.eos_token_id if self.tokenizer.eos_token_id is not None else 0
             if self.adapter:
+                try:   # newer peft checks torch.distributed.tensor, which some torch builds do not load by default
+                    import torch.distributed.tensor  # noqa: F401
+                except Exception:
+                    pass
                 from peft import PeftModel
 
                 self.model = PeftModel.from_pretrained(base, self.adapter).to(self.device).eval()
