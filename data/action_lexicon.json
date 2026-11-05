@@ -1,568 +1,997 @@
 {
- "notice": "Verb-then-object interpretation used after intent classification (backend/nlu/frame.py). Question words (where, when, who, what) count as verbs, so questions without an action verb still work. Verb patterns are regular expressions for the verb stem plus its endings; up to 10 letters of subject/object prefixes before the stem are allowed (e.g. 'siz(a|e|...)' matches siza, ungisize, ngisizeni).",
- "verbs": [
-  {
-   "id": "open",
-   "label": "open",
-   "priority": 1,
-   "patterns": [
-    "vul(?:a|e|ele|ela|ile|eni)"
-   ],
-   "words": [
-    "open"
-   ],
-   "intents": [
-    "open_self_service"
-   ],
-   "refusal": "Sorry, I cannot open that."
-  },
-  {
-   "id": "show",
-   "label": "show",
-   "priority": 2,
-   "patterns": [
-    "bonis(?:a|e|ele|ile)",
-    "khombis(?:a|e|ele|ile)"
-   ],
-   "words": [
-    "show"
-   ],
-   "intents": [
-    "ask_directions",
-    "ask_course_venue",
-    "ask_day_schedule",
-    "list_courses",
-    "open_self_service"
-   ],
-   "refusal": "Sorry, I cannot show you that."
-  },
-  {
-   "id": "find",
-   "label": "find",
-   "priority": 3,
-   "patterns": [
-    "thol(?:a|e|ile|eni)",
-    "fik(?:a|e|ile)",
-    "kanjani"
-   ],
-   "words": [
-    "find",
-    "get to",
-    "go to",
-    "how do i get"
-   ],
-   "intents": [
-    "ask_directions",
-    "ask_course_venue",
-    "ask_contact"
-   ],
-   "refusal": "Sorry, I cannot find that."
-  },
-  {
-   "id": "contact",
-   "label": "contact",
-   "priority": 4,
-   "patterns": [
-    "shayel(?:a|e|ile)",
-    "thint(?:a|e|ile)"
-   ],
-   "words": [
-    "call",
-    "contact"
-   ],
-   "intents": [
-    "ask_contact",
-    "ask_lecturer"
-   ],
-   "refusal": "Sorry, I cannot contact that for you."
-  },
-  {
-   "id": "teach",
-   "label": "teach",
-   "priority": 5,
-   "patterns": [
-    "fundis(?:a|e|ile)(?:yo)?"
-   ],
-   "words": [
-    "teach",
-    "teaches",
-    "lecture"
-   ],
-   "intents": [
-    "ask_lecturer"
-   ],
-   "refusal": "Sorry, I cannot help with that."
-  },
-  {
-   "id": "tell",
-   "label": "tell you",
-   "priority": 8,
-   "patterns": [
-    "tshel(?:a|e|ele|ile|eni)",
-    "chaz(?:a|e|ele|ile)",
-    "buz(?:a|e|ile)"
-   ],
-   "words": [
-    "tell",
-    "explain",
-    "ask"
-   ],
-   "intents": [
-    "ask_time",
-    "ask_current_class",
-    "ask_next_class",
-    "ask_lecturer",
-    "ask_course_time",
-    "ask_course_venue",
-    "ask_day_schedule",
-    "list_courses",
-    "ask_current_semester",
-    "ask_contact",
-    "ask_directions"
-   ],
-   "refusal": "Sorry, I cannot tell you that."
-  },
-  {
-   "id": "where",
-   "label": "where",
-   "priority": 6,
-   "patterns": [
-    "kuphi",
-    "[ilsz]iphi"
-   ],
-   "words": [
-    "where"
-   ],
-   "intents": [
-    "ask_directions",
-    "ask_course_venue"
-   ],
-   "refusal": "Sorry, I don't know where that is."
-  },
-  {
-   "id": "when",
-   "label": "when",
-   "priority": 6,
-   "patterns": [
-    "nini"
-   ],
-   "words": [
-    "when",
-    "what time"
-   ],
-   "intents": [
-    "ask_course_time",
-    "ask_next_class",
-    "ask_current_class",
-    "ask_day_schedule",
-    "ask_current_semester",
-    "ask_time"
-   ],
-   "refusal": "Sorry, I don't know when that is."
-  },
-  {
-   "id": "who",
-   "label": "who",
-   "priority": 6,
-   "patterns": [
-    "ngubani",
-    "obani"
-   ],
-   "words": [
-    "who"
-   ],
-   "intents": [
-    "ask_lecturer",
-    "ask_contact"
-   ],
-   "refusal": "Sorry, I don't know who that is."
-  },
-  {
-   "id": "what",
-   "label": "what",
-   "priority": 7,
-   "patterns": [
-    "sini",
+  "notice": "Verb-then-object interpretation used after intent classification (backend/nlu/frame.py). Pepper looks for the action verb or question word first, then for what the request is about. Question words (where, which, when, who, what, how, how many) count as verbs. General request verbs (ngicela, ngifuna, ngidinga) cover every task and rank below every specific verb. Patterns are regular expressions for the stem plus its endings; up to 10 letters of prefixes before the stem are allowed (e.g. 'siz(a|e|...)' matches siza, ungisize, ngisizeni). A pattern starting with ^ must be a whole word (no prefixes).",
+  "verbs": [
+    {
+      "id": "greet",
+      "label": "greet",
+      "priority": 1,
+      "patterns": [
+        "bingelel(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo|ani)"
+      ],
+      "words": [
+        "greet"
+      ],
+      "intents": [
+        "greeting"
+      ],
+      "refusal": "Sorry, I cannot help with that."
+    },
+    {
+      "id": "open",
+      "label": "open",
+      "priority": 1,
+      "patterns": [
+        "vul(?:a|e|ele|ela|ile|eni)"
+      ],
+      "words": [
+        "open"
+      ],
+      "intents": [
+        "open_self_service"
+      ],
+      "refusal": "Sorry, I cannot open that."
+    },
+    {
+      "id": "go",
+      "label": "take you to",
+      "priority": 2,
+      "patterns": [
+        "ukuya",
+        "eya",
+        "ungise",
+        "yis(?:a|e)",
+        "ngen(?:a|e)",
+        "finyelel(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo)"
+      ],
+      "words": [
+        "go to",
+        "take me to",
+        "get to",
+        "log in",
+        "login"
+      ],
+      "intents": [
+        "open_self_service",
+        "ask_directions",
+        "ask_course_venue"
+      ],
+      "refusal": "Sorry, I cannot take you there."
+    },
+    {
+      "id": "show",
+      "label": "show you",
+      "priority": 2,
+      "patterns": [
+        "bonis(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo|ani)",
+        "khombis(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo|ani)",
+        "(?<!sawu)(?<!sani)bon(?:a|e)"
+      ],
+      "words": [
+        "show"
+      ],
+      "intents": [
+        "help",
+        "ask_time",
+        "ask_current_class",
+        "ask_next_class",
+        "ask_lecturer",
+        "ask_course_time",
+        "ask_course_venue",
+        "ask_day_schedule",
+        "list_courses",
+        "ask_current_semester",
+        "ask_contact",
+        "ask_directions",
+        "open_self_service"
+      ],
+      "refusal": "Sorry, I cannot show you that."
+    },
+    {
+      "id": "find",
+      "label": "find",
+      "priority": 3,
+      "patterns": [
+        "thol(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo)",
+        "fik(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo)",
+        "tholakal(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo|ani)"
+      ],
+      "words": [
+        "find"
+      ],
+      "intents": [
+        "ask_directions",
+        "ask_course_venue",
+        "ask_contact",
+        "open_self_service",
+        "help"
+      ],
+      "refusal": "Sorry, I cannot find that."
+    },
+    {
+      "id": "contact",
+      "label": "contact",
+      "priority": 4,
+      "patterns": [
+        "shayel(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo)",
+        "thint(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo)",
+        "xhuman(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo)"
+      ],
+      "words": [
+        "call",
+        "contact"
+      ],
+      "intents": [
+        "ask_contact",
+        "ask_lecturer"
+      ],
+      "refusal": "Sorry, I cannot contact that for you."
+    },
+    {
+      "id": "study",
+      "label": "study",
+      "priority": 5,
+      "patterns": [
+        "fund(?:a|e|ile|ayo|wa)"
+      ],
+      "words": [
+        "study",
+        "learn"
+      ],
+      "intents": [
+        "ask_current_class",
+        "ask_next_class",
+        "ask_day_schedule",
+        "list_courses",
+        "ask_current_semester",
+        "ask_course_time"
+      ],
+      "refusal": "Sorry, I cannot help with that."
+    },
+    {
+      "id": "teach",
+      "label": "teach",
+      "priority": 5,
+      "patterns": [
+        "fundis(?:a|e|ile|wa|we|ayo|wayo)"
+      ],
+      "words": [
+        "teach",
+        "teaches",
+        "lecture",
+        "lectures"
+      ],
+      "intents": [
+        "ask_lecturer",
+        "list_courses",
+        "ask_current_class"
+      ],
+      "refusal": "Sorry, I cannot help with that."
+    },
+    {
+      "id": "write",
+      "label": "write",
+      "priority": 5,
+      "patterns": [
+        "bhal(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo|ani)",
+        "bhalel(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo|ani)",
+        "bhalwa",
+        "bhalwe"
+      ],
+      "words": [
+        "write"
+      ],
+      "intents": [
+        "ask_course_time",
+        "ask_course_venue",
+        "ask_next_class",
+        "ask_current_class",
+        "ask_day_schedule",
+        "ask_current_semester"
+      ],
+      "refusal": "Sorry, I cannot help with that."
+    },
+    {
+      "id": "list",
+      "label": "list",
+      "priority": 5,
+      "patterns": [
+        "bal(?:a|e)"
+      ],
+      "words": [
+        "list"
+      ],
+      "intents": [
+        "list_courses",
+        "ask_day_schedule",
+        "ask_contact",
+        "help"
+      ],
+      "refusal": "Sorry, I cannot list that."
+    },
+    {
+      "id": "which",
+      "label": "which",
+      "priority": 6,
+      "patterns": [
+        "(?:yi|i|na|nga|ku|le|kule|ne|nge|ngu)(?:si|zi)phi",
+        "[a-z]*(?:li|yi|ma|mu|lu|bu|ba)phi"
+      ],
+      "words": [
+        "which"
+      ],
+      "intents": [
+        "ask_time",
+        "ask_current_class",
+        "ask_next_class",
+        "ask_lecturer",
+        "ask_course_time",
+        "ask_course_venue",
+        "ask_day_schedule",
+        "list_courses",
+        "ask_current_semester",
+        "ask_contact",
+        "ask_directions",
+        "help"
+      ],
+      "refusal": "Sorry, I don't know that."
+    },
+    {
+      "id": "where",
+      "label": "where",
+      "priority": 6,
+      "patterns": [
+        "kuphi",
+        "tholaphi",
+        "fikaphi",
+        "yaphi"
+      ],
+      "words": [
+        "where"
+      ],
+      "intents": [
+        "ask_directions",
+        "ask_course_venue",
+        "ask_current_semester",
+        "ask_contact"
+      ],
+      "refusal": "Sorry, I don't know where that is."
+    },
+    {
+      "id": "where_which",
+      "label": "where",
+      "priority": 7,
+      "patterns": [
+        "siphi",
+        "ziphi"
+      ],
+      "words": [],
+      "intents": [
+        "ask_time",
+        "ask_current_class",
+        "ask_next_class",
+        "ask_lecturer",
+        "ask_course_time",
+        "ask_course_venue",
+        "ask_day_schedule",
+        "list_courses",
+        "ask_current_semester",
+        "ask_contact",
+        "ask_directions",
+        "help"
+      ],
+      "refusal": "Sorry, I don't know where that is."
+    },
+    {
+      "id": "when",
+      "label": "when",
+      "priority": 6,
+      "patterns": [
+        "nini"
+      ],
+      "words": [
+        "when",
+        "what time"
+      ],
+      "intents": [
+        "ask_course_time",
+        "ask_next_class",
+        "ask_current_class",
+        "ask_day_schedule",
+        "ask_current_semester",
+        "ask_time"
+      ],
+      "refusal": "Sorry, I don't know when that is."
+    },
+    {
+      "id": "who",
+      "label": "who",
+      "priority": 6,
+      "patterns": [
+        "bani"
+      ],
+      "words": [
+        "who",
+        "whom"
+      ],
+      "intents": [
+        "ask_lecturer",
+        "ask_contact"
+      ],
+      "refusal": "Sorry, I don't know who that is."
+    },
+    {
+      "id": "how_many",
+      "label": "how many",
+      "priority": 6,
+      "patterns": [
+        "ngaki",
+        "ngakanani"
+      ],
+      "words": [
+        "how many",
+        "how much"
+      ],
+      "intents": [
+        "ask_time",
+        "list_courses",
+        "ask_current_semester",
+        "ask_day_schedule",
+        "ask_next_class"
+      ],
+      "refusal": "Sorry, I don't know that."
+    },
+    {
+      "id": "how",
+      "label": "how",
+      "priority": 7,
+      "patterns": [
+        "kanjani",
+        "^njani"
+      ],
+      "words": [
+        "how"
+      ],
+      "intents": [
+        "ask_directions",
+        "ask_course_venue",
+        "open_self_service",
+        "help",
+        "ask_time"
+      ],
+      "refusal": "Sorry, I cannot help with that."
+    },
+    {
+      "id": "what",
+      "label": "what",
+      "priority": 7,
+      "patterns": [
+        "^sini",
+        "yini",
+        "^ini",
+        "^ngani",
+        "^ngesani",
+        "enzani",
+        "enzekalani"
+      ],
+      "words": [
+        "what"
+      ],
+      "intents": [
+        "help",
+        "ask_time",
+        "ask_current_class",
+        "ask_next_class",
+        "ask_lecturer",
+        "ask_course_time",
+        "ask_course_venue",
+        "ask_day_schedule",
+        "list_courses",
+        "ask_current_semester",
+        "ask_contact",
+        "ask_directions",
+        "open_self_service"
+      ],
+      "refusal": "Sorry, I don't know that."
+    },
+    {
+      "id": "tell",
+      "label": "tell you",
+      "priority": 8,
+      "patterns": [
+        "tshel(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo)",
+        "chaz(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo)",
+        "chazel(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo)",
+        "buz(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo)",
+        "azis(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo)",
+        "bikel(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo)",
+        "khumbuz(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo)",
+        "nik(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo)"
+      ],
+      "words": [
+        "tell",
+        "explain",
+        "ask",
+        "give"
+      ],
+      "intents": [
+        "help",
+        "ask_time",
+        "ask_current_class",
+        "ask_next_class",
+        "ask_lecturer",
+        "ask_course_time",
+        "ask_course_venue",
+        "ask_day_schedule",
+        "list_courses",
+        "ask_current_semester",
+        "ask_contact",
+        "ask_directions",
+        "open_self_service"
+      ],
+      "refusal": "Sorry, I cannot tell you that."
+    },
+    {
+      "id": "help",
+      "label": "help with",
+      "priority": 9,
+      "patterns": [
+        "siz(?:a|e|ele|ela|ile|eni|o|we)"
+      ],
+      "words": [
+        "help",
+        "assist"
+      ],
+      "intents": [
+        "help",
+        "ask_time",
+        "ask_current_class",
+        "ask_next_class",
+        "ask_lecturer",
+        "ask_course_time",
+        "ask_course_venue",
+        "ask_day_schedule",
+        "list_courses",
+        "ask_current_semester",
+        "ask_contact",
+        "ask_directions",
+        "open_self_service"
+      ],
+      "refusal": "Sorry, I cannot help with that."
+    },
+    {
+      "id": "do",
+      "label": "do",
+      "priority": 10,
+      "patterns": [
+        "enz(?:a|e|ele|ela|ile|anga|eni)",
+        "enzek(?:a|ala|ile)"
+      ],
+      "words": [
+        "do"
+      ],
+      "intents": [
+        "help",
+        "ask_time",
+        "ask_current_class",
+        "ask_next_class",
+        "ask_lecturer",
+        "ask_course_time",
+        "ask_course_venue",
+        "ask_day_schedule",
+        "list_courses",
+        "ask_current_semester",
+        "ask_contact",
+        "ask_directions",
+        "open_self_service"
+      ],
+      "refusal": "Sorry, I cannot do that."
+    },
+    {
+      "id": "request",
+      "label": "help with",
+      "priority": 20,
+      "patterns": [
+        "cela",
+        "fun(?:a|e)",
+        "ding(?:a|e)"
+      ],
+      "words": [
+        "please",
+        "i want",
+        "i need",
+        "can you",
+        "could you"
+      ],
+      "intents": [
+        "help",
+        "ask_time",
+        "ask_current_class",
+        "ask_next_class",
+        "ask_lecturer",
+        "ask_course_time",
+        "ask_course_venue",
+        "ask_day_schedule",
+        "list_courses",
+        "ask_current_semester",
+        "ask_contact",
+        "ask_directions",
+        "open_self_service"
+      ],
+      "refusal": "Sorry, I cannot help with that."
+    }
+  ],
+  "objects": [
+    {
+      "id": "time",
+      "label": "the time",
+      "words": [
+        "time",
+        "clock"
+      ],
+      "patterns": [
+        "s?ikhathi(?:ni)?",
+        "hora",
+        "washi(?:ni)?"
+      ],
+      "intents": [
+        "ask_time",
+        "ask_current_class",
+        "ask_next_class",
+        "ask_course_time",
+        "ask_day_schedule",
+        "ask_current_semester"
+      ]
+    },
+    {
+      "id": "exam",
+      "label": "exams",
+      "words": [
+        "exam",
+        "exams",
+        "test",
+        "assessment"
+      ],
+      "patterns": [
+        "vivinyo",
+        "exam",
+        "hlolw(?:a|e|ayo)"
+      ],
+      "intents": [
+        "ask_next_class",
+        "ask_current_class",
+        "ask_course_time",
+        "ask_course_venue",
+        "ask_day_schedule",
+        "ask_current_semester"
+      ]
+    },
+    {
+      "id": "course",
+      "label": "courses",
+      "slot": "course",
+      "words": [
+        "class",
+        "classes",
+        "course",
+        "courses",
+        "module",
+        "modules"
+      ],
+      "patterns": [
+        "fundo",
+        "k(?:i)?lasi(?:ni)?",
+        "mojula"
+      ],
+      "intents": [
+        "ask_course_time",
+        "ask_course_venue",
+        "ask_lecturer",
+        "list_courses",
+        "ask_next_class",
+        "ask_current_class",
+        "ask_day_schedule"
+      ]
+    },
+    {
+      "id": "next",
+      "label": "what comes next",
+      "words": [
+        "next",
+        "upcoming"
+      ],
+      "patterns": [
+        "landel(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo)",
+        "zayo",
+        "seduze",
+        "ngemva",
+        "ngemuva",
+        "emva"
+      ],
+      "intents": [
+        "ask_next_class"
+      ]
+    },
+    {
+      "id": "now",
+      "label": "what is on now",
+      "words": [
+        "now",
+        "right now",
+        "current"
+      ],
+      "patterns": [
+        "qhubek(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo)",
+        "njengamanje",
+        "okwamanje",
+        "manje"
+      ],
+      "intents": [
+        "ask_current_class",
+        "ask_time",
+        "ask_current_semester"
+      ]
+    },
+    {
+      "id": "schedule",
+      "label": "the timetable",
+      "slot": "weekday",
+      "slot_ignore": [
+        "today",
+        "tomorrow"
+      ],
+      "words": [
+        "timetable",
+        "schedule"
+      ],
+      "patterns": [
+        "hlelo",
+        "hlelweni",
+        "hlwini",
+        "thayimthebula",
+        "sheduli"
+      ],
+      "intents": [
+        "ask_day_schedule",
+        "ask_next_class",
+        "ask_current_class",
+        "list_courses"
+      ]
+    },
+    {
+      "id": "list",
+      "label": "a list",
+      "words": [
+        "list"
+      ],
+      "patterns": [
+        "uhlu"
+      ],
+      "intents": [
+        "list_courses",
+        "ask_day_schedule",
+        "ask_contact",
+        "help"
+      ]
+    },
+    {
+      "id": "lecturer",
+      "label": "lecturers",
+      "words": [
+        "lecturer",
+        "teacher",
+        "professor"
+      ],
+      "patterns": [
+        "mfundisi",
+        "thisha"
+      ],
+      "intents": [
+        "ask_lecturer",
+        "ask_contact"
+      ]
+    },
+    {
+      "id": "calendar",
+      "label": "the academic calendar",
+      "words": [
+        "semester",
+        "term",
+        "holiday",
+        "holidays",
+        "vacation",
+        "calendar"
+      ],
+      "patterns": [
+        "semester",
+        "s?imesta",
+        "themu",
+        "holide",
+        "khalenda(?:ni)?",
+        "nyaka",
+        "sigaba",
+        "khefu(?:ni)?",
+        "qal(?:a|e|eni|o)",
+        "gcin(?:a|e|eni|o)",
+        "phel(?:a|e|ile)",
+        "qed(?:a|e|ile)"
+      ],
+      "intents": [
+        "ask_current_semester"
+      ]
+    },
+    {
+      "id": "self_service",
+      "label": "Student Self-Service",
+      "words": [
+        "self service",
+        "self-service",
+        "portal",
+        "student portal"
+      ],
+      "patterns": [
+        "portal",
+        "phothali",
+        "khasi(?:ni)?",
+        "xhumanisi",
+        "nsizakalo"
+      ],
+      "intents": [
+        "open_self_service"
+      ]
+    },
+    {
+      "id": "contact",
+      "label": "School contacts",
+      "slot": "contact",
+      "words": [
+        "email",
+        "phone",
+        "number",
+        "contact",
+        "contacts"
+      ],
+      "patterns": [
+        "meyili",
+        "email",
+        "nombolo",
+        "cingo",
+        "numba"
+      ],
+      "intents": [
+        "ask_contact"
+      ]
+    },
+    {
+      "id": "place",
+      "label": "places on campus",
+      "slot": "location",
+      "words": [
+        "map",
+        "building",
+        "room",
+        "venue",
+        "directions",
+        "place"
+      ],
+      "patterns": [
+        "ndlela",
+        "ndawo",
+        "balazwe",
+        "gumbi",
+        "sakhiwo"
+      ],
+      "intents": [
+        "ask_directions",
+        "ask_course_venue"
+      ]
+    },
+    {
+      "id": "abilities",
+      "label": "what Pepper can do",
+      "words": [
+        "what can you do"
+      ],
+      "patterns": [
+        "msebenzi",
+        "sebenzi",
+        "khono",
+        "yalelo",
+        "sebenzis(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo|ani)",
+        "setshenzis(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo|ani)",
+        "msizi"
+      ],
+      "intents": [
+        "help"
+      ]
+    },
+    {
+      "id": "school",
+      "label": "the School",
+      "words": [
+        "school"
+      ],
+      "patterns": [
+        "sikole(?:ni)?"
+      ],
+      "intents": [
+        "ask_contact",
+        "ask_current_semester",
+        "list_courses"
+      ]
+    }
+  ],
+  "function_words": [
+    "please",
+    "pepper",
+    "ngiyabonga",
+    "ngiyaxolisa",
+    "mina",
+    "wena",
+    "thina",
+    "futhi",
+    "noma",
+    "kodwa",
+    "ukuthi",
+    "ngoba",
+    "kakhulu",
+    "lapha",
+    "lokho",
+    "lo",
+    "le",
+    "la",
+    "nga",
+    "nge",
+    "ngo",
+    "ngama",
+    "ngezi",
+    "nama",
+    "na",
+    "ka",
+    "kwa",
+    "ku",
+    "e",
+    "i",
+    "u",
+    "ngingathanda",
+    "ngicabanga",
+    "malini",
+    "is",
+    "are",
+    "the",
+    "a",
+    "an",
+    "my",
+    "me",
+    "you",
+    "can",
+    "could",
+    "would",
+    "with",
+    "for",
+    "to",
+    "of",
+    "on",
+    "in",
+    "at",
+    "and",
+    "or",
+    "it",
+    "this",
+    "that",
+    "do",
+    "does",
+    "namhlanje",
+    "kusasa",
+    "kwazi",
+    "ukwazi",
+    "ngikwazi",
+    "angikwazi",
+    "ungakwazi",
+    "ngingakwazi",
+    "sikwazi",
+    "lutho",
+    "okuthile",
+    "into",
+    "izinto",
+    "eziningi",
+    "ingabe",
+    "umfundi",
+    "abafundi",
+    "ngingumfundi",
+    "angiyena",
+    "nginayo",
+    "unayo",
+    "nginezinto",
+    "anginalutho",
+    "cannot",
+    "ngi",
+    "ungi",
+    "si",
+    "usi",
+    "ba",
+    "yami",
+    "wami",
+    "lami",
+    "sami",
+    "zami",
+    "bami",
+    "kwami",
+    "yakho",
+    "wakho",
+    "lakho",
+    "sakho",
+    "zakho",
+    "yethu",
+    "wethu",
+    "ngabe",
     "yini",
-    "yimuphi",
-    "yiziphi"
-   ],
-   "words": [
-    "what",
-    "which"
-   ],
-   "intents": [
-    "ask_time",
-    "ask_current_class",
-    "ask_next_class",
-    "ask_lecturer",
-    "ask_course_time",
-    "ask_course_venue",
-    "ask_day_schedule",
-    "list_courses",
-    "ask_current_semester",
-    "ask_contact",
-    "ask_directions"
-   ],
-   "refusal": "Sorry, I don't know that."
-  },
-  {
-   "id": "help",
-   "label": "help with",
-   "priority": 9,
-   "patterns": [
-    "siz(?:a|e|ele|ela|ile|eni|o)"
-   ],
-   "words": [
-    "help",
-    "assist"
-   ],
-   "intents": [
-    "help",
-    "ask_time",
-    "ask_current_class",
-    "ask_next_class",
-    "ask_lecturer",
-    "ask_course_time",
-    "ask_course_venue",
-    "ask_day_schedule",
-    "list_courses",
-    "ask_current_semester",
-    "open_self_service",
-    "ask_contact",
-    "ask_directions"
-   ],
-   "refusal": "Sorry, I cannot help with that."
-  },
-  {
-   "id": "do",
-   "label": "do",
-   "priority": 10,
-   "patterns": [
-    "enz(?:a|e|ele|ela|ile|anga|eni)"
-   ],
-   "words": [
-    "do"
-   ],
-   "intents": [
-    "help",
-    "ask_time",
-    "ask_current_class",
-    "ask_next_class",
-    "ask_lecturer",
-    "ask_course_time",
-    "ask_course_venue",
-    "ask_day_schedule",
-    "list_courses",
-    "ask_current_semester",
-    "open_self_service",
-    "ask_contact",
-    "ask_directions"
-   ],
-   "refusal": "Sorry, I cannot do that."
+    "ngisacela",
+    "kufanele",
+    "okufanele",
+    "nje",
+    "kulo",
+    "kuyo",
+    "kuwe",
+    "kimi",
+    "ngawe",
+    "sikhona",
+    "kukhona",
+    "ezikhona",
+    "ekhona",
+    "zonke",
+    "wonke",
+    "lonke",
+    "konke",
+    "wits",
+    "namuhla",
+    "dr",
+    "prof",
+    "professor",
+    "mr",
+    "ms",
+    "mrs",
+    "doctor",
+    "honours",
+    "computer",
+    "science",
+    "ngemuva",
+    "emva",
+    "kwalokhu",
+    "kwalena",
+    "kule",
+    "lesi",
+    "lolu",
+    "leli",
+    "lezi",
+    "nini",
+    "kanye",
+    "nathi",
+    "sona",
+    "yena",
+    "bona",
+    "zona",
+    "ngazo",
+    "ngayo",
+    "zikhona",
+    "sikhona",
+    "ukhona",
+    "ikhona",
+    "kwe",
+    "sawubona",
+    "sanibonani"
+  ],
+  "capabilities": {
+    "ask_time": "the current time",
+    "ask_current_class": "what is on right now",
+    "ask_next_class": "the next exam or class",
+    "ask_course_time": "when a course's exam is",
+    "ask_course_venue": "where a course's exam is",
+    "ask_day_schedule": "what is on a particular day",
+    "ask_lecturer": "who to ask about a course",
+    "list_courses": "the list of Honours courses",
+    "ask_current_semester": "where we are in the academic year",
+    "open_self_service": "opening Student Self-Service",
+    "ask_contact": "School contact details",
+    "ask_directions": "how to find a building or room"
   }
- ],
- "objects": [
-  {
-   "id": "time",
-   "label": "the time",
-   "words": [
-    "isikhathi",
-    "sikhathi",
-    "ihora",
-    "amahora",
-    "time",
-    "clock"
-   ],
-   "intents": [
-    "ask_time",
-    "ask_current_class",
-    "ask_next_class",
-    "ask_course_time",
-    "ask_day_schedule"
-   ]
-  },
-  {
-   "id": "exam",
-   "label": "exams",
-   "words": [
-    "isivivinyo",
-    "uvivinyo",
-    "izivivinyo",
-    "exam",
-    "exams",
-    "test",
-    "assessment"
-   ],
-   "intents": [
-    "ask_next_class",
-    "ask_current_class",
-    "ask_course_time",
-    "ask_course_venue",
-    "ask_day_schedule"
-   ]
-  },
-  {
-   "id": "course",
-   "label": "courses",
-   "slot": "course",
-   "words": [
-    "ikilasi",
-    "amakilasi",
-    "isifundo",
-    "izifundo",
-    "class",
-    "classes",
-    "course",
-    "courses",
-    "module",
-    "modules"
-   ],
-   "intents": [
-    "ask_course_time",
-    "ask_course_venue",
-    "ask_lecturer",
-    "list_courses",
-    "ask_next_class",
-    "ask_current_class"
-   ]
-  },
-  {
-   "id": "schedule",
-   "label": "the timetable",
-   "slot": "weekday",
-   "words": [
-    "uhlelo",
-    "ithayimthebula",
-    "isheduli",
-    "timetable",
-    "schedule"
-   ],
-   "intents": [
-    "ask_day_schedule",
-    "ask_next_class",
-    "ask_current_class"
-   ]
-  },
-  {
-   "id": "lecturer",
-   "label": "lecturers",
-   "words": [
-    "umfundisi",
-    "uthisha",
-    "lecturer",
-    "teacher",
-    "professor"
-   ],
-   "intents": [
-    "ask_lecturer",
-    "ask_contact"
-   ]
-  },
-  {
-   "id": "calendar",
-   "label": "the academic calendar",
-   "words": [
-    "isemester",
-    "isimesta",
-    "ithemu",
-    "amaholide",
-    "ikhalenda",
-    "semester",
-    "term",
-    "holiday",
-    "holidays",
-    "vacation",
-    "calendar"
-   ],
-   "intents": [
-    "ask_current_semester"
-   ]
-  },
-  {
-   "id": "self_service",
-   "label": "Student Self-Service",
-   "words": [
-    "self service",
-    "self-service",
-    "iportal",
-    "iphothali",
-    "portal"
-   ],
-   "intents": [
-    "open_self_service"
-   ]
-  },
-  {
-   "id": "contact",
-   "label": "School contacts",
-   "slot": "contact",
-   "words": [
-    "ucingo",
-    "inombolo",
-    "i-email",
-    "imeyili",
-    "email",
-    "phone",
-    "number",
-    "contact",
-    "contacts"
-   ],
-   "intents": [
-    "ask_contact"
-   ]
-  },
-  {
-   "id": "place",
-   "label": "places on campus",
-   "slot": "location",
-   "words": [
-    "ibalazwe",
-    "indlela",
-    "igumbi",
-    "isakhiwo",
-    "map",
-    "building",
-    "room",
-    "venue",
-    "directions"
-   ],
-   "intents": [
-    "ask_directions",
-    "ask_course_venue"
-   ]
-  }
- ],
- "function_words": [
-  "ngicela",
-  "sicela",
-  "ngiyacela",
-  "siyacela",
-  "cela",
-  "please",
-  "pepper",
-  "ngiyabonga",
-  "ngiyaxolisa",
-  "mina",
-  "wena",
-  "thina",
-  "futhi",
-  "noma",
-  "kodwa",
-  "ukuthi",
-  "ngoba",
-  "kakhulu",
-  "lapha",
-  "lokho",
-  "lo",
-  "le",
-  "la",
-  "nga",
-  "nge",
-  "ngo",
-  "ngama",
-  "ngezi",
-  "nama",
-  "na",
-  "ka",
-  "kwa",
-  "ku",
-  "e",
-  "i",
-  "u",
-  "ngifuna",
-  "sifuna",
-  "funa",
-  "ngingathanda",
-  "ngicabanga",
-  "malini",
-  "is",
-  "are",
-  "the",
-  "a",
-  "an",
-  "my",
-  "me",
-  "you",
-  "can",
-  "could",
-  "would",
-  "with",
-  "for",
-  "to",
-  "of",
-  "on",
-  "in",
-  "at",
-  "and",
-  "or",
-  "it",
-  "this",
-  "that",
-  "do",
-  "does",
-  "now",
-  "today",
-  "tomorrow",
-  "manje",
-  "namhlanje",
-  "kusasa",
-  "next",
-  "current",
-  "kwazi",
-  "ukwazi",
-  "ngikwazi",
-  "angikwazi",
-  "ungakwazi",
-  "ngingakwazi",
-  "sikwazi",
-  "lutho",
-  "okuthile",
-  "into",
-  "izinto",
-  "eziningi",
-  "ingabe",
-  "umfundi",
-  "abafundi",
-  "ngingumfundi",
-  "angiyena",
-  "nginayo",
-  "unayo",
-  "nginezinto",
-  "anginalutho",
-  "cannot",
-  "ngi",
-  "ungi",
-  "si",
-  "usi",
-  "ba",
-  "yami",
-  "wami",
-  "lami",
-  "sami",
-  "zami",
-  "bami",
-  "kwami",
-  "yakho",
-  "wakho",
-  "lakho",
-  "sakho",
-  "zakho",
-  "yethu",
-  "wethu"
- ],
- "capabilities": {
-  "ask_time": "the current time",
-  "ask_current_class": "what is on right now",
-  "ask_next_class": "the next exam or class",
-  "ask_course_time": "when a course's exam is",
-  "ask_course_venue": "where a course's exam is",
-  "ask_day_schedule": "what is on a particular day",
-  "ask_lecturer": "who to ask about a course",
-  "list_courses": "the list of Honours courses",
-  "ask_current_semester": "where we are in the academic year",
-  "open_self_service": "opening Student Self-Service",
-  "ask_contact": "School contact details",
-  "ask_directions": "how to find a building or room"
- }
 }

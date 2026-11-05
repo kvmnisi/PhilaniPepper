@@ -24,6 +24,7 @@ ZULU_WEEKDAYS = {
 RELATIVE_DAYS = {
     "today": "today",
     "namhlanje": "today",
+    "namuhla": "today",
     "tomorrow": "tomorrow",
     "kusasa": "tomorrow",
 }

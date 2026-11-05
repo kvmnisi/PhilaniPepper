@@ -254,3 +254,15 @@ def test_invalid_scores_become_a_readable_error(monkeypatch):
         body = client.post("/api/process", data={"text": "sawubona", "branch": "B"}).json()
     assert body["error"]["code"] == "classification_failed"
     assert "invalid scores" in body["error"]["message"]
+
+
+def test_prompt_examples_never_appear_in_the_test_sentences():
+    import csv
+    import re
+
+    def norm(text):
+        return " ".join(re.sub(r"[^\w\s-]", " ", text.lower()).split())
+    with open("data/test_sentences_500.csv", encoding="utf-8") as handle:
+        test = {norm(row["text"]) for row in csv.DictReader(handle)}
+    examples = load_examples(str(Settings().branch_b_examples_file))["examples"]
+    assert not [e["text"] for e in examples if norm(e["text"]) in test]

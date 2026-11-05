@@ -1,53 +1,240 @@
 {
   "version": 1,
-  "notes": "Branch B prompt material. InkubaLM sees these labelled requests before each new request, then scores the label word of every intent as the next word. Each intent lists one or more label words; the first one whose first token differs from the other intents' is used. Examples marked \"recording\" are reference transcripts from the project's own recordings; \"verified\" ones come from the project owner's verified sentences.",
+  "notes": "Branch B prompt material. InkubaLM sees these labelled requests before each new request, then scores the label word of every intent as the next word. Each intent lists one or more label words; the first one whose first token differs from the other intents' is used. Sources: \"dataset\" = the project owner's verified isiZulu request set (lower-cased; rows with ambiguous labels left out), \"verified\" = the project owner's verified sentences, \"draft\" = written to fill intents the dataset does not cover (listed in verifythese.txt). No sentence from the evaluation recordings is used here.",
   "label_words": {
-    "greeting": ["greeting", "hello"],
-    "help": ["help", "assist"],
-    "ask_time": ["time", "clock"],
-    "ask_current_class": ["now", "current"],
-    "ask_next_class": ["next", "upcoming"],
-    "ask_lecturer": ["lecturer", "teacher"],
-    "ask_course_time": ["when", "date"],
-    "ask_course_venue": ["venue", "room"],
-    "ask_day_schedule": ["schedule", "day"],
-    "list_courses": ["courses", "list"],
-    "ask_current_semester": ["semester", "term"],
-    "open_self_service": ["portal", "self-service"],
-    "ask_contact": ["contact", "email", "phone"],
-    "ask_directions": ["directions", "map", "route"],
-    "OOS": ["other", "unknown"]
+    "greeting": [
+      "greeting",
+      "hello"
+    ],
+    "help": [
+      "help",
+      "assist"
+    ],
+    "ask_time": [
+      "time",
+      "clock"
+    ],
+    "ask_current_class": [
+      "now",
+      "current"
+    ],
+    "ask_next_class": [
+      "next",
+      "upcoming"
+    ],
+    "ask_lecturer": [
+      "lecturer",
+      "teacher"
+    ],
+    "ask_course_time": [
+      "when",
+      "date"
+    ],
+    "ask_course_venue": [
+      "venue",
+      "room"
+    ],
+    "ask_day_schedule": [
+      "schedule",
+      "day"
+    ],
+    "list_courses": [
+      "courses",
+      "list"
+    ],
+    "ask_current_semester": [
+      "semester",
+      "term"
+    ],
+    "open_self_service": [
+      "portal",
+      "self-service"
+    ],
+    "ask_contact": [
+      "contact",
+      "email",
+      "phone"
+    ],
+    "ask_directions": [
+      "directions",
+      "map",
+      "route"
+    ],
+    "OOS": [
+      "other",
+      "unknown"
+    ]
   },
   "examples": [
-    {"text": "sawubona pepper", "intent": "greeting"},
-    {"text": "sanibonani", "intent": "greeting"},
-    {"text": "ngicela usizo", "intent": "help", "source": "recording"},
-    {"text": "ungangisiza ngani", "intent": "help", "source": "recording"},
-    {"text": "ngibonise isikhathi", "intent": "ask_time", "source": "recording"},
-    {"text": "isikhathi sini manje", "intent": "ask_time"},
-    {"text": "eliphi ikilasi enginalo njengamanje", "intent": "ask_current_class", "source": "recording"},
-    {"text": "what is on right now", "intent": "ask_current_class", "source": "recording"},
-    {"text": "ikilasi elilandelayo yiliphi", "intent": "ask_next_class"},
-    {"text": "isivivinyo sami esilandelayo sinini", "intent": "ask_next_class"},
-    {"text": "ubani ofundisa iCybersecurity", "intent": "ask_lecturer", "source": "recording"},
-    {"text": "ngubani ofundisa i-computer vision", "intent": "ask_lecturer"},
-    {"text": "isivivinyo se-natural language processing sinini", "intent": "ask_course_time"},
-    {"text": "i-COMS4036 ibhalwa nini", "intent": "ask_course_time"},
-    {"text": "isivivinyo se-COMS4054 sikuphi", "intent": "ask_course_venue"},
-    {"text": "ikilasi le-computer vision likuphi", "intent": "ask_course_venue"},
-    {"text": "imaphi amakilasi nginawo ngomsumbuluko", "intent": "ask_day_schedule", "source": "recording"},
-    {"text": "what classes do I have tomorrow", "intent": "ask_day_schedule", "source": "recording"},
-    {"text": "ngibonise wonke amakilasi we honours", "intent": "list_courses", "source": "recording"},
-    {"text": "list all of the honours courses", "intent": "list_courses", "source": "recording"},
-    {"text": "sikusiphi isemester manje", "intent": "ask_current_semester"},
-    {"text": "amaholide aqala nini", "intent": "ask_current_semester"},
-    {"text": "vula i student self service", "intent": "open_self_service", "source": "recording"},
-    {"text": "vula i self service portal", "intent": "open_self_service", "source": "recording"},
-    {"text": "ngicela inombolo yocingo ye-honours coordinator", "intent": "ask_contact"},
-    {"text": "ngingathinta bani mayelana nezifundo", "intent": "ask_contact"},
-    {"text": "ikuphi i great hall", "intent": "ask_directions", "source": "recording"},
-    {"text": "ngiya kanjani e-Solomon Mahlangu House", "intent": "ask_directions"},
-    {"text": "ngi cela ungi size ngama Student fees", "intent": "OOS", "source": "verified"},
-    {"text": "ingabe unayo imali", "intent": "OOS", "source": "verified"}
+    {
+      "text": "wola",
+      "intent": "greeting",
+      "source": "dataset"
+    },
+    {
+      "text": "heita",
+      "intent": "greeting",
+      "source": "dataset"
+    },
+    {
+      "text": "zikhiphani",
+      "intent": "greeting",
+      "source": "dataset"
+    },
+    {
+      "text": "ngi cela ungisize",
+      "intent": "help",
+      "source": "dataset"
+    },
+    {
+      "text": "yini umsebenzi wakho",
+      "intent": "help",
+      "source": "dataset"
+    },
+    {
+      "text": "ngicela isikhathi",
+      "intent": "ask_time",
+      "source": "dataset"
+    },
+    {
+      "text": "ngitshele ihora",
+      "intent": "ask_time",
+      "source": "draft"
+    },
+    {
+      "text": "yiliphi ikilasi elikhona manje",
+      "intent": "ask_current_class",
+      "source": "draft"
+    },
+    {
+      "text": "nginekilasi manje",
+      "intent": "ask_current_class",
+      "source": "draft"
+    },
+    {
+      "text": "ikilasi elilandelayo yiliphi",
+      "intent": "ask_next_class",
+      "source": "draft"
+    },
+    {
+      "text": "isivivinyo sami esilandelayo sinini",
+      "intent": "ask_next_class",
+      "source": "draft"
+    },
+    {
+      "text": "ubani ofundisa i data privacy and ethics",
+      "intent": "ask_lecturer",
+      "source": "dataset"
+    },
+    {
+      "text": "ngubani ofundisa i-computer vision",
+      "intent": "ask_lecturer",
+      "source": "draft"
+    },
+    {
+      "text": "ngiyi bhala nini i data privacy and ethics",
+      "intent": "ask_course_time",
+      "source": "dataset"
+    },
+    {
+      "text": "i-COMS4036 ibhalwa nini",
+      "intent": "ask_course_time",
+      "source": "draft"
+    },
+    {
+      "text": "isivivinyo se-COMS4054 sikuphi",
+      "intent": "ask_course_venue",
+      "source": "draft"
+    },
+    {
+      "text": "ikilasi le-computer vision likuphi",
+      "intent": "ask_course_venue",
+      "source": "draft"
+    },
+    {
+      "text": "kwenzekalani friday",
+      "intent": "ask_day_schedule",
+      "source": "dataset"
+    },
+    {
+      "text": "nginamakilasi amangaki namhlanje",
+      "intent": "ask_day_schedule",
+      "source": "draft"
+    },
+    {
+      "text": "ngi khombise wonke ama klasi we honours",
+      "intent": "list_courses",
+      "source": "dataset"
+    },
+    {
+      "text": "yiziphi izifundo ze-honours",
+      "intent": "list_courses",
+      "source": "draft"
+    },
+    {
+      "text": "sivala nini iskole",
+      "intent": "ask_current_semester",
+      "source": "dataset"
+    },
+    {
+      "text": "ama klasi wethu aqala nini",
+      "intent": "ask_current_semester",
+      "source": "dataset"
+    },
+    {
+      "text": "ngicela uvule i-self service",
+      "intent": "open_self_service",
+      "source": "draft"
+    },
+    {
+      "text": "vula i-portal yabafundi",
+      "intent": "open_self_service",
+      "source": "draft"
+    },
+    {
+      "text": "ngicela i email yaka hairong",
+      "intent": "ask_contact",
+      "source": "dataset"
+    },
+    {
+      "text": "ngibonise inumba yaka devon",
+      "intent": "ask_contact",
+      "source": "dataset"
+    },
+    {
+      "text": "ubani ongangisiza ngama course amendment",
+      "intent": "ask_contact",
+      "source": "dataset"
+    },
+    {
+      "text": "ikuphi i great hall",
+      "intent": "ask_directions",
+      "source": "dataset"
+    },
+    {
+      "text": "akuphi ama labs",
+      "intent": "ask_directions",
+      "source": "dataset"
+    },
+    {
+      "text": "ngibonise indlela yokuya e john moffat",
+      "intent": "ask_directions",
+      "source": "dataset"
+    },
+    {
+      "text": "ama phrinta akuphi",
+      "intent": "OOS",
+      "source": "dataset"
+    },
+    {
+      "text": "ngi khombise wonke ama student number",
+      "intent": "OOS",
+      "source": "dataset"
+    },
+    {
+      "text": "ngi cela ungi size ngama student fees",
+      "intent": "OOS",
+      "source": "verified"
+    }
   ]
 }

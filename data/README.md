@@ -8,10 +8,11 @@ Wits information supplied by the project owner.
 | `courses.json` | The 11 Honours Computer Science courses (COMS4xxx) and their November 2026 exams: date, time, type and venues. `here` names the building Pepper stands in. | Final November 2026 Assessment Timetable |
 | `calendar.json` | 2026 academic periods (teaching blocks, breaks, exam periods) and key dates. | Wits 2026 academic calendar |
 | `contacts.json` | School of Computer Science and Applied Mathematics contacts. `default` lists who is suggested when no one specific is asked for. | CSAM contact page |
-| `locations.json` | Campus places with campus side, map grid square and map marker position. Rooms matching `MSL###` are in this building. | Braamfontein campus map 2025 |
+| `locations.json` | Every named campus place on the map (107), with campus side, map grid square and map marker position. Rooms matching `MSL###` are in this building. | Braamfontein campus map 2025 |
 | `intents.json` | The 15 canonical intent labels and their slots. | Project design |
 | `branch_b_examples.json` | Labelled isiZulu requests and one label word per intent, shown to InkubaLM in the Branch B prompt. | Project recordings and the project owner's sentences |
 | `dev_keywords.json` | Keyword lists for the stand-in classifiers. **Development only.** | Project design |
+| `test_sentences_500.csv` | 500 verified isiZulu test requests (33–34 per intent) with slot labels. Run with `python -m backend.evaluation.batch data/test_sentences_500.csv --branches both`. Never used as Branch B prompt examples. | Project owner |
 | `intent_dataset_template.csv` | Column layout for the labelled isiZulu command set. | Template |
 
 ## Not in the data yet

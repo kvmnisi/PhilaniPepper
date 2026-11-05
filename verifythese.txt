@@ -92,23 +92,161 @@ project. Tick each item once checked, and correct the file it points to.
     [ ] "Sawubona!" in the greeting and on the tablet's welcome text
 
 1g. Branch B prompt examples  (data/branch_b_examples.json)
-    Examples marked "recording" or "verified" are yours. Check these others:
-    [ ] greeting               sawubona pepper
-    [ ] greeting               sanibonani
-    [ ] ask_time               isikhathi sini manje
+    "dataset" and "verified" examples are yours. Check these drafts:
+    [ ] ask_time               ngitshele ihora
+    [ ] ask_current_class      yiliphi ikilasi elikhona manje
+    [ ] ask_current_class      nginekilasi manje
     [ ] ask_next_class         ikilasi elilandelayo yiliphi
     [ ] ask_next_class         isivivinyo sami esilandelayo sinini
     [ ] ask_lecturer           ngubani ofundisa i-computer vision
-    [ ] ask_course_time        isivivinyo se-natural language processing sinini
     [ ] ask_course_time        i-COMS4036 ibhalwa nini
     [ ] ask_course_venue       isivivinyo se-COMS4054 sikuphi
     [ ] ask_course_venue       ikilasi le-computer vision likuphi
-    [ ] ask_current_semester   sikusiphi isemester manje
-    [ ] ask_current_semester   amaholide aqala nini
-    [ ] ask_contact            ngicela inombolo yocingo ye-honours coordinator
-    [ ] ask_contact            ngingathinta bani mayelana nezifundo
-    [ ] ask_directions         ngiya kanjani e-Solomon Mahlangu House
+    [ ] ask_day_schedule       nginamakilasi amangaki namhlanje
+    [ ] list_courses           yiziphi izifundo ze-honours
+    [ ] open_self_service      ngicela uvule i-self service
+    [ ] open_self_service      vula i-portal yabafundi
+    [ ] Left out of the prompt as ambiguous; relabel or confirm:
+            iklasi lami liqala nini  (labelled ask_current_class; asks when a class starts)
+            ngisize ngoku ketha ama klasi we Honours  (labelled list_courses; asks for advice)
+            uyasizwa isizulu  (labelled help; asks whether Pepper understands isiZulu)
     [ ] Label words read sensibly for each intent (label_words)
+
+1h. Question words and verbs added from the 500 test sentences  (data/action_lexicon.json)
+    [ ] greet        bingelel(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo|ani)
+    [ ] go           ukuya, eya, ungise, yis(?:a|e), ngen(?:a|e), finyelel(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo)
+    [ ] find         thol(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo), fik(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo), tholakal(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo|ani)
+    [ ] study        fund(?:a|e|ile|ayo|wa)
+    [ ] write        bhal(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo|ani), bhalel(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo|ani), bhalwa, bhalwe
+    [ ] list         bal(?:a|e)
+    [ ] which        (?:yi|i|na|nga|ku|le|kule|ne|nge|ngu)(?:si|zi)phi, [a-z]*(?:li|yi|ma|mu|lu|bu|ba)phi
+    [ ] where        kuphi, tholaphi, fikaphi, yaphi
+    [ ] where_which  siphi, ziphi
+    [ ] how_many     ngaki, ngakanani
+    [ ] how          kanjani, ^njani
+    [ ] what         ^sini, yini, ^ini, ^ngani, ^ngesani, enzani, enzekalani
+    [ ] tell         tshel(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo), chaz(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo), chazel(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo), buz(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo), azis(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo), bikel(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo), khumbuz(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo), nik(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo)
+    [ ] request      cela, fun(?:a|e), ding(?:a|e)
+    [ ] siphi / ziphi on their own are read as 'where', but may also mean 'which' (as in
+        'Sinezifundo ziphi ngoMsombuluko?'); yisiphi, ngasiphi, kusiphi, yiziphi and liphi as 'which'
+    Subject stems:
+    [ ] time         s?ikhathi(?:ni)?, hora, washi(?:ni)?
+    [ ] exam         vivinyo, exam, hlolw(?:a|e|ayo)
+    [ ] course       fundo, k(?:i)?lasi(?:ni)?, mojula
+    [ ] next         landel(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo), zayo, seduze, ngemva, ngemuva, emva
+    [ ] now          qhubek(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo), njengamanje, okwamanje, manje
+    [ ] schedule     hlelo, hlelweni, hlwini, thayimthebula, sheduli
+    [ ] list         uhlu
+    [ ] lecturer     mfundisi, thisha
+    [ ] calendar     semester, s?imesta, themu, holide, khalenda(?:ni)?, nyaka, sigaba, khefu(?:ni)?, qal(?:a|e|eni|o), gcin(?:a|e|eni|o), phel(?:a|e|ile), qed(?:a|e|ile)
+    [ ] self_service portal, phothali, khasi(?:ni)?, xhumanisi, nsizakalo
+    [ ] contact      meyili, email, nombolo, cingo, numba
+    [ ] place        ndlela, ndawo, balazwe, gumbi, sakhiwo
+    [ ] abilities    msebenzi, sebenzi, khono, yalelo, sebenzis(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo|ani), setshenzis(?:a|e|i|ile|ele|ela|eni|wa|we|ayo|wayo|ani), msizi
+    [ ] school       sikole(?:ni)?
+
+1i. Campus places  (data/locations.json; from the 2025 Braamfontein campus map)
+    Grid squares and markers were computed from the label positions in the map PDF.
+    Places near Yale Road have no campus side where the map is unclear (Origins Centre,
+    the Innovation Bridge). Left out as not Wits places: Imperial Toyota, Engen, KPMG, AFDA,
+    Egoli Gas, Liberty Life, Parktown High School, John Orr Technical High School, Helpmekaar
+    College, Braamfontein Centre, Metro Bus Depot and Metro Bus Head Office.
+    [ ] Wits Club                                    A3    West
+    [ ] Alumni House                                 A3    West
+    [ ] The Barns                                    A3    West
+    [ ] Dig Fields                                   A2    West
+    [ ] Gym & Squash Courts                          A3    West
+    [ ] Convocation Dining Hall                      B2    West
+    [ ] Barnato Hall                                 B3    West
+    [ ] David Webster Hall                           B3    West
+    [ ] West Campus Village                          B2    West
+    [ ] Gavin Reilly Green                           B3    West
+    [ ] DJ du Plessis Centre                         B2    West
+    [ ] Oliver Schreiner School of Law               B3    West
+    [ ] Facilities & Services                        B2    West
+    [ ] Chalsty Centre                               B3    West
+    [ ] Weiner Mall                                  B3    West
+    [ ] Procurement Office                           C2    West
+    [ ] Law Clinic                                   C3    West
+    [ ] Commerce Library                             C3    West
+    [ ] Commerce, Law & Management                   C3    West
+    [ ] Faculty of Commerce, Law and Management      C3    West
+    [ ] Tower of Light                               C3    West
+    [ ] School of Business Sciences                  C3    West
+    [ ] Wits Plus                                    C3    West
+    [ ] Old Grandstand                               C3    West
+    [ ] Science Stadium Laboratories                 C3    West
+    [ ] Wits Football Academy                        C1    West
+    [ ] CCDU                                         C3    West
+    [ ] Genmin Laboratories                          C3    West
+    [ ] High Voltage Lab                             D3    West
+    [ ] Wits ARM Building                            D3    West
+    [ ] Wits Sibanye-Stillwater Innovation Bridge    D3    -
+    [ ] Sturrock Park Stadium                        D1    West
+    [ ] CLTD                                         D3    West
+    [ ] Sports Administration                        D2    West
+    [ ] Enoch Sontonga Memorial Park                 E2    West
+    [ ] iThemba Labs                                 B4    East
+    [ ] 'B' Field                                    B4    East
+    [ ] Professional Development Hub                 B5    East
+    [ ] Wits Language School                         B5    East
+    [ ] Bozzoli Sports Pavilion                      B4    East
+    [ ] Walter Milton Oval                           B4    East
+    [ ] Rugby Stadium                                B5    East
+    [ ] Ronnie Schloss Stand                         B4    East
+    [ ] The Sanctuary                                B5    East
+    [ ] Wits Anglo American Digital Dome             B4    East
+    [ ] Musallah                                     B4    East
+    [ ] Jubilee Hall                                 C5    East
+    [ ] Dalrymple House                              C4    East
+    [ ] College House                                C4    East
+    [ ] Hofmeyr House                                C5    East
+    [ ] Men's Halls of Residence                     C4    East
+    [ ] International House                          C5    East
+    [ ] John Moffat Building                         C4    East
+    [ ] John Moffat Extension                        C4    East
+    [ ] Pool                                         C4    East
+    [ ] Sunnyside Hall                               C5    East
+    [ ] Amphitheatre                                 C4    East
+    [ ] Students Union                               C5    East
+    [ ] Construction Economics & Management          C4    East
+    [ ] Umthombo                                     C5    East
+    [ ] Library Lawns                                C4    East
+    [ ] Jan Smuts House                              C5    East
+    [ ] Biology                                      C5    East
+    [ ] Wartenweiler Library                         D5    East
+    [ ] North West Engineering                       D4    East
+    [ ] Geosciences                                  D4    East
+    [ ] Emthonjeni Centre                            D5    East
+    [ ] Jan Smuts Steps                              D5    East
+    [ ] Macrone Mall                                 D4    East
+    [ ] Piazza                                       D4    East
+    [ ] Oppenheimer Life Sciences                    D5    East
+    [ ] Physics                                      D5    East
+    [ ] South West Engineering                       D4    East
+    [ ] O'Hara Court                                 D5    East
+    [ ] Hillman                                      D4    East
+    [ ] Humphrey Raikes                              D5    East
+    [ ] Gatehouse                                    D5    East
+    [ ] Wits School of Arts                          D5    East
+    [ ] Noswal Hall                                  D5    East
+    [ ] Post Graduate Club                           D4    East
+    [ ] Bernard Price                                D4    East
+    [ ] Sutton Close                                 D4    East
+    [ ] Origins Centre                               D4    -
+    [ ] Digital Arts                                 D5    East
+    [ ] Trinity House                                D5    East
+    [ ] Richard Ward                                 D4    East
+    [ ] Evolutionary Studies Institute               D4    East
+    [ ] Wits Theatre                                 D5    East
+    [ ] Nunnery                                      D5    East
+    [ ] Chris Seabrooke Music Hall                   D5    East
+    [ ] University Corner                            D5    East
+    [ ] Wits Art Museum                              D5    East
+    [ ] South Court                                  D5    East
+    [ ] CISA                                         E4    East
+    [ ] Graduate Lodge                               E4    East
+    [ ] Campus Lodge                                 E5    East
 
 2. RECORDINGS AND TRANSCRIPTS
 ------------------------------------------------------------------------

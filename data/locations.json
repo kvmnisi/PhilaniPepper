@@ -1,5 +1,5 @@
 {
-  "source": "Wits Braamfontein Campus map 2025 (public). Grid squares and marker positions were read off the map.",
+  "source": "Wits Braamfontein Campus map 2025 (public). Every named campus place on the map is listed; grid squares and marker positions were read off the map.",
   "map_image": "assets/campus-map.jpg",
   "here": "msb",
   "rooms": [
@@ -179,6 +179,1317 @@
         "school of accountancy",
         "accountancy"
       ]
+    },
+    {
+      "id": "wits_club",
+      "name": "Wits Club",
+      "aliases": [
+        "wits club",
+        "club"
+      ],
+      "campus": "West",
+      "grid": "A3",
+      "marker": {
+        "x": 0.4259,
+        "y": 0.1687
+      }
+    },
+    {
+      "id": "alumni_house",
+      "name": "Alumni House",
+      "aliases": [
+        "alumni house"
+      ],
+      "campus": "West",
+      "grid": "A3",
+      "marker": {
+        "x": 0.4285,
+        "y": 0.1853
+      }
+    },
+    {
+      "id": "the_barns",
+      "name": "The Barns",
+      "aliases": [
+        "the barns",
+        "barns"
+      ],
+      "campus": "West",
+      "grid": "A3",
+      "marker": {
+        "x": 0.4285,
+        "y": 0.1972
+      }
+    },
+    {
+      "id": "dig_fields",
+      "name": "Dig Fields",
+      "aliases": [
+        "dig fields"
+      ],
+      "campus": "West",
+      "grid": "A2",
+      "marker": {
+        "x": 0.3055,
+        "y": 0.2126
+      }
+    },
+    {
+      "id": "gym_squash",
+      "name": "Gym & Squash Courts",
+      "aliases": [
+        "gym and squash courts",
+        "squash courts",
+        "gym"
+      ],
+      "campus": "West",
+      "grid": "A3",
+      "marker": {
+        "x": 0.4853,
+        "y": 0.2233
+      }
+    },
+    {
+      "id": "convocation_dining_hall",
+      "name": "Convocation Dining Hall",
+      "aliases": [
+        "convocation dining hall",
+        "convocation"
+      ],
+      "campus": "West",
+      "grid": "B2",
+      "marker": {
+        "x": 0.3338,
+        "y": 0.2566
+      }
+    },
+    {
+      "id": "barnato_hall",
+      "name": "Barnato Hall",
+      "aliases": [
+        "barnato hall",
+        "barnato"
+      ],
+      "campus": "West",
+      "grid": "B3",
+      "marker": {
+        "x": 0.3726,
+        "y": 0.2589
+      }
+    },
+    {
+      "id": "david_webster_hall",
+      "name": "David Webster Hall",
+      "aliases": [
+        "david webster hall",
+        "david webster"
+      ],
+      "campus": "West",
+      "grid": "B3",
+      "marker": {
+        "x": 0.438,
+        "y": 0.2589
+      }
+    },
+    {
+      "id": "west_campus_village",
+      "name": "West Campus Village",
+      "aliases": [
+        "west campus village"
+      ],
+      "campus": "West",
+      "grid": "B2",
+      "marker": {
+        "x": 0.3184,
+        "y": 0.3017
+      }
+    },
+    {
+      "id": "gavin_reilly_green",
+      "name": "Gavin Reilly Green",
+      "aliases": [
+        "gavin reilly green"
+      ],
+      "campus": "West",
+      "grid": "B3",
+      "marker": {
+        "x": 0.3855,
+        "y": 0.3255
+      }
+    },
+    {
+      "id": "dj_du_plessis",
+      "name": "DJ du Plessis Centre",
+      "aliases": [
+        "dj du plessis centre",
+        "dj du plessis"
+      ],
+      "campus": "West",
+      "grid": "B2",
+      "marker": {
+        "x": 0.3244,
+        "y": 0.3647
+      }
+    },
+    {
+      "id": "oliver_schreiner",
+      "name": "Oliver Schreiner School of Law",
+      "aliases": [
+        "oliver schreiner school of law",
+        "oliver schreiner",
+        "school of law"
+      ],
+      "campus": "West",
+      "grid": "B3",
+      "marker": {
+        "x": 0.3717,
+        "y": 0.392
+      }
+    },
+    {
+      "id": "facilities_services",
+      "name": "Facilities & Services",
+      "aliases": [
+        "facilities and services"
+      ],
+      "campus": "West",
+      "grid": "B2",
+      "marker": {
+        "x": 0.3235,
+        "y": 0.4157
+      }
+    },
+    {
+      "id": "chalsty_centre",
+      "name": "Chalsty Centre",
+      "aliases": [
+        "chalsty centre",
+        "chalsty"
+      ],
+      "campus": "West",
+      "grid": "B3",
+      "marker": {
+        "x": 0.3622,
+        "y": 0.4229
+      }
+    },
+    {
+      "id": "weiner_mall",
+      "name": "Weiner Mall",
+      "aliases": [
+        "weiner mall"
+      ],
+      "campus": "West",
+      "grid": "B3",
+      "marker": {
+        "x": 0.4362,
+        "y": 0.4324
+      }
+    },
+    {
+      "id": "procurement_office",
+      "name": "Procurement Office",
+      "aliases": [
+        "procurement office"
+      ],
+      "campus": "West",
+      "grid": "C2",
+      "marker": {
+        "x": 0.3244,
+        "y": 0.4442
+      }
+    },
+    {
+      "id": "law_clinic",
+      "name": "Law Clinic",
+      "aliases": [
+        "law clinic"
+      ],
+      "campus": "West",
+      "grid": "C3",
+      "marker": {
+        "x": 0.3812,
+        "y": 0.4502
+      }
+    },
+    {
+      "id": "commerce_library",
+      "name": "Commerce Library",
+      "aliases": [
+        "commerce library"
+      ],
+      "campus": "West",
+      "grid": "C3",
+      "marker": {
+        "x": 0.3795,
+        "y": 0.4644
+      }
+    },
+    {
+      "id": "commerce_law_management",
+      "name": "Commerce, Law & Management",
+      "aliases": [
+        "commerce law and management",
+        "commerce law management"
+      ],
+      "campus": "West",
+      "grid": "C3",
+      "marker": {
+        "x": 0.438,
+        "y": 0.4621
+      }
+    },
+    {
+      "id": "faculty_clm",
+      "name": "Faculty of Commerce, Law and Management",
+      "aliases": [
+        "faculty of commerce law and management"
+      ],
+      "campus": "West",
+      "grid": "C3",
+      "marker": {
+        "x": 0.3829,
+        "y": 0.4846
+      }
+    },
+    {
+      "id": "tower_of_light",
+      "name": "Tower of Light",
+      "aliases": [
+        "tower of light"
+      ],
+      "campus": "West",
+      "grid": "C3",
+      "marker": {
+        "x": 0.4061,
+        "y": 0.4858
+      }
+    },
+    {
+      "id": "business_sciences",
+      "name": "School of Business Sciences",
+      "aliases": [
+        "school of business sciences",
+        "business sciences"
+      ],
+      "campus": "West",
+      "grid": "C3",
+      "marker": {
+        "x": 0.444,
+        "y": 0.4989
+      }
+    },
+    {
+      "id": "wits_plus",
+      "name": "Wits Plus",
+      "aliases": [
+        "wits plus",
+        "plus"
+      ],
+      "campus": "West",
+      "grid": "C3",
+      "marker": {
+        "x": 0.4543,
+        "y": 0.5167
+      }
+    },
+    {
+      "id": "old_grandstand",
+      "name": "Old Grandstand",
+      "aliases": [
+        "old grandstand"
+      ],
+      "campus": "West",
+      "grid": "C3",
+      "marker": {
+        "x": 0.401,
+        "y": 0.5179
+      }
+    },
+    {
+      "id": "science_stadium_labs",
+      "name": "Science Stadium Laboratories",
+      "aliases": [
+        "science stadium laboratories",
+        "science stadium labs"
+      ],
+      "campus": "West",
+      "grid": "C3",
+      "marker": {
+        "x": 0.3889,
+        "y": 0.5939
+      }
+    },
+    {
+      "id": "wits_football_academy",
+      "name": "Wits Football Academy",
+      "aliases": [
+        "wits football academy",
+        "football academy"
+      ],
+      "campus": "West",
+      "grid": "C1",
+      "marker": {
+        "x": 0.1669,
+        "y": 0.5713
+      }
+    },
+    {
+      "id": "ccdu",
+      "name": "CCDU",
+      "aliases": [
+        "ccdu"
+      ],
+      "campus": "West",
+      "grid": "C3",
+      "marker": {
+        "x": 0.45,
+        "y": 0.5987
+      }
+    },
+    {
+      "id": "genmin_labs",
+      "name": "Genmin Laboratories",
+      "aliases": [
+        "genmin laboratories",
+        "genmin labs",
+        "genmin"
+      ],
+      "campus": "West",
+      "grid": "C3",
+      "marker": {
+        "x": 0.3915,
+        "y": 0.6248
+      }
+    },
+    {
+      "id": "high_voltage_lab",
+      "name": "High Voltage Lab",
+      "aliases": [
+        "high voltage lab",
+        "high voltage laboratory"
+      ],
+      "campus": "West",
+      "grid": "D3",
+      "marker": {
+        "x": 0.3812,
+        "y": 0.6485
+      }
+    },
+    {
+      "id": "wits_arm",
+      "name": "Wits ARM Building",
+      "aliases": [
+        "wits arm building",
+        "arm building"
+      ],
+      "campus": "West",
+      "grid": "D3",
+      "marker": {
+        "x": 0.4414,
+        "y": 0.6652
+      }
+    },
+    {
+      "id": "innovation_bridge",
+      "name": "Wits Sibanye-Stillwater Innovation Bridge",
+      "aliases": [
+        "wits sibanye stillwater innovation bridge",
+        "sibanye stillwater innovation bridge",
+        "innovation bridge"
+      ],
+      "grid": "D3",
+      "marker": {
+        "x": 0.4939,
+        "y": 0.6616
+      }
+    },
+    {
+      "id": "sturrock_park",
+      "name": "Sturrock Park Stadium",
+      "aliases": [
+        "sturrock park stadium",
+        "sturrock park",
+        "sturrockpark"
+      ],
+      "campus": "West",
+      "grid": "D1",
+      "marker": {
+        "x": 0.1308,
+        "y": 0.6782
+      }
+    },
+    {
+      "id": "cltd",
+      "name": "CLTD",
+      "aliases": [
+        "cltd"
+      ],
+      "campus": "West",
+      "grid": "D3",
+      "marker": {
+        "x": 0.376,
+        "y": 0.6913
+      }
+    },
+    {
+      "id": "sports_administration",
+      "name": "Sports Administration",
+      "aliases": [
+        "sports administration"
+      ],
+      "campus": "West",
+      "grid": "D2",
+      "marker": {
+        "x": 0.228,
+        "y": 0.7483
+      }
+    },
+    {
+      "id": "enoch_sontonga_park",
+      "name": "Enoch Sontonga Memorial Park",
+      "aliases": [
+        "enoch sontonga memorial park",
+        "enoch sontonga park"
+      ],
+      "campus": "West",
+      "grid": "E2",
+      "marker": {
+        "x": 0.2788,
+        "y": 0.8718
+      }
+    },
+    {
+      "id": "ithemba_labs",
+      "name": "iThemba Labs",
+      "aliases": [
+        "ithemba labs",
+        "ithemba"
+      ],
+      "campus": "East",
+      "grid": "B4",
+      "marker": {
+        "x": 0.6462,
+        "y": 0.2542
+      }
+    },
+    {
+      "id": "b_field",
+      "name": "'B' Field",
+      "aliases": [
+        "b field"
+      ],
+      "campus": "East",
+      "grid": "B4",
+      "marker": {
+        "x": 0.5903,
+        "y": 0.2459
+      }
+    },
+    {
+      "id": "professional_development_hub",
+      "name": "Professional Development Hub",
+      "aliases": [
+        "professional development hub"
+      ],
+      "campus": "East",
+      "grid": "B5",
+      "marker": {
+        "x": 0.6883,
+        "y": 0.2684
+      }
+    },
+    {
+      "id": "wits_language_school",
+      "name": "Wits Language School",
+      "aliases": [
+        "wits language school",
+        "language school"
+      ],
+      "campus": "East",
+      "grid": "B5",
+      "marker": {
+        "x": 0.7081,
+        "y": 0.2791
+      }
+    },
+    {
+      "id": "bozzoli_pavilion",
+      "name": "Bozzoli Sports Pavilion",
+      "aliases": [
+        "bozzoli sports pavilion",
+        "bozzoli"
+      ],
+      "campus": "East",
+      "grid": "B4",
+      "marker": {
+        "x": 0.6453,
+        "y": 0.3076
+      }
+    },
+    {
+      "id": "walter_milton_oval",
+      "name": "Walter Milton Oval",
+      "aliases": [
+        "walter milton oval"
+      ],
+      "campus": "East",
+      "grid": "B4",
+      "marker": {
+        "x": 0.623,
+        "y": 0.354
+      }
+    },
+    {
+      "id": "rugby_stadium",
+      "name": "Rugby Stadium",
+      "aliases": [
+        "rugby stadium"
+      ],
+      "campus": "East",
+      "grid": "B5",
+      "marker": {
+        "x": 0.7245,
+        "y": 0.3611
+      }
+    },
+    {
+      "id": "ronnie_schloss_stand",
+      "name": "Ronnie Schloss Stand",
+      "aliases": [
+        "ronnie schloss stand"
+      ],
+      "campus": "East",
+      "grid": "B4",
+      "marker": {
+        "x": 0.5343,
+        "y": 0.3516
+      }
+    },
+    {
+      "id": "the_sanctuary",
+      "name": "The Sanctuary",
+      "aliases": [
+        "the sanctuary",
+        "sanctuary"
+      ],
+      "campus": "East",
+      "grid": "B5",
+      "marker": {
+        "x": 0.6772,
+        "y": 0.4015
+      }
+    },
+    {
+      "id": "digital_dome",
+      "name": "Wits Anglo American Digital Dome",
+      "aliases": [
+        "wits anglo american digital dome",
+        "anglo american digital dome",
+        "digital dome"
+      ],
+      "campus": "East",
+      "grid": "B4",
+      "marker": {
+        "x": 0.5421,
+        "y": 0.4086
+      }
+    },
+    {
+      "id": "musallah",
+      "name": "Musallah",
+      "aliases": [
+        "musallah"
+      ],
+      "campus": "East",
+      "grid": "B4",
+      "marker": {
+        "x": 0.6083,
+        "y": 0.4145
+      }
+    },
+    {
+      "id": "jubilee_hall",
+      "name": "Jubilee Hall",
+      "aliases": [
+        "jubilee hall"
+      ],
+      "campus": "East",
+      "grid": "C5",
+      "marker": {
+        "x": 0.771,
+        "y": 0.4419
+      }
+    },
+    {
+      "id": "dalrymple_house",
+      "name": "Dalrymple House",
+      "aliases": [
+        "dalrymple house",
+        "dalrymple"
+      ],
+      "campus": "East",
+      "grid": "C4",
+      "marker": {
+        "x": 0.592,
+        "y": 0.4644
+      }
+    },
+    {
+      "id": "college_house",
+      "name": "College House",
+      "aliases": [
+        "college house"
+      ],
+      "campus": "East",
+      "grid": "C4",
+      "marker": {
+        "x": 0.6565,
+        "y": 0.4668
+      }
+    },
+    {
+      "id": "hofmeyr_house",
+      "name": "Hofmeyr House",
+      "aliases": [
+        "hofmeyr house",
+        "hofmeyr"
+      ],
+      "campus": "East",
+      "grid": "C5",
+      "marker": {
+        "x": 0.752,
+        "y": 0.4668
+      }
+    },
+    {
+      "id": "mens_halls",
+      "name": "Men's Halls of Residence",
+      "aliases": [
+        "mens halls of residence",
+        "mens halls",
+        "men s halls"
+      ],
+      "campus": "East",
+      "grid": "C4",
+      "marker": {
+        "x": 0.6307,
+        "y": 0.4799
+      }
+    },
+    {
+      "id": "international_house",
+      "name": "International House",
+      "aliases": [
+        "international house"
+      ],
+      "campus": "East",
+      "grid": "C5",
+      "marker": {
+        "x": 0.7056,
+        "y": 0.5013
+      }
+    },
+    {
+      "id": "john_moffat",
+      "name": "John Moffat Building",
+      "aliases": [
+        "john moffat building",
+        "john moffat"
+      ],
+      "campus": "East",
+      "grid": "C4",
+      "marker": {
+        "x": 0.5868,
+        "y": 0.5381
+      }
+    },
+    {
+      "id": "john_moffat_extension",
+      "name": "John Moffat Extension",
+      "aliases": [
+        "john moffat extension"
+      ],
+      "campus": "East",
+      "grid": "C4",
+      "marker": {
+        "x": 0.5524,
+        "y": 0.55
+      }
+    },
+    {
+      "id": "pool",
+      "name": "Pool",
+      "aliases": [
+        "pool",
+        "swimming pool"
+      ],
+      "campus": "East",
+      "grid": "C4",
+      "marker": {
+        "x": 0.6264,
+        "y": 0.5428
+      }
+    },
+    {
+      "id": "sunnyside_hall",
+      "name": "Sunnyside Hall",
+      "aliases": [
+        "sunnyside hall",
+        "sunnyside"
+      ],
+      "campus": "East",
+      "grid": "C5",
+      "marker": {
+        "x": 0.7176,
+        "y": 0.5476
+      }
+    },
+    {
+      "id": "amphitheatre",
+      "name": "Amphitheatre",
+      "aliases": [
+        "amphitheatre"
+      ],
+      "campus": "East",
+      "grid": "C4",
+      "marker": {
+        "x": 0.6255,
+        "y": 0.5595
+      }
+    },
+    {
+      "id": "students_union",
+      "name": "Students Union",
+      "aliases": [
+        "students union",
+        "student union"
+      ],
+      "campus": "East",
+      "grid": "C5",
+      "marker": {
+        "x": 0.6668,
+        "y": 0.5559
+      }
+    },
+    {
+      "id": "construction_economics",
+      "name": "Construction Economics & Management",
+      "aliases": [
+        "construction economics and management",
+        "construction economics"
+      ],
+      "campus": "East",
+      "grid": "C4",
+      "marker": {
+        "x": 0.5421,
+        "y": 0.5701
+      }
+    },
+    {
+      "id": "umthombo",
+      "name": "Umthombo",
+      "aliases": [
+        "umthombo"
+      ],
+      "campus": "East",
+      "grid": "C5",
+      "marker": {
+        "x": 0.6746,
+        "y": 0.5939
+      }
+    },
+    {
+      "id": "library_lawns",
+      "name": "Library Lawns",
+      "aliases": [
+        "library lawns"
+      ],
+      "campus": "East",
+      "grid": "C4",
+      "marker": {
+        "x": 0.6273,
+        "y": 0.6046
+      }
+    },
+    {
+      "id": "jan_smuts_house",
+      "name": "Jan Smuts House",
+      "aliases": [
+        "jan smuts house"
+      ],
+      "campus": "East",
+      "grid": "C5",
+      "marker": {
+        "x": 0.7279,
+        "y": 0.6093
+      }
+    },
+    {
+      "id": "biology",
+      "name": "Biology",
+      "aliases": [
+        "biology",
+        "biology building"
+      ],
+      "campus": "East",
+      "grid": "C5",
+      "marker": {
+        "x": 0.6952,
+        "y": 0.6379
+      }
+    },
+    {
+      "id": "wartenweiler_library",
+      "name": "Wartenweiler Library",
+      "aliases": [
+        "wartenweiler library",
+        "wartenweiler",
+        "warten weiler library"
+      ],
+      "campus": "East",
+      "grid": "D5",
+      "marker": {
+        "x": 0.6608,
+        "y": 0.6474
+      }
+    },
+    {
+      "id": "north_west_engineering",
+      "name": "North West Engineering",
+      "aliases": [
+        "north west engineering"
+      ],
+      "campus": "East",
+      "grid": "D4",
+      "marker": {
+        "x": 0.5627,
+        "y": 0.6509
+      }
+    },
+    {
+      "id": "geosciences",
+      "name": "Geosciences",
+      "aliases": [
+        "geosciences",
+        "geosciences building"
+      ],
+      "campus": "East",
+      "grid": "D4",
+      "marker": {
+        "x": 0.6023,
+        "y": 0.6533
+      }
+    },
+    {
+      "id": "emthonjeni_centre",
+      "name": "Emthonjeni Centre",
+      "aliases": [
+        "emthonjeni centre",
+        "emthonjeni"
+      ],
+      "campus": "East",
+      "grid": "D5",
+      "marker": {
+        "x": 0.734,
+        "y": 0.6604
+      }
+    },
+    {
+      "id": "jan_smuts_steps",
+      "name": "Jan Smuts Steps",
+      "aliases": [
+        "jan smuts steps"
+      ],
+      "campus": "East",
+      "grid": "D5",
+      "marker": {
+        "x": 0.7658,
+        "y": 0.6747
+      }
+    },
+    {
+      "id": "macrone_mall",
+      "name": "Macrone Mall",
+      "aliases": [
+        "macrone mall"
+      ],
+      "campus": "East",
+      "grid": "D4",
+      "marker": {
+        "x": 0.5791,
+        "y": 0.683
+      }
+    },
+    {
+      "id": "piazza",
+      "name": "Piazza",
+      "aliases": [
+        "piazza"
+      ],
+      "campus": "East",
+      "grid": "D4",
+      "marker": {
+        "x": 0.6298,
+        "y": 0.6842
+      }
+    },
+    {
+      "id": "oppenheimer_life_sciences",
+      "name": "Oppenheimer Life Sciences",
+      "aliases": [
+        "oppenheimer life sciences",
+        "oppenheimer",
+        "life sciences"
+      ],
+      "campus": "East",
+      "grid": "D5",
+      "marker": {
+        "x": 0.721,
+        "y": 0.6961
+      }
+    },
+    {
+      "id": "physics",
+      "name": "Physics",
+      "aliases": [
+        "physics",
+        "physics building"
+      ],
+      "campus": "East",
+      "grid": "D5",
+      "marker": {
+        "x": 0.6806,
+        "y": 0.7067
+      }
+    },
+    {
+      "id": "south_west_engineering",
+      "name": "South West Engineering",
+      "aliases": [
+        "south west engineering"
+      ],
+      "campus": "East",
+      "grid": "D4",
+      "marker": {
+        "x": 0.5765,
+        "y": 0.7139
+      }
+    },
+    {
+      "id": "ohara_court",
+      "name": "O'Hara Court",
+      "aliases": [
+        "ohara court",
+        "o hara court"
+      ],
+      "campus": "East",
+      "grid": "D5",
+      "marker": {
+        "x": 0.6806,
+        "y": 0.7257
+      }
+    },
+    {
+      "id": "hillman",
+      "name": "Hillman",
+      "aliases": [
+        "hillman",
+        "hillman building"
+      ],
+      "campus": "East",
+      "grid": "D4",
+      "marker": {
+        "x": 0.5799,
+        "y": 0.7353
+      }
+    },
+    {
+      "id": "humphrey_raikes",
+      "name": "Humphrey Raikes",
+      "aliases": [
+        "humphrey raikes",
+        "humphrey raikes building"
+      ],
+      "campus": "East",
+      "grid": "D5",
+      "marker": {
+        "x": 0.6797,
+        "y": 0.7448
+      }
+    },
+    {
+      "id": "gatehouse",
+      "name": "Gatehouse",
+      "aliases": [
+        "gatehouse"
+      ],
+      "campus": "East",
+      "grid": "D5",
+      "marker": {
+        "x": 0.721,
+        "y": 0.7412
+      }
+    },
+    {
+      "id": "wits_school_of_arts",
+      "name": "Wits School of Arts",
+      "aliases": [
+        "wits school of arts",
+        "school of arts"
+      ],
+      "campus": "East",
+      "grid": "D5",
+      "marker": {
+        "x": 0.7546,
+        "y": 0.7459
+      }
+    },
+    {
+      "id": "noswal_hall",
+      "name": "Noswal Hall",
+      "aliases": [
+        "noswal hall"
+      ],
+      "campus": "East",
+      "grid": "D5",
+      "marker": {
+        "x": 0.8123,
+        "y": 0.7507
+      }
+    },
+    {
+      "id": "post_graduate_club",
+      "name": "Post Graduate Club",
+      "aliases": [
+        "post graduate club",
+        "postgraduate club",
+        "postgrad club"
+      ],
+      "campus": "East",
+      "grid": "D4",
+      "marker": {
+        "x": 0.5421,
+        "y": 0.7519
+      }
+    },
+    {
+      "id": "bernard_price",
+      "name": "Bernard Price",
+      "aliases": [
+        "bernard price",
+        "bernard price building"
+      ],
+      "campus": "East",
+      "grid": "D4",
+      "marker": {
+        "x": 0.5619,
+        "y": 0.7673
+      }
+    },
+    {
+      "id": "sutton_close",
+      "name": "Sutton Close",
+      "aliases": [
+        "sutton close"
+      ],
+      "campus": "East",
+      "grid": "D4",
+      "marker": {
+        "x": 0.5834,
+        "y": 0.7768
+      }
+    },
+    {
+      "id": "origins_centre",
+      "name": "Origins Centre",
+      "aliases": [
+        "origins centre",
+        "origins"
+      ],
+      "grid": "D4",
+      "marker": {
+        "x": 0.5085,
+        "y": 0.7887
+      }
+    },
+    {
+      "id": "digital_arts",
+      "name": "Digital Arts",
+      "aliases": [
+        "digital arts"
+      ],
+      "campus": "East",
+      "grid": "D5",
+      "marker": {
+        "x": 0.7426,
+        "y": 0.7899
+      }
+    },
+    {
+      "id": "trinity_house",
+      "name": "Trinity House",
+      "aliases": [
+        "trinity house"
+      ],
+      "campus": "East",
+      "grid": "D5",
+      "marker": {
+        "x": 0.771,
+        "y": 0.7899
+      }
+    },
+    {
+      "id": "richard_ward",
+      "name": "Richard Ward",
+      "aliases": [
+        "richard ward",
+        "richard ward building"
+      ],
+      "campus": "East",
+      "grid": "D4",
+      "marker": {
+        "x": 0.5808,
+        "y": 0.7994
+      }
+    },
+    {
+      "id": "evolutionary_studies",
+      "name": "Evolutionary Studies Institute",
+      "aliases": [
+        "evolutionary studies institute",
+        "evolutionary studies"
+      ],
+      "campus": "East",
+      "grid": "D4",
+      "marker": {
+        "x": 0.5533,
+        "y": 0.8101
+      }
+    },
+    {
+      "id": "wits_theatre",
+      "name": "Wits Theatre",
+      "aliases": [
+        "wits theatre",
+        "theatre"
+      ],
+      "campus": "East",
+      "grid": "D5",
+      "marker": {
+        "x": 0.6961,
+        "y": 0.8077
+      }
+    },
+    {
+      "id": "nunnery",
+      "name": "Nunnery",
+      "aliases": [
+        "nunnery",
+        "the nunnery"
+      ],
+      "campus": "East",
+      "grid": "D5",
+      "marker": {
+        "x": 0.7451,
+        "y": 0.803
+      }
+    },
+    {
+      "id": "chris_seabrooke",
+      "name": "Chris Seabrooke Music Hall",
+      "aliases": [
+        "chris seabrooke music hall",
+        "chris seabrooke",
+        "seabrooke music hall",
+        "music hall"
+      ],
+      "campus": "East",
+      "grid": "D5",
+      "marker": {
+        "x": 0.746,
+        "y": 0.822
+      }
+    },
+    {
+      "id": "university_corner",
+      "name": "University Corner",
+      "aliases": [
+        "university corner"
+      ],
+      "campus": "East",
+      "grid": "D5",
+      "marker": {
+        "x": 0.7641,
+        "y": 0.8172
+      }
+    },
+    {
+      "id": "wits_art_museum",
+      "name": "Wits Art Museum",
+      "aliases": [
+        "wits art museum",
+        "art museum",
+        "wam"
+      ],
+      "campus": "East",
+      "grid": "D5",
+      "marker": {
+        "x": 0.7778,
+        "y": 0.822
+      }
+    },
+    {
+      "id": "south_court",
+      "name": "South Court",
+      "aliases": [
+        "south court"
+      ],
+      "campus": "East",
+      "grid": "D5",
+      "marker": {
+        "x": 0.6694,
+        "y": 0.8517
+      }
+    },
+    {
+      "id": "cisa",
+      "name": "CISA",
+      "aliases": [
+        "cisa"
+      ],
+      "campus": "East",
+      "grid": "E4",
+      "marker": {
+        "x": 0.6488,
+        "y": 0.8576
+      }
+    },
+    {
+      "id": "graduate_lodge",
+      "name": "Graduate Lodge",
+      "aliases": [
+        "graduate lodge"
+      ],
+      "campus": "East",
+      "grid": "E4",
+      "marker": {
+        "x": 0.6376,
+        "y": 0.8612
+      }
+    },
+    {
+      "id": "campus_lodge",
+      "name": "Campus Lodge",
+      "aliases": [
+        "campus lodge"
+      ],
+      "campus": "East",
+      "grid": "E5",
+      "marker": {
+        "x": 0.7185,
+        "y": 0.9336
+      }
     }
   ]
 }

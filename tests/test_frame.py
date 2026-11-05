@@ -137,3 +137,58 @@ def test_money_is_an_unknown_subject():
 def test_do_request_outside_scope_is_refused():
     _, result = run("Ungakwenza i-NSFAS yami?", "OOS")
     assert result["response"] == "Sorry, I cannot do that."
+
+
+# --- question words, combined verbs and the 500 verified test sentences ---------
+
+@pytest.mark.parametrize("text, verb", [
+    ("Yiliphi ikilasi eliqhubekayo?", "which"),        # liphi = which
+    ("Yisiphi isifundo esilandelayo?", "which"),       # prefixed siphi = which
+    ("Sinezifundo ziphi ngoMsombuluko?", "where_which"),  # bare ziphi: where, or which
+    ("ikuphi i-great hall", "where"),                   # kuphi = where
+    ("Ubani umfundisi we-Computer Vision?", "who"),     # ubani was missing
+    ("Lingaki ihora?", "how_many"),
+    ("Ungangisiza ngani?", "what"),
+    ("Unjani?", None),                                  # a greeting, not "how"
+    ("Sawubona", None),                                 # not the verb -bona (see)
+])
+def test_question_words(text, verb):
+    assert analyse(text)["verb"] == verb
+
+
+def test_bare_siphi_still_allows_which_questions():
+    _, result = run("Sinezifundo ziphi ngoMsombuluko?", "ask_day_schedule")
+    assert result["policy"] is None and result["intent"] == "ask_day_schedule"
+
+
+def test_every_question_word_counts_not_only_the_first():
+    _, result = run("Sesifikile yini isikhathi sezivivinyo?", "ask_current_semester")   # fik + yini
+    assert result["intent"] == "ask_current_semester"
+
+
+def test_request_verbs_let_a_fitting_prediction_through():
+    _, result = run("Ngicela i-imeyili kaDr Hairong Wang.", "ask_contact")
+    assert result["policy"] is None and result["intent"] == "ask_contact"
+    assert extract_slots("Ngicela i-imeyili kaDr Hairong Wang.")["contact"] == "honours_cs"
+
+
+def test_model_out_of_scope_with_unknown_words_is_refused():
+    _, result = run("Ngicela isikhathi sokuhamba kwesitimela.", "OOS")      # train departure time
+    assert result["intent"] == "OOS" and result["response"].startswith("Sorry")
+
+
+def test_honours_alone_is_not_a_contact():
+    assert "contact" not in extract_slots("Yiziphi izifundo ze-Honours?")
+
+
+def test_every_campus_map_place_is_a_location():
+    from backend.dispatcher.timetable import get_timetable
+    tt = get_timetable()
+    assert len(tt.locations) > 100
+    for text, place in [("ikuphi i-John Moffat?", "john_moffat"), ("ngiya kanjani eSturrockPark", "sturrock_park"),
+                        ("ikuphi iFNB", "fnb"), ("ikuphi i-Margo Steele", "fnb"),
+                        ("ikuphi i-Science Stadium Laboratories", "science_stadium_labs")]:
+        assert extract_slots(text)["location"] == place
+    for location in tt.locations:
+        assert location["grid"][0] in "ABCDE" and location["grid"][1] in "12345"
+        assert 0 < location["marker"]["x"] < 1 and 0 < location["marker"]["y"] < 1
