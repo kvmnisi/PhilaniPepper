@@ -11,6 +11,10 @@
     Intent:
 
 The examples and each intent's label words live in data/branch_b_examples.json.
+
+With a fine-tuned adapter (the default once one is installed), the prompt is
+FINETUNE_PROMPT and every canonical label is scored as its continuation, exactly
+as in the Colab notebook that trained the adapter.
 """
 
 import json
@@ -20,6 +24,9 @@ HEADER = ("Requests that students say to Pepper, a robot assistant at Wits Unive
           "and the intent of each request.\n\n")
 EXAMPLE = "Request: {text}\nIntent: {word}\n\n"
 QUERY = "Request: {text}\nIntent:"
+
+# Must match the "prompt" saved in the adapter's training_info.json.
+FINETUNE_PROMPT = "### isiZulu command:\n{text}\n### Intent:"
 
 
 def clean(text):
@@ -59,3 +66,21 @@ def ordered_examples(data, labels):
             if index < len(by_label[label]):
                 ordered.append((by_label[label][index], words[label][0]))
     return ordered
+
+
+def build_finetune_prompt(text):
+    return FINETUNE_PROMPT.format(text=clean(text))
+
+
+def encode_label(tokenizer, text, label, eos_id):
+    """Token ids of fine-tune prompt + label + eos, and where the label starts.
+
+    The label starts where the tokenisation of the prompt alone stops agreeing
+    with the tokenisation of prompt + label (identical to the training notebook).
+    """
+    prompt = list(tokenizer(build_finetune_prompt(text)).input_ids)
+    full = list(tokenizer(build_finetune_prompt(text) + " " + label).input_ids) + [eos_id]
+    start = 0
+    while start < min(len(prompt), len(full)) and prompt[start] == full[start]:
+        start += 1
+    return full, start

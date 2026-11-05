@@ -29,8 +29,9 @@ def main():
     except BranchBUnusable as error:
         print("   FAILED:", error)
         return 3
-    print("   OK on device=%s, dtype=%s, %d examples in the prompt"
-          % (classifier.device, classifier.dtype_name, len(classifier.examples)))
+    mode = ("LoRA adapter %s" % classifier.adapter) if classifier.adapter else (
+        "untrained, %d examples in the prompt" % len(classifier.examples))
+    print("   OK on device=%s, dtype=%s, %s" % (classifier.device, classifier.dtype_name, mode))
 
     print("\n2. Scoring sample sentences")
     for text in SAMPLES:

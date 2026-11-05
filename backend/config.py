@@ -25,6 +25,25 @@ def _default_whisper_model():
     return "dsfsi-anv/whisper-small-anv-zulu-first-batch"
 
 
+LOCAL_ADAPTER_DIR = REPO_ROOT / "InkubaLMAdapter"
+
+
+def _default_inkubalm_adapter():
+    """./InkubaLMAdapter when it holds a LoRA adapter (from the Colab notebook's final cell)."""
+    if (LOCAL_ADAPTER_DIR / "adapter_config.json").exists() and any(
+        (LOCAL_ADAPTER_DIR / name).exists() for name in ("adapter_model.safetensors", "adapter_model.bin")
+    ):
+        return str(LOCAL_ADAPTER_DIR)
+    return None
+
+
+def _adapter_setting():
+    value = _env("INKUBALM_ADAPTER")
+    if value and value.lower() == "none":
+        return None
+    return value or _default_inkubalm_adapter()
+
+
 def _env(name, default=None):
     value = os.environ.get(name)
     return value if value not in (None, "") else default
@@ -89,7 +108,10 @@ class Settings:
     # "auto": inkubalm when the ML libraries are installed, else dev-rules.
     branch_b_engine: str = field(default_factory=lambda: _env("BRANCH_B_ENGINE", "auto"))
     inkubalm_model: str = field(default_factory=lambda: _env("INKUBALM_MODEL", "lelapa/InkubaLM-0.4B"))
-    # Labelled example requests and label words shown to InkubaLM in the prompt.
+    # Fine-tuned LoRA adapter: ./InkubaLMAdapter by default, INKUBALM_ADAPTER=<path>, or "none"
+    # for the untrained few-shot mode below.
+    inkubalm_adapter: str = field(default_factory=_adapter_setting)
+    # Untrained mode only: labelled example requests and label words shown in the prompt.
     branch_b_examples_file: Path = field(
         default_factory=lambda: Path(_env("BRANCH_B_EXAMPLES_FILE", str(DATA_DIR / "branch_b_examples.json")))
     )

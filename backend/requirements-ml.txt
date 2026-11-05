@@ -3,7 +3,8 @@
 #   https://pytorch.org/get-started/locally/
 -r requirements.txt
 torch>=2.2
-transformers>=4.44
+transformers>=4.44,<4.47   # InkubaLM's own model code produces NaN under transformers 5.x
 accelerate>=0.33
+peft>=0.13
 sentencepiece>=0.2
 protobuf>=4.25

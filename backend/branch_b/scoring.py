@@ -15,7 +15,7 @@ label words whatever the request says. Scores are divided by that baseline.
 
 import math
 
-from backend.branch_b.prompt import build_prompt
+from backend.branch_b.prompt import build_prompt, encode_label
 
 CONTENT_FREE = ("N/A", "")
 
@@ -207,3 +207,23 @@ class LabelScorer:
             if base:
                 values = [v - b for v, b in zip(values, base)]
         return dict(zip(self.labels, stable_softmax(values)))
+
+
+class FineTunedScorer:
+    """Scores every canonical label (all its tokens and eos) as the continuation of
+    the fine-tune prompt; a softmax over the labels gives the probabilities."""
+
+    def __init__(self, model, tokenizer, labels, device, pad_id, eos_id, torch):
+        self.model, self.tokenizer, self.torch = model, tokenizer, torch
+        self.labels = list(labels)
+        self.device, self.pad_id, self.eos_id = device, pad_id, eos_id
+
+    def score(self, text):
+        encoded = [encode_label(self.tokenizer, text, label, self.eos_id) for label in self.labels]
+        totals = sequence_logprobs(self.model, encoded, self.device, self.pad_id, self.torch)
+        if not _finite(totals):   # retry one at a time, without padding
+            totals = [sequence_logprobs(self.model, [one], self.device, self.pad_id, self.torch)[0] for one in encoded]
+        if not _finite(totals):
+            raise InvalidScores("Branch B produced invalid scores (NaN or infinity). "
+                                "Use transformers 4.46.x and INKUBALM_DTYPE=float32.")
+        return dict(zip(self.labels, stable_softmax(totals)))

@@ -266,3 +266,51 @@ def test_prompt_examples_never_appear_in_the_test_sentences():
         test = {norm(row["text"]) for row in csv.DictReader(handle)}
     examples = load_examples(str(Settings().branch_b_examples_file))["examples"]
     assert not [e["text"] for e in examples if norm(e["text"]) in test]
+
+
+# --- fine-tuned (LoRA adapter) mode --------------------------------------------
+
+from backend.branch_b.prompt import FINETUNE_PROMPT, encode_label
+
+
+def test_label_encoding_marks_where_the_label_starts():
+    full, start = encode_label(CharTokenizer(), "ngicela  usizo", "help", eos_id=0)
+    chars = lambda ids: "".join(chr(i) for i in ids)
+    assert decode(full[:start]).endswith("### Intent:") and chars(full[start:-1]) == " help" and full[-1] == 0
+
+
+def test_fine_tuned_scorer_softmaxes_full_label_scores(monkeypatch):
+    seen = []
+
+    def fake(model, encoded, device, pad_id, torch):
+        seen.append(len(encoded))
+        return [-1.0 if "".join(chr(i) for i in ids[start:-1]) == " help" else -5.0 for ids, start in encoded]
+    monkeypatch.setattr(scoring, "sequence_logprobs", fake)
+    scorer = scoring.FineTunedScorer(None, CharTokenizer(), LABELS, "cpu", 0, 0, None)
+    probs = scorer.score("ngicela usizo")
+    assert seen == [3] and max(probs, key=probs.get) == "help" and math.isclose(sum(probs.values()), 1.0)
+
+
+def test_fine_tuned_scorer_refuses_nan(monkeypatch):
+    monkeypatch.setattr(scoring, "sequence_logprobs", lambda m, e, d, p, t: [NAN] * len(e))
+    with pytest.raises(scoring.InvalidScores):
+        scoring.FineTunedScorer(None, CharTokenizer(), LABELS, "cpu", 0, 0, None).score("x")
+
+
+def test_adapter_must_match_prompt_and_labels(tmp_path):
+    from backend.branch_b.branch import BranchBUnusable, check_adapter
+    labels = intent_labels()
+    with pytest.raises(BranchBUnusable, match="training_info"):
+        check_adapter(tmp_path, labels)
+    (tmp_path / "training_info.json").write_text(json.dumps({"prompt": FINETUNE_PROMPT, "labels": labels}))
+    assert check_adapter(tmp_path, labels)["labels"] == labels
+    (tmp_path / "training_info.json").write_text(json.dumps({"prompt_template": "old", "labels": labels}))
+    with pytest.raises(BranchBUnusable, match="older"):
+        check_adapter(tmp_path, labels)
+
+
+def test_adapter_setting_can_be_switched_off(monkeypatch):
+    monkeypatch.setenv("INKUBALM_ADAPTER", "none")
+    assert Settings().inkubalm_adapter is None
+    monkeypatch.setenv("INKUBALM_ADAPTER", "/some/adapter")
+    assert Settings().inkubalm_adapter == "/some/adapter"
