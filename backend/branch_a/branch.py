@@ -192,4 +192,7 @@ class BranchA:
             info["translator"] = self.translator.model_id
         if self.classifier:
             info["classifier"] = self.classifier.model_id
+        if self.engine == "nllb-rules":
+            info["note"] = ("No fine-tuned English classifier found: put it in ./EnglishIntentClassifier, "
+                            "or set CLASSIFIER_REPO (or BRANCH_A_CLASSIFIER) to its Hugging Face repo.")
         return info

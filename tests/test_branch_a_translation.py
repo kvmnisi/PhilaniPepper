@@ -74,3 +74,27 @@ def test_fine_tuned_classifier_folder_is_found_automatically(tmp_path, monkeypat
     assert _resolve_branch_a(settings).engine == "hf"
     monkeypatch.setenv("BRANCH_A_CLASSIFIER", "none")
     assert Settings().branch_a_classifier is None
+
+
+def test_classifier_is_downloaded_from_classifier_repo(monkeypatch, tmp_path):
+    import sys
+    import types
+
+    from backend import config
+
+    calls = []
+
+    def fake_download(repo, local_dir, token=None):
+        calls.append(repo)
+        (tmp_path / "config.json").write_text("{}")
+        (tmp_path / "model.safetensors").write_text("")
+
+    monkeypatch.setitem(sys.modules, "huggingface_hub", types.SimpleNamespace(snapshot_download=fake_download))
+    monkeypatch.setattr(config, "LOCAL_CLASSIFIER_DIR", tmp_path)
+    monkeypatch.setenv("CLASSIFIER_REPO", "someone/classifier")
+    monkeypatch.delenv("BRANCH_A_CLASSIFIER", raising=False)
+    assert config._classifier_setting() == str(tmp_path)
+    assert calls == ["someone/classifier"]
+    # Already present: no second download.
+    assert config._classifier_setting() == str(tmp_path)
+    assert calls == ["someone/classifier"]

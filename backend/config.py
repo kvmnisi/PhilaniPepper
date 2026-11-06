@@ -5,6 +5,7 @@ development stand-ins so the HTTP contract and the UI can be exercised; the
 engine names are reported by /api/health and written into every log row.
 """
 
+import logging
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -26,27 +27,46 @@ def _default_whisper_model():
 
 
 LOCAL_ADAPTER_DIR = REPO_ROOT / "InkubaLMAdapter"
-
-
-def _default_inkubalm_adapter():
-    """./InkubaLMAdapter when it holds a LoRA adapter (from the Colab notebook's final cell)."""
-    if (LOCAL_ADAPTER_DIR / "adapter_config.json").exists() and any(
-        (LOCAL_ADAPTER_DIR / name).exists() for name in ("adapter_model.safetensors", "adapter_model.bin")
-    ):
-        return str(LOCAL_ADAPTER_DIR)
-    return None
-
-
 LOCAL_CLASSIFIER_DIR = REPO_ROOT / "EnglishIntentClassifier"
 
 
+def _has_adapter(directory):
+    return (directory / "adapter_config.json").exists() and any(
+        (directory / name).exists() for name in ("adapter_model.safetensors", "adapter_model.bin")
+    )
+
+
+def _has_classifier(directory):
+    return (directory / "config.json").exists() and any((directory / name).exists() for name in WEIGHT_FILES)
+
+
+def _fetch_from_hub(repo_var, local_dir, present):
+    """Download the Hugging Face repo named by ``repo_var`` into ``local_dir`` when the
+    folder is not filled yet (e.g. ADAPTER_REPO / CLASSIFIER_REPO on a Hugging Face Space).
+    A failed download is logged and leaves the folder empty, so the engine falls back."""
+    repo = _env(repo_var)
+    if not repo or present(local_dir):
+        return
+    try:
+        from huggingface_hub import snapshot_download
+
+        snapshot_download(repo, local_dir=str(local_dir), token=_env("HF_TOKEN"))
+    except Exception as error:  # reported through /api/health as a fallback engine
+        logging.getLogger("config").error("Could not download %s=%s: %s", repo_var, repo, error)
+
+
+def _default_inkubalm_adapter():
+    """./InkubaLMAdapter when it holds a LoRA adapter (from the Colab notebook's final cell),
+    downloading it from ADAPTER_REPO first when that is set."""
+    _fetch_from_hub("ADAPTER_REPO", LOCAL_ADAPTER_DIR, _has_adapter)
+    return str(LOCAL_ADAPTER_DIR) if _has_adapter(LOCAL_ADAPTER_DIR) else None
+
+
 def _default_branch_a_classifier():
-    """./EnglishIntentClassifier when it holds a fine-tuned classifier (the Branch A Colab notebook's final cell)."""
-    if (LOCAL_CLASSIFIER_DIR / "config.json").exists() and any(
-        (LOCAL_CLASSIFIER_DIR / name).exists() for name in WEIGHT_FILES
-    ):
-        return str(LOCAL_CLASSIFIER_DIR)
-    return None
+    """./EnglishIntentClassifier when it holds a fine-tuned classifier (the Branch A Colab
+    notebook's final cell), downloading it from CLASSIFIER_REPO first when that is set."""
+    _fetch_from_hub("CLASSIFIER_REPO", LOCAL_CLASSIFIER_DIR, _has_classifier)
+    return str(LOCAL_CLASSIFIER_DIR) if _has_classifier(LOCAL_CLASSIFIER_DIR) else None
 
 
 def _classifier_setting():
