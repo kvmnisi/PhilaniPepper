@@ -15,6 +15,7 @@ data/intent_dataset.csv
 
 # Model weights and checkpoints (WhisperModel/ keeps only its configs in git)
 InkubaLMAdapter/
+EnglishIntentClassifier/
 models/
 checkpoints/
 *.safetensors

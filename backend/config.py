@@ -37,6 +37,25 @@ def _default_inkubalm_adapter():
     return None
 
 
+LOCAL_CLASSIFIER_DIR = REPO_ROOT / "EnglishIntentClassifier"
+
+
+def _default_branch_a_classifier():
+    """./EnglishIntentClassifier when it holds a fine-tuned classifier (the Branch A Colab notebook's final cell)."""
+    if (LOCAL_CLASSIFIER_DIR / "config.json").exists() and any(
+        (LOCAL_CLASSIFIER_DIR / name).exists() for name in WEIGHT_FILES
+    ):
+        return str(LOCAL_CLASSIFIER_DIR)
+    return None
+
+
+def _classifier_setting():
+    value = _env("BRANCH_A_CLASSIFIER")
+    if value and value.lower() == "none":
+        return None
+    return value or _default_branch_a_classifier()
+
+
 def _adapter_setting():
     value = _env("INKUBALM_ADAPTER")
     if value and value.lower() == "none":
@@ -96,9 +115,10 @@ class Settings:
     )
     translator_src_lang: str = field(default_factory=lambda: _env("TRANSLATOR_SRC_LANG", "zul_Latn"))
     translator_tgt_lang: str = field(default_factory=lambda: _env("TRANSLATOR_TGT_LANG", "eng_Latn"))
-    # Path or hub id of a fine-tuned English sequence classifier whose
-    # id2label uses the canonical intent labels.
-    branch_a_classifier: str = field(default_factory=lambda: _env("BRANCH_A_CLASSIFIER"))
+    # Fine-tuned English sequence classifier whose id2label uses the canonical intent
+    # labels: ./EnglishIntentClassifier by default, BRANCH_A_CLASSIFIER=<path or hub id>,
+    # or "none" (then set BRANCH_A_ENGINE=zero-shot for the untrained baseline).
+    branch_a_classifier: str = field(default_factory=_classifier_setting)
     # Optional untrained baseline: an NLI model used for zero-shot labelling.
     branch_a_zero_shot_model: str = field(
         default_factory=lambda: _env("BRANCH_A_ZERO_SHOT_MODEL", "facebook/bart-large-mnli")

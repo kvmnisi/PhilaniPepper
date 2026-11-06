@@ -23,7 +23,7 @@ No experimental score appears anywhere in this repository.
 | 2 | Python backend and `/api/health` | Done |
 | 3 | Browser recording → 16 kHz WAV → upload | Done |
 | 4–5 | Whisper ASR, transcript shown in the UI | Code done. Loads the DSFSI checkpoint or your fine-tuned one via `WHISPER_MODEL`. Not run here without weights. |
-| 6 | Branch A: NLLB-200 translation → English classifier | Code done. Needs a trained English classifier (`BRANCH_A_CLASSIFIER`), or use the untrained `zero-shot` baseline. |
+| 6 | Branch A: NLLB-200 translation → English classifier | Done: RoBERTa-base fine-tuned on the English versions of the 500 requests (`./EnglishIntentClassifier`, from the Colab notebook), with the untrained `zero-shot` baseline. |
 | 7 | Branch B: InkubaLM-0.4B | Done: LoRA fine-tuned on the 500 verified requests (adapter from the Colab notebook), with an untrained few-shot fallback. |
 | 8–9 | Shared dispatcher wired to the UI | Done |
 | 10 | Choregraphe / Pepper integration | Code done (`pepper_app/`). Untested on a robot. The NAOqi version is still unconfirmed. |
@@ -196,7 +196,7 @@ Then configure engines with environment variables (see `.env.example`):
 | Variable | Purpose |
 | --- | --- |
 | `ASR_ENGINE=whisper`, `WHISPER_MODEL=<hub id or path>` | Fine-tuned Whisper checkpoint. Defaults to `./WhisperModel` when `model.safetensors` is there (weights are git-ignored, so copy them in locally), otherwise the DSFSI hub checkpoint. `WHISPER_LANGUAGE` overrides the checkpoint's language token; the DSFSI model has no isiZulu token, so use the one your notebook trained with. Decodes with beam size 5 by default (`WHISPER_NUM_BEAMS`; 1 = greedy), matching the best AST evaluation (16.25% WER vs 17.23% greedy); the decoding is recorded with every logged trial (e.g. `whisper-beam5`). Repetition controls are off unless set. |
-| `BRANCH_A_ENGINE=hf`, `BRANCH_A_CLASSIFIER=<path>` | NLLB-200 (`zul_Latn`→`eng_Latn`) plus your fine-tuned English sequence classifier. Its `id2label` must use the canonical labels; the backend refuses any others. |
+| `BRANCH_A_ENGINE=hf`, `BRANCH_A_CLASSIFIER=<path>` | NLLB-200 (`zul_Latn`→`eng_Latn`) plus the fine-tuned English classifier. Used automatically when `./EnglishIntentClassifier` exists (from cell 11 of `branch_a_english_cv.ipynb`; git-ignored). Its `id2label` must use the canonical labels; the backend refuses any others. `BRANCH_A_CLASSIFIER=none` ignores it. |
 | `BRANCH_A_ENGINE=nllb-rules` | The default once the ML libraries are installed and no classifier is set. Real NLLB translation, so isiZulu works end to end, but intents come from the English keyword stand-in. Excluded from reports. |
 | `BRANCH_A_ENGINE=zero-shot` | NLLB-200 plus an NLI model scoring each intent's English hypothesis. A no-training baseline; report it as one. |
 | `BRANCH_B_ENGINE=inkubalm` | `lelapa/InkubaLM-0.4B`, the default once the ML libraries are installed. Uses the LoRA adapter in `./InkubaLMAdapter` (or `INKUBALM_ADAPTER=<path>`; `none` for the untrained mode). `INKUBALM_DEVICE` (`auto`: CUDA if available, else CPU), `INKUBALM_DTYPE` (default `float32`). |

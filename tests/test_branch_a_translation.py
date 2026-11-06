@@ -55,3 +55,22 @@ def test_auto_falls_back_to_dev_rules_without_ml(monkeypatch):
 def test_nllb_rules_rows_are_excluded_from_reports():
     rows = [{"session_id": "s", "trial_id": "1", "branch": "A", "branch_engine": "nllb-rules"}]
     assert summarise(rows)["excluded_dev_rows"] == 1
+
+
+def test_fine_tuned_classifier_folder_is_found_automatically(tmp_path, monkeypatch):
+    import backend.config as config
+    from backend.engines import _resolve_branch_a
+    folder = tmp_path / "EnglishIntentClassifier"
+    folder.mkdir()
+    monkeypatch.setattr(config, "LOCAL_CLASSIFIER_DIR", folder)
+    monkeypatch.delenv("BRANCH_A_CLASSIFIER", raising=False)
+    assert Settings().branch_a_classifier is None                     # empty folder: not used
+    (folder / "config.json").write_text("{}")
+    (folder / "model.safetensors").write_bytes(b"")
+    settings = Settings()
+    assert settings.branch_a_classifier == str(folder)
+    settings.branch_a_engine = "auto"
+    monkeypatch.setattr("backend.engines.ml_available", lambda: True)
+    assert _resolve_branch_a(settings).engine == "hf"
+    monkeypatch.setenv("BRANCH_A_CLASSIFIER", "none")
+    assert Settings().branch_a_classifier is None
